@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 -- Estrutura da tabela `acess`
 --
 
-CREATE TABLE `acess` (
+CREATE TABLE `access` (
   `id` int(11) NOT NULL,
   `code` varchar(30) NOT NULL,
   `description` text NOT NULL
@@ -37,7 +37,7 @@ CREATE TABLE `acess` (
 -- Extraindo dados da tabela `acess`
 --
 
-INSERT INTO `acess` (`id`, `code`, `description`) VALUES
+INSERT INTO `access` (`id`, `code`, `description`) VALUES
 (1, 'admin', 'Administrador do sistema'),
 (2, 'client', 'Cliente');
 
@@ -138,7 +138,8 @@ CREATE TABLE `user` (
   `cpf` varchar(11) NOT NULL,
   `phone` varchar(15) NOT NULL,
   `cep` varchar(8) NOT NULL,
-  `addressNumber` int(11) NOT NULL
+  `addressNumber` int(11) NOT NULL,
+  `password` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -146,9 +147,9 @@ CREATE TABLE `user` (
 --
 
 --
--- Índices para tabela `acess`
+-- Índices para tabela `access`
 --
-ALTER TABLE `acess`
+ALTER TABLE `access`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -272,7 +273,7 @@ ALTER TABLE `sales`
 -- Limitadores para a tabela `user`
 --
 ALTER TABLE `user`
-  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`id_access`) REFERENCES `acess` (`id`);
+  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`id_access`) REFERENCES `access` (`id`);
 COMMIT;
 
 CREATE USER 'admin'@'%' IDENTIFIED VIA mysql_native_password USING '***';
