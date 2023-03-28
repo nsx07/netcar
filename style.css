@@ -7,6 +7,10 @@ body {
     height: 100vh;
 }
 
+a {
+    text-decoration: none;
+}
+
 /* components */
 
 button {
@@ -121,3 +125,4 @@ button {
    }
 
    /* components */
+
