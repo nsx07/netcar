@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>netcar | Login </title>
-    <link rel="icon" type="image" href="/assets/logo.png">
-    <link rel="stylesheet" href="../../style.scss">
+    <link rel="icon" type="image" href="../../assets/logo-minify-purple.png">
+    <link rel="stylesheet" href="../../style.css">
     <source src="login.js" type="text/js">
 </head>
 <body>
@@ -29,7 +29,7 @@
                         <label for="exampleInputPassword1" class="form-label">Senha</label>
                         <input type="password" class="form-control" id="exampleInputPassword1" placeholder="ex: Netcar@2003$_" required>
                     </div>
-                    <button type="submit" class="btn w-100 btn-primary d-flex justify-content-between">Entrar <div class="loader"></div> </button>
+                    <button type="submit" class="btn w-100 btn-primary d-flex justify-content-between">Entrar</button>
                 </form>
                 <small class="text-md font-medium text-center">Não possui conta ? Faça o <a href="http://localhost/netcar/pages/signup/signup.html">Cadastro</a></small>
             </div>

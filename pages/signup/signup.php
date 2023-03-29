@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>netcar | Cadastro </title>
-    <link rel="icon" type="image" href="/assets/logo.png">
-    <link rel="stylesheet" href="../../style.scss">
+    <link rel="icon" type="image" href="../../assets/logo-minify-purple.png">
+    <link rel="stylesheet" href="../../style.css">
     <script src="signup.js"></script>
 </head>
 <body>
@@ -48,11 +48,11 @@
                             </div>
                             <div class="col-3">
                                 <label for="cep">CEP</label>
-                                <input type="text" class="form-control w-3" id="cep" maxlength="9" onkeyup="handleZipCode(event)" aria-describedby="emailHelp" placeholder="Ex: 80000-000" required>
+                                <input type="text" class="form-control" id="cep" maxlength="9" onkeyup="handleZipCode(event)" aria-describedby="emailHelp" placeholder="Ex: 80000-000" required>
                             </div>
                             <div class="col-3">
                                 <label for="numeroResidencia">Número</label>
-                                <input type="text" class="form-control w-3" id="numeroResidencia" maxlength="5" aria-describedby="emailHelp" placeholder="Ex: 540" required>
+                                <input type="text" class="form-control" id="numeroResidencia" maxlength="5" aria-describedby="emailHelp" placeholder="Ex: 540" required>
                             </div>
                             
                         <div class="row mb-2">
