@@ -31,7 +31,7 @@
                     </div>
                     <button type="submit" class="btn w-100 btn-primary d-flex justify-content-between">Entrar</button>
                 </form>
-                <small class="text-md font-medium text-center">Não possui conta ? Faça o <a href="http://localhost/netcar/pages/signup/signup.html">Cadastro</a></small>
+                <small class="text-md font-medium text-center"><a href="http://localhost/netcar/pages/signup/signup.php">Não possui conta ? Faça o cadastro!</a></small>
             </div>
 
         </div>

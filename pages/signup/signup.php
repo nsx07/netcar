@@ -71,7 +71,7 @@
                             <button type="submit" class="btn btn-success btn-lg w-100">Cadastrar</button>
                         </div>
                         <div class="col-12 mb-2 d-flex justify-content-center">
-                            <small class="text-md font-medium text-center">Possui conta ? Faça <a href="http://localhost/netcar/pages/login/login.html">Login</a></small>
+                            <small class="text-md font-medium text-center"><a href="http://localhost/netcar/pages/login/login.php">Possui conta ? Faça Login!</a></small>
     
                         </div>
                         
