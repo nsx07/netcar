@@ -14,28 +14,28 @@
 
     <?php require '../../components/nav.html';?>
 
-        <div class="d-flex justify-content-center align-items-center">
+        <div class="h-100 d-flex justify-content-center align-items-center">
     
-            <div class="w-25 v-25 p-4 shadow bg-body-secondary rounded-3">
-                <form>
-                    <div class="text-center">
-                        <h2>Login</h2>
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" placeholder="vendas@netcar.com" aria-describedby="emailHelp" required>
-                    </div>  
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Senha</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="ex: Netcar@2003$_" required>
-                    </div>
-                    <button type="submit" class="btn w-100 btn-primary d-flex justify-content-between">Entrar</button>
-                </form>
-                <small class="text-md font-medium text-center"><a href="http://localhost/netcar/pages/signup/signup.php">Não possui conta ? Faça o cadastro!</a></small>
+            <div class="p-4 shadow bg-body-secondary rounded-3">
+                <h2 class="text-center">Login</h2>
+                <div class="grid">
+                    <form>
+                        <div class="col-12">
+                            <label for="exampleInputEmail1" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" placeholder="vendas@netcar.com" aria-describedby="emailHelp" required>
+                        </div>  
+                        <div class="col-12">
+                            <label for="exampleInputPassword1" class="form-label">Senha</label>
+                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="ex: Netcar@2003$_" required>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn w-100 bg-default text-white d-flex justify-content-center">Entrar</button>
+                            <small class="text-md font-medium text-center"><a href="http://localhost/netcar/pages/signup/signup.php">Não possui conta ? Faça o cadastro!</a></small>
+                        </div>
+                    </form>
+                </div>
             </div>
-
         </div>
-
     </div>
 </body>
 </html>
