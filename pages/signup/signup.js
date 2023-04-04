@@ -24,10 +24,4 @@ function mascaraTelefone(telefone) {
     return telefone;
 }
 
-function showData(any) {
-
-    const form = document.forms
-    const data = JSON.stringify(form);
-    console.log(data)
-    alert(data)
-}
+// TODO - validar cpf, checar senhas, validar data de nascimento (impedir nascimentos além da data atual).
