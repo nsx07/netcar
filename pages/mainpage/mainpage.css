@@ -4,6 +4,6 @@
     width: 100% !important;
     aspect-ratio: 3/2 !important;
     object-fit: contain !important;
-    /* mix-blend-mode: color-burn !important; */
-    background: linear-gradient(90deg, #555, #7b7b7b, #ddd);
+    mix-blend-mode: darken !important;
+    background: linear-gradient(90deg, #565656, #858585, #bbbbbb, #ececec);
   }

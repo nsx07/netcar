@@ -12,7 +12,7 @@
 <body class="bg-dark">
     <div class="vw-100 vh-100">
 
-    <?php require '../../components/nav.html';?>
+    <?php require '../../components/nav.php';?>
     <script>
     function showData() {
         const fields = ["email","password"]

@@ -2,26 +2,18 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.min.js" integrity="sha384-heAjqF+bCxXpCWLa6Zhcp4fu20XoNIA98ecBC1YkdXhszjoejr5y9Q77hIrv8R9i" crossorigin="anonymous"></script>
-        <!-- jQuery library -->
-        
-        
-        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script> -->
-        <!--
-          <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.js"></script> -->
-          
-          <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@master/dist/latest/bootstrap-autocomplete.min.js"></script>
-          
-  </head>
-  <nav class="navbar bg-body-tertiary justify-content-between px-3">
-    <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@master/dist/latest/bootstrap-autocomplete.min.js"></script>
     <script src="https://kit.fontawesome.com/54b6e9ecc9.js" crossorigin="anonymous"></script>
+  </head>
+  <nav class="navbar bg-body-tertiary shadow justify-content-between px-3">
     <div class="flex">
       <a class="navbar-brand shadow-md" href="../../index.php">
         <img id="logoHeader" src="../../assets/netcar-ban.png" width="30%">
       </a>
     </div>
     <div class="flex gap-2 align-items-center">
-      <div class="dropdown">
+
+      <!-- <div class="dropdown">
         <a class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
           <i class="fa-solid fa-gear"></i>
         </a>
@@ -36,7 +28,7 @@
         <span class="badge text-dark ">
           2
         </span>  
-      </a>
+      </a> -->
       
       <a href="../../pages/login/login.php">Login</a>
       <a href="../../pages/signup/signup.php">Sign up</a>

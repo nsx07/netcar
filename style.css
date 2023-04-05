@@ -15,7 +15,11 @@ body {
 
     background: linear-gradient(#ebeae6, #bab9b3,#757470, #bab9b3, #ebeae6);
     background-size: 400% 400% !important;
-    animation: gradient 15s ease infinite ;
+    scroll-behavior: smooth;
+}
+
+.bg-animated {
+  animation: gradient 15s ease infinite ;
 }
 
 @keyframes gradient {
@@ -30,10 +34,6 @@ body {
   }
 }
 
-::-webkit-scrollbar {
-  display: none;
-}
-
 a {
     text-decoration: none;
     text-decoration-style: none;
@@ -41,8 +41,8 @@ a {
 }
 
 a:hover {
-  color: #5e17eb;
-  text-emphasis-color: var(--main-color);
+  color: #5e17eb !important;
+  text-emphasis-color: var(--main-color) !important;
 }
 
 * {
@@ -51,7 +51,7 @@ a:hover {
 
 /* components */
 
-/* button {
+button {
     appearance: none;
     background-color: #FAFBFC;
     border: 1px solid rgba(27, 31, 35, 0.15);
@@ -75,7 +75,7 @@ a:hover {
     vertical-align: middle;
     white-space: nowrap;
     word-wrap: break-word;
-} */
+}
 
 .loader {
     border: 4px solid rgba(0, 0, 0, .1);
@@ -103,7 +103,7 @@ a:hover {
     height: 150px;
     border-radius: 50%;
     position: relative;
-    box-shadow: 0 0 30px 4px rgba(0, 0, 0, 0.5) inset,
+    box-shadow: 0 0 30px 4px var(--main-color) inset,
         0 5px 12px rgba(0, 0, 0, 0.15);
     overflow: hidden;
   }
@@ -116,13 +116,13 @@ a:hover {
     height: 100%;
     border-radius: 45%;
     top: -40%;
-    background-color: #2e2e2e;
+    background-color: var(--main-color);
     animation: wave 5s linear infinite;
   }
   
   .loader-liquid:before {
     border-radius: 30%;
-    background: rgba(122, 122, 122, 0.4);
+    background: silver;
     animation: wave 5s linear infinite;
   }
   
@@ -180,5 +180,9 @@ a:hover {
 
 
 .bg-default {
-  background-color: #5e17eb !important;
+  background-color: var(--main-color) !important;
 } 
+
+.color-default {
+  color: var(--main-color) !important;
+}
