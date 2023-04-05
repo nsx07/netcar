@@ -49,7 +49,7 @@
                                 <button type="submit" class="btn w-100 bg-default text-white d-flex justify-content-center">Entrar</button>
                             </div>
                         </form>
-                        <small class="text-md font-medium text-center"><a href="../signup/signup.php">Não possui conta ? Faça o cadastro!</a></small>
+                        <small class="text-md font-medium text-center"><a href="../signup/">Não possui conta ? Faça o cadastro!</a></small>
                     </div>
                 </div>
 

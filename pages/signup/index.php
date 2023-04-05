@@ -93,7 +93,7 @@
                                 <button class="btn bg-default text-white btn-lg w-100" id="signup-button">Cadastrar</button>
                             </div>
                             <div class="col-12 d-flex justify-content-center">
-                                <small class="text-md font-medium text-center"><a href="../login/login.php">Possui conta ? Faça Login!</a></small>
+                                <small class="text-md font-medium text-center"><a href="../login/">Possui conta ? Faça Login!</a></small>
                                 
                             </div>
                             

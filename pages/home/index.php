@@ -22,9 +22,9 @@
                 
                 <div class="flex justify-content-center mt-2">
                     <div class="row">
-                        <a class="col-3 col-sm-12 text-white w-max" href="../mainpage/mainpage.php">Buscar meu carro</a>
-                        <a class="col-3 col-sm-12 text-white w-max" href="../login/login.php">Logar</a>
-                        <a class="col-3 col-sm-12 text-white w-max" href="../signup/signup.php">Cadastre-se</a>
+                        <a class="col-3 col-sm-12 text-white w-max" href="../mainpage/">Buscar meu carro</a>
+                        <a class="col-3 col-sm-12 text-white w-max" href="../login/">Logar</a>
+                        <a class="col-3 col-sm-12 text-white w-max" href="../signup/">Cadastre-se</a>
                     </div>
                 </div>
 

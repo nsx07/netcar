@@ -7,7 +7,7 @@
   </head>
   <nav class="navbar bg-body-tertiary shadow justify-content-between px-3">
     <div class="flex">
-      <a class="navbar-brand shadow-md" href="../../index.php">
+      <a class="navbar-brand shadow-md" href="../../">
         <img id="logoHeader" src="../../assets/netcar-ban.png" width="30%">
       </a>
     </div>
@@ -30,8 +30,8 @@
         </span>  
       </a> -->
       
-      <a href="../../pages/login/login.php">Login</a>
-      <a href="../../pages/signup/signup.php">Sign up</a>
+      <a href="../../pages/login/">Login</a>
+      <a href="../../pages/signup/">Sign up</a>
     </div>
 
   </nav>
