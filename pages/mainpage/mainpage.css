@@ -1,0 +1,9 @@
+@import url("../../style.css");
+
+.card img {
+    width: 100% !important;
+    aspect-ratio: 3/2 !important;
+    object-fit: contain !important;
+    mix-blend-mode: darken !important;
+    background: linear-gradient(90deg, #565656, #858585, #bbbbbb, #ececec);
+  }

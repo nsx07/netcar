@@ -1,3 +1,4 @@
+/* @import url("https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/smoothness/jquery-ui.css"); */
 @import url("https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.css");
 @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500&display=swap');
 @import url("https://unpkg.com/primeflex@^3/primeflex.css");
@@ -11,16 +12,37 @@ body {
     padding: 0px;
     width: 100vw;
     height: 100vh;
+
+    background: linear-gradient(#ebeae6, #bab9b3,#757470, #bab9b3, #ebeae6);
+    background-size: 400% 400% !important;
+    scroll-behavior: smooth;
 }
 
-::-webkit-scrollbar {
-  display: none;
+.bg-animated {
+  animation: gradient 15s ease infinite ;
+}
+
+@keyframes gradient {
+  from {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  to {
+    background-position: 0% 50%;
+  }
 }
 
 a {
     text-decoration: none;
     text-decoration-style: none;
     color: #24292E;
+}
+
+a:hover {
+  color: #5e17eb !important;
+  text-emphasis-color: var(--main-color) !important;
 }
 
 * {
@@ -81,7 +103,7 @@ button {
     height: 150px;
     border-radius: 50%;
     position: relative;
-    box-shadow: 0 0 30px 4px rgba(0, 0, 0, 0.5) inset,
+    box-shadow: 0 0 30px 4px var(--main-color) inset,
         0 5px 12px rgba(0, 0, 0, 0.15);
     overflow: hidden;
   }
@@ -94,13 +116,13 @@ button {
     height: 100%;
     border-radius: 45%;
     top: -40%;
-    background-color: #2e2e2e;
+    background-color: var(--main-color);
     animation: wave 5s linear infinite;
   }
   
   .loader-liquid:before {
     border-radius: 30%;
-    background: rgba(122, 122, 122, 0.4);
+    background: silver;
     animation: wave 5s linear infinite;
   }
   
@@ -144,8 +166,9 @@ button {
 
 @media screen and (max-width: 700px) {
   #logoHeader {
-    content: url("assets/logo-minify-purple.png");
-    width: 3rem !important;
+    /* content: url("assets/logo-minify-purple.png"); */
+    width: 100% !important;
+    max-width: 100px !important;
     height: auto;
   }
   #formModal {
@@ -157,5 +180,9 @@ button {
 
 
 .bg-default {
-  background-color: #5e17eb !important;
+  background-color: var(--main-color) !important;
 } 
+
+.color-default {
+  color: var(--main-color) !important;
+}
