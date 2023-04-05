@@ -43,7 +43,7 @@
                             </div>  
                             <div class="col-12">
                                 <label for="password" class="form-label">Senha</label>
-                                <input type="password" class="form-control" id="password" minLength="5" pattern="[a-z0-9-A-Z-!@#_$%]{6}" name="password" placeholder="ex: Netcar@2003$_" required>
+                                <input type="password" class="form-control" id="password" pattern="[a-z0-9-A-Z-!@#_$%]{6}" name="password" placeholder="Senha" required>
                             </div>
                             <div class="col-12">
                                 <button type="submit" class="btn w-100 bg-default text-white d-flex justify-content-center">Entrar</button>
