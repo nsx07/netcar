@@ -39,42 +39,26 @@
 
 
             <?php 
-            $date = date("d/m/y");
-            for ($i=0; $i < 30; $i++) { 
-                echo "<div class='card col-lg-3 col-md-6 col-sm-12 p-0' style='width: 18rem;'>";
-                echo "    <img src='../../assets/cars/toyotagr.jpg' class='card-img-top w-100' alt='...'>";
-                echo "    <div class='card-body'>";
-                echo "        <a href='#'> <h5 class='card-title'>Card title</h5> </a>";
-                echo $date;
-                echo "        <p class='card-text'>Some quick example text to build on the card title and make up the bulk of the card's content.</p>";
-                echo "        <form id='purcharse_car' onsubmit='return false'>";
-                echo "        <div class='flex gap-2 justify-content-center'>";
-                echo "            <button type='submit' href='#' class='btn w-100 text-white btn-success'>Salvar <i class='fa-solid fa-bookmark'></i></button>";
-                echo "            <button type='submit' href='#' data-bs-toggle='modal' data-bs-target='#exampleModal' class='btn w-100 text-white bg-default'>Comprar <i class='fa-solid fa-cart-shopping'></i></button>";
-                echo "        </div>";
-                echo "        </form>";
-                echo "    </div>";
-                echo "</div>    ";
+            $jsonString = file_get_contents('../../assets/cars.json');
+            $jsonData = json_decode($jsonString, true);
+
+            foreach ($jsonData["cars"] as $car ) { 
+                echo "
+                <div class='card col-lg-3 col-md-6 col-sm-12 p-0 border-none' style='width: 18rem;'>
+                    <img src='../../assets/{$car['assetsPath']}' class='card-img-top cars'>
+                    <div class='card-body'>
+                        <a href='#'> <h5 class='card-title'>{$car['model']}</h5> </a>
+                        <p class='card-text'> {$car['brand']} - {$car['year']} </p>
+                        <form id='purcharse_car' onsubmit='return false'>
+                        <div class='flex gap-2 justify-content-center'>
+                            <button type='submit' href='#' class='btn w-100 text-white btn-success'>Salvar <i class='fa-solid fa-bookmark'></i></button>
+                            <button type='submit' href='#' class='btn w-100 text-white bg-default'>Comprar <i class='fa-solid fa-cart-shopping'></i></button>
+                        </div>
+                        </form>
+                    </div>
+                </div> ";
                 }
             ?>
-              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-
         </div>
 
     </div>

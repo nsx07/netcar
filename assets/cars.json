@@ -1,0 +1,40 @@
+{
+    "cars": [
+        {
+            "model":"Uno Mile",
+            "brand":"Fiat",
+            "year":2000,
+            "assetsPath":"cars/mille.png"
+        },
+        {
+            "model":"Camaro",
+            "brand":"Chevrolet",
+            "year":2015,
+            "assetsPath":"cars/camaro.jpg"
+        },
+        {
+            "model":"Ferrari",
+            "brand":"Ferrari",
+            "year":2022,
+            "assetsPath":"cars/ferrari.png"
+        },
+        {
+            "model":"HB 20",
+            "brand":"Hyundai",
+            "year":2000,
+            "assetsPath":"cars/hb20.png"
+        },
+        {
+            "model":"Subaru WRX STi",
+            "brand":"Subaru",
+            "year":2017,
+            "assetsPath":"cars/subaro.png"
+        },
+        {
+            "model":"Toyota GR",
+            "brand":"Toyota",
+            "year":2022,
+            "assetsPath":"cars/toyotagr.jpg"
+        }
+    ]
+}
