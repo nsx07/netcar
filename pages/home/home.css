@@ -8,8 +8,6 @@
   text-shadow: none; /* Prevent inheritance from `body` */
 }
 
-
-
 body {
   text-shadow: 0 .05rem .1rem rgba(0, 0, 0, .5);
   box-shadow: inset 0 0 5rem rgba(0, 0, 0, .5);
@@ -36,11 +34,13 @@ body {
     background: url("../../assets/landing-page-audi.jpg") repeat scroll 0px 100% / cover transparent;
     background-size: cover;
     position: absolute;
+    mix-blend-mode: darken;
     top: 0px;
     right: 0px;
     bottom: 0px;
     left: 0px;
     opacity: 0.75;
+    filter: blur(5px);
 }
 
 h1 {
@@ -74,3 +74,8 @@ h1 {
   background-color: rgba(0, 0, 0, .333);
 }
 
+@media screen and (max-width: 600px) {
+  #logoHeader {
+    width: 75%;
+  }
+}
