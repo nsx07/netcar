@@ -22,7 +22,7 @@
                         <div class="row">
                             <div class="col-md-6 col-sm-12">
                                 <label for="name">Nome Completo</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Digite aqui seu nome completo" required>
+                                <input type="text" class="form-control" id="name" pattern="[a-zA-Z]{3,}" name="name" placeholder="Digite aqui seu nome completo" required>
                                 </div>
                                 <div class="col-md-6 col-sm-12">
                                     <label for="dateBirth">Data de nascimento</label>
@@ -44,19 +44,19 @@
                                 </div>
                                 <div class="col-md-3 col-sm-6">
                                     <label for="cep">CEP</label>
-                                    <input type="text" class="form-control" id="cep" name="cep" maxlength="9" onkeyup="handleZipCode(event)" placeholder="Ex: 80000-000" required>
+                                    <input type="text" class="form-control" id="cep" name="cep" maxlength="9" onkeyup="handleZipCode(event)" placeholder="Ex: 80000-000">
                                 </div>
                                 <div class="col-md-3 col-sm-6">
                                     <label for="numeroResidencia">Número</label>
-                                    <input type="text" class="form-control" id="numeroResidencia" name="numeroResidencia" maxlength="5" placeholder="Ex: 540" required>
+                                    <input type="number" class="form-control" id="numeroResidencia" name="numeroResidencia" placeholder="Ex: 540">
                                 </div>
                                 <div class="col-md-6 col-sm-12">
                                     <label for="password">Senha</label>
-                                    <input type="password" class="form-control" id="password" name="password" placeholder="Senha" required>
+                                    <input type="password" class="form-control" id="password" pattern="[a-z0-9-A-Z-!@#_$%]{6}" name="password" placeholder="Senha" required>
                                 </div>              
                                 <div class="col-md-6 col-sm-12">
                                     <label for="confirmPass">Confirmar senha</label>
-                                    <input type="password" class="form-control" id="confirmPass" name="confirmPass" placeholder="Confirmar senha" required>
+                                    <input type="password" class="form-control" id="confirmPass" pattern="[a-z0-9-A-Z-!@#_$%]{6}" name="confirmPass" placeholder="Confirmar senha" required>
                                 </div>
                             </div>
                             

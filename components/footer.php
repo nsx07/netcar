@@ -1,7 +1,7 @@
 <div class="bg-white shadow relative bottom-0 w-100">
   <div class="container">
     <div class="row p-2">
-      <div class="col-6 col-md-2 col-sm-12">
+      <!-- <div class="col-6 col-md-2 col-sm-12">
         <h5>Section</h5>
         <ul class="nav flex-column">
           <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
@@ -10,9 +10,9 @@
           <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
           <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Sobw</a></li>
         </ul>
-      </div>    
+      </div>     -->
 
-      <div class="col-6 col-md-2 items-center">
+      <div class="col-12 flex justify-content-center ">
         <?php require 'loader.php' ?>
       </div>    
     </div>
