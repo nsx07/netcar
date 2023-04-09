@@ -38,7 +38,7 @@
                                 </div>
                     
         
-                                <div class="col-md-6 col-sm-12">
+                                <div class="col-md-4 col-sm-12">
                                     <label for="telefone">Telefone</label>
                                     <input type="text" class="form-control" id="telefone" name="telefone" maxlength="15" placeholder="Ex: (DD) 9 9999-9999" onkeyup="this.value = mascaraTelefone(this.value)" required>
                                 </div>
@@ -46,17 +46,23 @@
                                     <label for="cep">CEP</label>
                                     <input type="text" class="form-control" id="cep" name="cep" maxlength="9" onkeyup="handleZipCode(event)" placeholder="Ex: 80000-000">
                                 </div>
-                                <div class="col-md-3 col-sm-6">
-                                    <label for="numeroResidencia">Número</label>
-                                    <input type="number" class="form-control" id="numeroResidencia" name="numeroResidencia" placeholder="Ex: 540">
+                                <div class="col-md-3 col-sm-3">
+                                    <label for="houseNumber">Número</label>
+                                    <input type="number" class="form-control" id="houseNumber" name="houseNumber" placeholder="Ex: 540">
                                 </div>
+                                
+                                <div class="col-md-3 col-sm-3">
+                                    <label for="complement">Complemento</label>
+                                    <input type="number" class="form-control" id="complement" name="complement" placeholder="Ex: 540">
+                                </div>
+                                
                                 <div class="col-md-6 col-sm-12">
                                     <label for="password">Senha</label>
-                                    <input type="password" class="form-control" id="password" pattern="[a-z0-9-A-Z-!@#_$%]{6}" name="password" placeholder="Senha" required>
+                                    <input type="password" class="form-control" id="password" minlength="6" name="password" placeholder="Senha" required>
                                 </div>              
                                 <div class="col-md-6 col-sm-12">
                                     <label for="confirmPass">Confirmar senha</label>
-                                    <input type="password" class="form-control" id="confirmPass" pattern="[a-z0-9-A-Z-!@#_$%]{6}" name="confirmPass" placeholder="Confirmar senha" required>
+                                    <input type="password" class="form-control" id="confirmPass" minlength="6" name="confirmPass" placeholder="Confirmar senha" required>
                                 </div>
                             </div>
                             

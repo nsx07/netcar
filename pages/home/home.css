@@ -31,7 +31,7 @@ body {
 
 .wrapper::before {    
     content: "";
-    background: url("../../assets/landing-page-audi.jpg") repeat scroll 0px 100% / cover transparent;
+    background: url("../../assets/landing-page-golf.jpg") repeat scroll 0px 100% / cover transparent;
     background-size: cover;
     position: absolute;
     mix-blend-mode: darken;
@@ -41,6 +41,22 @@ body {
     left: 0px;
     opacity: 0.75;
     filter: blur(5px);
+}
+
+@media screen and (max-width: 600px) {
+  .wrapper::before {    
+    content: "";
+    background: url("../../assets/landing-page-portrait.jpg") repeat scroll 0px 100% / cover transparent;
+    background-size: cover;
+    position: absolute;
+    mix-blend-mode: darken;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    opacity: 0.75;
+    filter: blur(5px);
+}
 }
 
 h1 {
