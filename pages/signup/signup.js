@@ -24,4 +24,16 @@ function mascaraTelefone(telefone) {
     return telefone;
 }
 
+$(document).ready(() => {
+    console.log("ready");
+    $("#dateBirth").on("change", (event) => {
+        console.log(event.target.value)
+        const date = new Date(event.target.value)
+
+        if (date.getFullYear() > 2010) {
+            alert("you must be older than 15 years.")
+        }
+    })
+})
+
 // TODO - validar cpf, checar senhas, validar data de nascimento (impedir nascimentos além da data atual).

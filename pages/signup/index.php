@@ -38,22 +38,22 @@
                                 </div>
                     
         
-                                <div class="col-md-4 col-sm-12">
+                                <div class="col-md-6 col-sm-12">
                                     <label for="telefone">Telefone</label>
                                     <input type="text" class="form-control" id="telefone" name="telefone" maxlength="15" placeholder="Ex: (DD) 9 9999-9999" onkeyup="this.value = mascaraTelefone(this.value)" required>
                                 </div>
-                                <div class="col-md-3 col-sm-6">
+                                <div class="col-md-6 col-sm-6">
                                     <label for="cep">CEP</label>
                                     <input type="text" class="form-control" id="cep" name="cep" maxlength="9" onkeyup="handleZipCode(event)" placeholder="Ex: 80000-000">
                                 </div>
-                                <div class="col-md-3 col-sm-3">
+                                <div class="col-md-6 col-sm-3">
                                     <label for="houseNumber">Número</label>
                                     <input type="number" class="form-control" id="houseNumber" name="houseNumber" placeholder="Ex: 540">
                                 </div>
                                 
-                                <div class="col-md-3 col-sm-3">
+                                <div class="col-md-6 col-sm-3">
                                     <label for="complement">Complemento</label>
-                                    <input type="number" class="form-control" id="complement" name="complement" placeholder="Ex: 540">
+                                    <input type="number" class="form-control" id="complement" name="complement" placeholder="Ex: ap 301">
                                 </div>
                                 
                                 <div class="col-md-6 col-sm-12">

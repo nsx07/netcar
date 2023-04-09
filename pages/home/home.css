@@ -34,28 +34,28 @@ body {
     background: url("../../assets/landing-page-golf.jpg") repeat scroll 0px 100% / cover transparent;
     background-size: cover;
     position: absolute;
-    mix-blend-mode: darken;
+    /* mix-blend-mode: darken; */
     top: 0px;
     right: 0px;
     bottom: 0px;
     left: 0px;
-    opacity: 0.75;
-    filter: blur(5px);
+    filter: blur(2px);
+    opacity: 0.85;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 950px) {
   .wrapper::before {    
     content: "";
     background: url("../../assets/landing-page-portrait.jpg") repeat scroll 0px 100% / cover transparent;
     background-size: cover;
     position: absolute;
-    mix-blend-mode: darken;
+    /* mix-blend-mode: darken; */
     top: 0px;
     right: 0px;
     bottom: 0px;
     left: 0px;
-    opacity: 0.75;
-    filter: blur(5px);
+    filter: blur(2px);
+    opacity: 0.85;
 }
 }
 
