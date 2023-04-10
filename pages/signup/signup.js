@@ -35,39 +35,33 @@ let form = {
         dateBirth: {value: '', type: 'date', validator: new Date().getFullYear(), valid: false},
         email : {value: '', type: 'minLength', validator: 10, valid: false},
         cpf : {value: '', type: 'minLength', validator: 11, valid: false},
-        telefone : {value: '', type: 'minLength', validator: 11, valid: false},
-        
-        // cep : {value: '', type: 'minLength', validator: 7, valid: false},
-        // street : '',
-        // city : '',
-        // state : '',
-        // houseNumber : '',
-        // complement : '',
-        
+        telefone : {value: '', type: 'minLength', validator: 11, valid: false},        
         password : {value: '', type: 'minLength', validator: 6, valid: false},
-        confirmPass : {value: '', type: 'reference', validator : "password", valid: false}
+        confirmPass : {value: '', type: 'reference', validator : "password", valid: false} 
     }
 }
 
 const checkState = () => {
-    let state = true
+    let state = true;
     for (let item in form.fields) {
 
         if (!form.fields[item].valid) {
-            state = false
+            state = false;
         }
     }
-    return state
+
+    form.valid = state;
+    return state;
 }
 
 const removeGarbbage = (content) => {
-
+    
     content = content.replaceAll("(","")
     content = content.replaceAll(")","")
     content = content.replaceAll(".","")
     content = content.replaceAll("-","")
     content = content.replaceAll(" ","")
-
+    
     return content
 }
 
@@ -77,7 +71,8 @@ $(document).ready(() => {
         
         $(`#${prop}`).on("change", (event) => {
             self = form.fields[prop]
-
+            self.value = removeGarbbage(event.target.value);
+            
             switch (self.type) {
                 case 'regex': 
                     self.valid = true
@@ -92,8 +87,25 @@ $(document).ready(() => {
                     self.valid = event.target.value === $(`#${self.validator}`)[0].value
                     break;
             }
-            self.value = removeGarbbage(event.target.value);
+
             button.prop("disabled", !checkState());
         })
     }
+
+    var data = $("#signup").serialize();
+
+    button.on("click", (event) => {
+        console.log(event);
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "signup.php",
+            async:true,
+            data: data,
+            success: (response) => {
+                alert(response);
+                // location.reload()
+            }
+        })
+    })
 })

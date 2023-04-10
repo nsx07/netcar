@@ -18,7 +18,7 @@
             <div class="row flex align-items-center justify-content-center p-2 m-2">
                 <div class="col-lg-6 col-sm-12 shadow bg-body-secondary rounded-3 p-4">
                     <h3 class="text-center">Cadastro</h3>
-                    <form id="signup" onsubmit="return showData()">
+                    <form id="signup" onsubmit="return false" target="_self">
                         <div class="row">
                             <div class="col-md-6 col-sm-12 mt-2">
                                 <label for="name">Nome Completo <span style="color: red"> *</span></label>
