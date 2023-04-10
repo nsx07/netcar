@@ -20,95 +20,74 @@
                     <h3 class="text-center">Cadastro</h3>
                     <form id="signup" onsubmit="return showData()">
                         <div class="row">
-                            <div class="col-md-6 col-sm-12">
-                                <label for="name">Nome Completo</label>
+                            <div class="col-md-6 col-sm-12 mt-2">
+                                <label for="name">Nome Completo <span style="color: red"> *</span></label>
                                 <input type="text" class="form-control" id="name" pattern="[a-zA-Z]{3,}" name="name" placeholder="Digite aqui seu nome completo" required>
-                                </div>
-                                <div class="col-md-6 col-sm-12">
-                                    <label for="dateBirth">Data de nascimento</label>
-                                    <input type="date" class="form-control" id="dateBirth" name="dateBirth" placeholder="Informe sua data de nascimento" required>
-                                </div>
-                                <div class="col-md-6 col-sm-12">                
-                                    <label for="email">Endereço de email</label>
-                                    <input type="email" class="form-control" id="email" name="email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" placeholder="Seu melhor email" required>                    
-                                </div>
-                                <div class="col-md-6 col-sm-12">
-                                    <label for="cpf">CPF</label>
-                                    <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14" placeholder="Ex: 000.000.000-00" onkeyup="this.value = mascaraCPF(this.value)" required>
-                                </div>
-                    
-        
-                                <div class="col-md-6 col-sm-12">
-                                    <label for="telefone">Telefone</label>
-                                    <input type="text" class="form-control" id="telefone" name="telefone" maxlength="15" placeholder="Ex: (DD) 9 9999-9999" onkeyup="this.value = mascaraTelefone(this.value)" required>
-                                </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <label for="cep">CEP</label>
-                                    <input type="text" class="form-control" id="cep" name="cep" maxlength="9" onkeyup="handleZipCode(event)" placeholder="Ex: 80000-000">
-                                </div>
-                                <div class="col-md-6 col-sm-3">
-                                    <label for="houseNumber">Número</label>
-                                    <input type="number" class="form-control" id="houseNumber" name="houseNumber" placeholder="Ex: 540">
-                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12 mt-2">
+                                <label for="dateBirth">Data de nascimento <span style="color: red"> *</span></label>
+                                <input type="date" class="form-control" id="dateBirth" name="dateBirth" placeholder="Informe sua data de nascimento" required>
+                            </div>
+                            <div class="col-md-6 col-sm-12 mt-2">                
+                                <label for="email">Endereço de email <span style="color: red"> *</span></label>
+                                <input type="email" class="form-control" id="email" name="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" placeholder="Seu melhor email" required>                    
+                            </div>
+                            <div class="col-md-6 col-sm-12 mt-2">
+                                <label for="cpf">CPF <span style="color: red"> *</span></label>
+                                <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14" placeholder="Ex: 000.000.000-00" onkeyup="this.value = mascaraCPF(this.value)" required>
+                            </div>
+                            <div class="col-12 col-sm-12 mt-2">
+                                <label for="telefone">Telefone <span style="color: red"> *</span></label>
+                                <input type="text" class="form-control" id="telefone" name="telefone" maxlength="15" placeholder="Ex: (DD) 9 9999-9999" onkeyup="this.value = mascaraTelefone(this.value)" required>
+                            </div>
+
+                            <!-- <div class="col-md-6 col-sm-6">
+                                <label for="cep">CEP <span style="color: red"> *</span></label>
+                                <input type="text" class="form-control" id="cep" name="cep" maxlength="9" onkeyup="handleZipCode(event)" placeholder="Ex: 80000-000" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="street">Rua</label>
+                                <input type="text" class="form-control" id="street" name="street" readonly>
+                            </div>
+                            <div class="col-4">
+                                <label for="city">Cidade</label>
+                                <input type="text" class="form-control" id="city" name="city" readonly>
+                            </div>
+                            <div class="col-4">
+                                <label for="state">Estado</label>
+                                <input type="text" class="form-control" id="state" name="state" readonly>
+                            </div>
+                            <div class="col-md-6 col-sm-3">
+                                <label for="houseNumber">Número</label>
+                                <input type="number" class="form-control" id="houseNumber" name="houseNumber" placeholder="Ex: 540">
+                            </div>
+                            
+                            <div class="col-md-6 col-sm-3">
+                                <label for="complement">Complemento</label>
+                                <input type="number" class="form-control" id="complement" name="complement" placeholder="Ex: ap 301">
+                            </div> -->
                                 
-                                <div class="col-md-6 col-sm-3">
-                                    <label for="complement">Complemento</label>
-                                    <input type="number" class="form-control" id="complement" name="complement" placeholder="Ex: ap 301">
-                                </div>
-                                
-                                <div class="col-md-6 col-sm-12">
-                                    <label for="password">Senha</label>
-                                    <input type="password" class="form-control" id="password" minlength="6" name="password" placeholder="Senha" required>
-                                </div>              
-                                <div class="col-md-6 col-sm-12">
-                                    <label for="confirmPass">Confirmar senha</label>
-                                    <input type="password" class="form-control" id="confirmPass" minlength="6" name="confirmPass" placeholder="Confirmar senha" required>
-                                </div>
+                            <div class="col-md-6 col-sm-12 mt-2">
+                                <label for="password">Senha <span style="color: red"> *</span></label>
+                                <input type="password" class="form-control" id="password" minlength="6" name="password" placeholder="Senha" required>
+                            </div>              
+                            <div class="col-md-6 col-sm-12 mt-2">
+                                <label for="confirmPass">Confirmar senha <span style="color: red"> *</span></label>
+                                <input type="password" class="form-control" id="confirmPass" minlength="6" name="confirmPass" placeholder="Confirmar senha" required>
                             </div>
                             
                             <div class="col-12 mt-2 d-flex justify-content-end">
-                                <script>
-                                    const data = {};
-                                    function showData() {
-                                        const fields = ["name", "dateBirth", "email", "cpf", "telefone", "cep", "numeroResidencia","password","confirmPass"]
-                                        const form = document.forms["signup"]
-                                        
-
-                                        fields.forEach(field => {
-                                            data[field] = form[field].value;
-                                            // console.log(field + ": " + form[field].value);
-                                        })
-                                        if (data.password !== data.confirmPass) {
-                                            alert("Password dont match.")
-                                        } else {
-                                            alert(JSON.stringify(data))
-                                        }
-
-
-                                        return false;
-                                    }
-
-                                    function validPass() {
-                                        console.log(data);
-                                        if (data.password === data.confirmPass) {
-                                            return true;
-                                        }
-                                        return false;
-                                    }
-                                </script>
-                                <button class="btn bg-default text-white btn-lg w-100" id="signup-button">Cadastrar</button>
+                                <button class="btn bg-default text-white btn-lg w-100" id="signup-button" disabled>Cadastrar</button>
                             </div>
                             <div class="col-12 d-flex justify-content-center">
                                 <small class="text-md font-medium text-center"><a href="../login/">Possui conta ? Faça Login!</a></small>
-                                
                             </div>
                             
                         </div>
-                        </form>
-                    </div>
+                    </form>
                 </div>
-                <script type="text/javascript" src="signup.js"></script>
-            
+            </div>
+            <script type="text/javascript" src="signup.js"></script>
         </div>
     </div>
 </body>

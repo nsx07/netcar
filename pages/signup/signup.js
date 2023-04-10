@@ -24,16 +24,76 @@ function mascaraTelefone(telefone) {
     return telefone;
 }
 
-$(document).ready(() => {
-    console.log("ready");
-    $("#dateBirth").on("change", (event) => {
-        console.log(event.target.value)
-        const date = new Date(event.target.value)
+const getCepInfo = (cep) => {
+    return `https://cdn.apicep.com/file/apicep/${cep}.json`;
+}
 
-        if (date.getFullYear() > 2010) {
-            alert("you must be older than 15 years.")
+let form = {
+    valid : false,
+    fields : {
+        name : {value: '', type: 'regex', validator: /[a-zA-Z]{3,}/g, valid: false},
+        dateBirth: {value: '', type: 'date', validator: new Date().getFullYear(), valid: false},
+        email : {value: '', type: 'minLength', validator: 10, valid: false},
+        cpf : {value: '', type: 'minLength', validator: 11, valid: false},
+        telefone : {value: '', type: 'minLength', validator: 11, valid: false},
+        
+        // cep : {value: '', type: 'minLength', validator: 7, valid: false},
+        // street : '',
+        // city : '',
+        // state : '',
+        // houseNumber : '',
+        // complement : '',
+        
+        password : {value: '', type: 'minLength', validator: 6, valid: false},
+        confirmPass : {value: '', type: 'reference', validator : "password", valid: false}
+    }
+}
+
+const checkState = () => {
+    let state = true
+    for (let item in form.fields) {
+
+        if (!form.fields[item].valid) {
+            state = false
         }
-    })
-})
+    }
+    return state
+}
 
-// TODO - validar cpf, checar senhas, validar data de nascimento (impedir nascimentos além da data atual).
+const removeGarbbage = (content) => {
+
+    content = content.replaceAll("(","")
+    content = content.replaceAll(")","")
+    content = content.replaceAll(".","")
+    content = content.replaceAll("-","")
+    content = content.replaceAll(" ","")
+
+    return content
+}
+
+$(document).ready(() => {
+    const button = $("#signup-button");
+    for (let prop in form.fields) {
+        
+        $(`#${prop}`).on("change", (event) => {
+            self = form.fields[prop]
+
+            switch (self.type) {
+                case 'regex': 
+                    self.valid = true
+                    break;
+                case 'date': 
+                    self.valid = self.validator - new Date(event.target.value).getFullYear() >= 17 && self.validator - new Date(event.target.value).getFullYear() < 100
+                    break;
+                case 'minLength': 
+                    self.valid = event.target.value.toString().length >= self.validator 
+                    break;
+                case 'reference': 
+                    self.valid = event.target.value === $(`#${self.validator}`)[0].value
+                    break;
+            }
+            self.value = removeGarbbage(event.target.value);
+            button.prop("disabled", !checkState());
+        })
+    }
+})
