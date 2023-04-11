@@ -11,7 +11,7 @@
     <script src="home.js"></script>
 </head>
 <body>
-    <div style="display:none"><?php require '../../components/nav.php' ?></div>
+    <?php require_once '../../utils/modules.php' ?>
 
     <div class="wrapper">
         <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column opacity-100">

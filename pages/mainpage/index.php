@@ -7,11 +7,19 @@
     <title>Escolha seu carro | netcar</title>
     <link rel="icon" type="image" href="../../assets/logo-minify-purple.png">
     <link rel="stylesheet" href="mainpage.css">    
-    <script src="mainpage.js"></script>
+    <!-- <script src="mainpage.js"></script> -->
+    <?php require '../../utils/modules.php'; ?>
 </head>
 <body>
     
-    <?php require '../../components/nav.php';?>
+    <?php 
+        session_start();
+        
+        require '../../components/nav.php';
+        if (!isset($_SESSION["name"])) {
+            header("Location: ../../");
+        }
+        ?>
 
     <div class="container-fluid py-3">
         <div class="col-12">

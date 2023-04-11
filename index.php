@@ -20,6 +20,7 @@
     }
     $url = "Location: /" . $url . "/pages/home/";	
     header($url);
+    $_SESSION["timeStart"] = time();
   ?>
     
   </body>

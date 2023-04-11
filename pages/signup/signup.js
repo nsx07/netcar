@@ -56,14 +56,23 @@ const checkState = () => {
 }
 
 const removeGarbbage = (content) => {
-    
+
     content = content.replaceAll("(","")
     content = content.replaceAll(")","")
-    content = content.replaceAll(".","")
+    content = content.includes("@") ? content : content.replaceAll(".","")
     content = content.replaceAll("-","")
     content = content.replaceAll(" ","")
     
     return content
+}
+
+const parseUser = (response) => {
+    const userObj = {};
+    for (let prop in response) {
+        userObj[prop] = response[prop]
+    }
+    sessionStorage.setItem("user", JSON.stringify(userObj));
+    return userObj;
 }
 
 $(document).ready(() => {
@@ -89,6 +98,8 @@ $(document).ready(() => {
                     break;
             }
 
+            console.log(location);
+
             button.prop("disabled", !checkState());
         })
     }
@@ -96,7 +107,10 @@ $(document).ready(() => {
     
     button.click(event => {
         var data = $("#signup").serialize();
-        console.log(event, data);
+
+        $("#default")[0].classList.add("d-none")
+        $("#loading")[0].classList.remove("d-none");
+        button.prop("disabled", true);
 
         $.ajax({
             type: "POST",
@@ -105,8 +119,25 @@ $(document).ready(() => {
             async:true,
             data: data,
             success: function (response) {
-                alert(response);
-                // location.reload()
+                try {
+                    response = JSON.parse(response);
+                    if (response.success) {
+                        console.log(response);
+                        parseUser(response);
+                        const toastLiveExample = document.getElementById('liveToast')
+                        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+                        toastBootstrap.show()
+                    } else {
+                        alert(response);
+                    }    
+                } catch (error) {
+                    alert(error);
+                }
+                
+                $("#default")[0].classList.remove("d-none")
+                $("#loading")[0].classList.add("d-none");
+
+                // setTimeout(() => location.assign(location.origin + "/netcar/pages/mainpage") ,777)
             }
         })
     })

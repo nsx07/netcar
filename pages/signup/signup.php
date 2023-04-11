@@ -8,16 +8,23 @@
     $phone = $_POST["phone"];
     $password = $_POST["password"];
     $surname = $_POST["surName"];
-    $cep = "00000000";
-    $addressNumber = 1;
+
     $id_access = 2;
 
+    $password = base64_encode($password);
+
     $sql = "INSERT INTO user 
-        (id_access, name, surname, birthDate, email, cpf, phone, cep, addressNumber, password) VALUES 
-        ($id_access,'$name', '$surname', '$birthDate', '$email', '$cpf', '$phone', '$cep', $addressNumber, '$password')"; 
+        (id_access, name, surname, birthDate, email, cpf, phone, password) VALUES 
+        ($id_access,'$name', '$surname', '$birthDate', '$email', '$cpf', '$phone', '$password')"; 
 
 
-    $row = mysqli_query($connect ,$sql) or die (error());
-    $response = array("success" => true);
+    $row = mysqli_query($connect ,$sql) or throw new Exception("Error Processing Request '$sql'", 1);
+    $response["success"] = true;
+    $response["query"] = $sql;
+
+    $response["name"] = $name;
+    $response["surName"] = $surname;
+    $response["email"] = $email;
+
     echo json_encode($response);
 ?>
