@@ -1,18 +1,16 @@
 <?php
 global $servername ;
 global $username;
-global $password;
 global $database;
+global $connect;
 
-$servername = "localhost:3306";
-$username = "admin";
-$password = "netcar@admin";
-$database = "netcar";
+$servername = 'localhost';
+$username = 'root';
+$password = '';
+$database = 'netcar';
 
-$connect = mysql_connect($servername, $username, $password);
+$connect = mysqli_connect("localhost", "root", "", "netcar");
 
-if (!$connect) die ("<h2>Database error</h2>")
-
-$db = mysql_select_db($database);
+if (!$connect) die ("<h2>Database error</h2>");
 
 ?>

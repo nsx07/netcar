@@ -25,6 +25,10 @@
                                 <input type="text" class="form-control" id="name" pattern="[a-zA-Z]{3,}" name="name" placeholder="Digite aqui seu nome completo" required>
                             </div>
                             <div class="col-md-6 col-sm-12 mt-2">
+                                <label for="surName">Sobrenome <span style="color: red"> *</span></label>
+                                <input type="text" class="form-control" id="surName" pattern="[a-zA-Z]{3,}" name="surName" placeholder="Digite aqui seu nome completo" required>
+                            </div>
+                            <div class="col-md-6 col-sm-12 mt-2">
                                 <label for="dateBirth">Data de nascimento <span style="color: red"> *</span></label>
                                 <input type="date" class="form-control" id="dateBirth" name="dateBirth" placeholder="Informe sua data de nascimento" required>
                             </div>
@@ -37,8 +41,8 @@
                                 <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14" placeholder="Ex: 000.000.000-00" onkeyup="this.value = mascaraCPF(this.value)" required>
                             </div>
                             <div class="col-12 col-sm-12 mt-2">
-                                <label for="telefone">Telefone <span style="color: red"> *</span></label>
-                                <input type="text" class="form-control" id="telefone" name="telefone" maxlength="15" placeholder="Ex: (DD) 9 9999-9999" onkeyup="this.value = mascaraTelefone(this.value)" required>
+                                <label for="phone">Telefone <span style="color: red"> *</span></label>
+                                <input type="text" class="form-control" id="phone" name="phone" maxlength="15" placeholder="Ex: (DD) 9 9999-9999" onkeyup="this.value = mascaraTelefone(this.value)" required>
                             </div>
 
                             <!-- <div class="col-md-6 col-sm-6">

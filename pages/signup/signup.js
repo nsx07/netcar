@@ -32,10 +32,11 @@ let form = {
     valid : false,
     fields : {
         name : {value: '', type: 'regex', validator: /[a-zA-Z]{3,}/g, valid: false},
+        surName : {value: '', type: 'regex', validator: /[a-zA-Z]{3,}/g, valid: false},
         dateBirth: {value: '', type: 'date', validator: new Date().getFullYear(), valid: false},
         email : {value: '', type: 'minLength', validator: 10, valid: false},
         cpf : {value: '', type: 'minLength', validator: 11, valid: false},
-        telefone : {value: '', type: 'minLength', validator: 11, valid: false},        
+        phone : {value: '', type: 'minLength', validator: 11, valid: false},        
         password : {value: '', type: 'minLength', validator: 6, valid: false},
         confirmPass : {value: '', type: 'reference', validator : "password", valid: false} 
     }
@@ -92,17 +93,18 @@ $(document).ready(() => {
         })
     }
 
-    var data = $("#signup").serialize();
+    
+    button.click(event => {
+        var data = $("#signup").serialize();
+        console.log(event, data);
 
-    button.on("click", (event) => {
-        console.log(event);
         $.ajax({
             type: "POST",
-            dataType: "json",
+            // dataType: "json",
             url: "signup.php",
             async:true,
             data: data,
-            success: (response) => {
+            success: function (response) {
                 alert(response);
                 // location.reload()
             }
