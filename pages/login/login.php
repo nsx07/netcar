@@ -12,7 +12,7 @@
     if (mysqli_num_rows($result) > 0) {
         $response["email"] = true;
         $row = mysqli_fetch_assoc($result);
-        if ($row["password"] == $password) {
+        if (base64_decode($row["password"]) == $password) {
             $response["password"] = true;
             $response["success"] = true;
 
@@ -27,11 +27,8 @@
         $response["email"] = true;
     }
 
-    unset($_SESSION["name"]);
-    unset($_SESSION["surname"]);
-    $_SESSION["name"] = $response["name"] ? $response["name"] : '';
-    $_SESSION["surName"] = $response["surName"] ? $response["surName"] : '';
+    $_SESSION['name'] = isset($response["name"]) ? $response["name"] : NULL; 
+    $_SESSION['surName'] = isset($response["surName"]) ? $response["surName"] : NULL; 
 
-
-    echo json_encode($_SESSION);
+    echo json_encode($response);
 ?>

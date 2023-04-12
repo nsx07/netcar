@@ -6,6 +6,13 @@
     </div>
     <div class="flex gap-2 align-items-center">      
       <?php 
+        if (isset($_GET["logout"]) && $_GET["logout"] == 1) {
+          $_SESSION = array();
+
+          session_destroy();
+          header("Location: /");
+        }
+
         if (isset($_SESSION["name"])) {
           echo 
           "
@@ -17,11 +24,7 @@
           <ul class='dropdown-menu dropdown-menu-lg-end dropdown-menu-dark'>
             <li><a class='dropdown-item' href='#'>Perfil</a></li>
             <li><a class='dropdown-item' href='#'>Configurações</a></li>
-            <li>
-              <form id='logout' action='../../utils/loggout.php' method='POST'>
-                <button type='submit' >Sair</button<
-              </form>
-            </li>
+            <li><a class='dropdown-item' href='?logout=1' id='logout'>Sair</a></li>
           </ul> 
           </div>
           ";

@@ -77,6 +77,11 @@ const parseUser = (response) => {
 
 $(document).ready(() => {
     const button = $("#signup-button");
+    const toastHeadMessage = $(".toast-head")[0];
+    const toastBodyMessage = $(".toast-body")[0];
+    const toastLiveExample = document.getElementById('liveToast')
+    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+
     for (let prop in form.fields) {
         
         $(`#${prop}`).on("change", (event) => {
@@ -107,6 +112,8 @@ $(document).ready(() => {
     
     button.click(event => {
         var data = $("#signup").serialize();
+        toastHeadMessage.innerHTML = "";
+        toastBodyMessage.innerHTML = "";
 
         $("#default")[0].classList.add("d-none")
         $("#loading")[0].classList.remove("d-none");
@@ -122,16 +129,18 @@ $(document).ready(() => {
                 try {
                     response = JSON.parse(response);
                     if (response.success) {
-                        console.log(response);
-                        parseUser(response);
-                        const toastLiveExample = document.getElementById('liveToast')
-                        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+                        const user = parseUser(response);
+                        toastHeadMessage.innerHTML = `Logado com sucesso`;
+                        toastBodyMessage.innerHTML = `Seja bem vindo ${user.name}`;
                         toastBootstrap.show()
+                        setTimeout(() => location.assign(location.origin + "/netcar/pages/mainpage") ,777)
                     } else {
-                        alert(response);
+                        toastHeadMessage.innerHTML = `Erro ao logar`;
+                        toastBodyMessage.innerHTML = `Credenciais incorretas.`;
+                        toastBootstrap.show()
                     }    
                 } catch (error) {
-                    alert(error);
+                    console.error("Error catched" + error);
                 }
                 
                 $("#default")[0].classList.remove("d-none")

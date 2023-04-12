@@ -42,8 +42,11 @@ const parseUser = (response) => {
 
 
 $(document).ready(() => {
-    console.log('ready');
     const button = $("#login-button");
+    const toastHeadMessage = $(".toast-head")[0];
+    const toastBodyMessage = $(".toast-body")[0];
+    const toastLiveExample = document.getElementById('liveToast')
+    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
 
     for (let prop in form.fields) {
         
@@ -71,7 +74,9 @@ $(document).ready(() => {
 
     button.click(event => {
         var data = $("#login").serialize();
-        // console.log($("#default"), $("#loading"));
+
+        toastHeadMessage.innerHTML = "";
+        toastBodyMessage.innerHTML = "";
 
         $("#default")[0].classList.add("d-none")
         $("#loading")[0].classList.remove("d-none");
@@ -79,7 +84,6 @@ $(document).ready(() => {
 
         $.ajax({
             type: "POST",
-            // dataType: "json",
             url: "login.php",
             async:true,
             data: data,
@@ -89,16 +93,18 @@ $(document).ready(() => {
                     try {
                         response = JSON.parse(response);
                         if (response.success) {
-                            console.log(response);
-                            parseUser(response);
-                            const toastLiveExample = document.getElementById('liveToast')
-                            const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+                            const user = parseUser(response);
+                            toastHeadMessage.innerHTML = `Logado com sucesso`;
+                            toastBodyMessage.innerHTML = `Seja bem vindo ${user.name}`;
                             toastBootstrap.show()
+                            setTimeout(() => location.assign(location.origin + "/netcar/pages/mainpage") ,777)
                         } else {
-                            alert(response);
+                            toastHeadMessage.innerHTML = `Erro ao logar`;
+                            toastBodyMessage.innerHTML = `Credenciais incorretas.`;
+                            toastBootstrap.show()
                         }    
                     } catch (error) {
-                        alert(error);
+                        console.error("Error catched" + error);
                     }
                     
                     
@@ -107,7 +113,7 @@ $(document).ready(() => {
                     button.prop("disabled", false);
                 }, new Date().getMilliseconds()) ;
 
-                // setTimeout(() => location.assign(location.origin + "/netcar/pages/mainpage") ,777)
+                
             }
         })
     })
