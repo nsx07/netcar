@@ -18,7 +18,6 @@
         (id_access, name, surname, birthDate, email, cpf, phone, password) VALUES 
         ($id_access,'$name', '$surname', '$birthDate', '$email', '$cpf', '$phone', '$password')"; 
 
-
     $row = mysqli_query($connect ,$sql) or die("Error Processing Request '$sql'");
 
     $response["success"] = true;
@@ -27,6 +26,7 @@
     $response["surName"] = $surname;
     $response["email"] = $email;
 
+    $_SESSION["id"] = mysqli_insert_id($connect);
     $_SESSION["name"] = $name;
     $_SESSION["surName"] = $surname;
 
