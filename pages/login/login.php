@@ -5,7 +5,7 @@
     $email = $_POST["email"];
     $password = $_POST["password"];
 
-    $sql = "SELECT name, surname, email, password from user where email = '$email'";
+    $sql = "SELECT id_access, name, surname, email, password from user where email = '$email'";
     $result = mysqli_query($connect, $sql);
     $response["success"] = false;
 
@@ -18,6 +18,8 @@
 
             $response["name"] = $row["name"];
             $response["surName"] = $row["surname"];
+
+            $_SESSION["id_access"] = $row["id_access"];
 
         } else {
             $response["password"] = false;

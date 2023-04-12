@@ -14,6 +14,9 @@
         }
 
         if (isset($_SESSION["name"])) {
+          $isAdmin = isset($_SESSION["id_access"]) && $_SESSION["id_access"] == 1 ? "<li><a class='dropdown-item' href='#'>Cadastros</a></li>" : "";
+
+
           echo 
           "
           <div class='dropdown'>
@@ -23,6 +26,7 @@
           </a>
           <ul class='dropdown-menu dropdown-menu-lg-end dropdown-menu-dark'>
             <li><a class='dropdown-item' href='#'>Perfil</a></li>
+            {$isAdmin}
             <li><a class='dropdown-item' href='#'>Configurações</a></li>
             <li><a class='dropdown-item' href='?logout=1' id='logout'>Sair</a></li>
           </ul> 
