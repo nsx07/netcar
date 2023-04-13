@@ -31,14 +31,14 @@ const getCepInfo = (cep) => {
 let form = {
     valid : false,
     fields : {
-        name : {value: '', type: 'regex', validator: /[a-zA-Z]{3,}/g, valid: false},
-        surName : {value: '', type: 'regex', validator: /[a-zA-Z]{3,}/g, valid: false},
-        dateBirth: {value: '', type: 'date', validator: new Date().getFullYear(), valid: false},
-        email : {value: '', type: 'minLength', validator: 10, valid: false},
-        cpf : {value: '', type: 'minLength', validator: 11, valid: false},
-        phone : {value: '', type: 'minLength', validator: 11, valid: false},        
-        password : {value: '', type: 'minLength', validator: 6, valid: false},
-        confirmPass : {value: '', type: 'reference', validator : "password", valid: false} 
+        name : {value: '', type: 'regex', validator: /^[a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{3,}/g, valid: false, message: "Nome inválido"},
+        surName : {value: '', type: 'regex', validator: /^[a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{3,}/g, valid: false, message: "Sobrenome inválido"},
+        dateBirth: {value: '', type: 'date', validator: new Date().getFullYear(), valid: false, message: "Informe uma data válida"},
+        email : {value: '', type: 'regex', validator: /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/g, valid: false, message: "Email inválido"},
+        cpf : {value: '', type: 'minLength', validator: 11, valid: false, message: "Preencha o cpf"},
+        phone : {value: '', type: 'minLength', validator: 11, valid: false, message: "Informe o telefone"},        
+        password : {value: '', type: 'minLength', validator: 6, valid: false, message: "Senha deve ter 6 caracteres"},
+        confirmPass : {value: '', type: 'reference', validator : "password", valid: false, message: "Senhas não batem"} 
     }
 }
 
@@ -85,25 +85,30 @@ $(document).ready(() => {
     for (let prop in form.fields) {
         
         $(`#${prop}`).on("change", (event) => {
-            self = form.fields[prop]
-            self.value = removeGarbbage(event.target.value);
+            field = form.fields[prop]
+            field.value = removeGarbbage(event.target.value);
+            const errorMessage = $(".feedback" + prop)[0];
             
-            switch (self.type) {
+            switch (field.type) {
                 case 'regex': 
-                    self.valid = true
+                    field.valid = field.value.match(field.validator) && field.value.match(field.validator).length >= 1
                     break;
                 case 'date': 
-                    self.valid = self.validator - new Date(event.target.value).getFullYear() >= 17 && self.validator - new Date(event.target.value).getFullYear() < 100
+                    field.valid = field.validator - new Date(event.target.value).getFullYear() >= 17 && field.validator - new Date(event.target.value).getFullYear() < 100
                     break;
                 case 'minLength': 
-                    self.valid = event.target.value.toString().length >= self.validator 
+                    field.valid = event.target.value.toString().length >= field.validator 
                     break;
                 case 'reference': 
-                    self.valid = event.target.value === $(`#${self.validator}`)[0].value
+                    field.valid = event.target.value === $(`#${field.validator}`)[0].value
                     break;
             }
 
-            console.log(location);
+            if (!field.valid) {
+                errorMessage.innerHTML = field.message;
+            } else {
+                errorMessage.innerHTML = "";
+            }
 
             button.prop("disabled", !checkState());
         })
@@ -121,7 +126,6 @@ $(document).ready(() => {
 
         $.ajax({
             type: "POST",
-            // dataType: "json",
             url: "signup.php",
             async:true,
             data: data,
@@ -146,8 +150,8 @@ $(document).ready(() => {
                 $("#default")[0].classList.remove("d-none")
                 $("#loading")[0].classList.add("d-none");
 
-                // setTimeout(() => location.assign(location.origin + "/netcar/pages/mainpage") ,777)
             }
         })
     })
 })
+ 

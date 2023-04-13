@@ -27,26 +27,32 @@
                             <div class="col-md-6 col-sm-12 mt-2">
                                 <label for="name">Nome <span style="color: red"> *</span></label>
                                 <input type="text" class="form-control" id="name" pattern="[a-zA-Z]{3,}" name="name" placeholder="Digite aqui seu nome completo" required>
+                                <small class="feedbackname fs-6 text text-danger"></small>
                             </div>
                             <div class="col-md-6 col-sm-12 mt-2">
                                 <label for="surName">Sobrenome <span style="color: red"> *</span></label>
                                 <input type="text" class="form-control" id="surName" pattern="[a-zA-Z]{3,}" name="surName" placeholder="Digite aqui seu nome completo" required>
+                                <small class="feedbacksurName fs-6 text text-danger"></small>
                             </div>
                             <div class="col-md-6 col-sm-12 mt-2">
                                 <label for="dateBirth">Data de nascimento <span style="color: red"> *</span></label>
                                 <input type="date" class="form-control" id="dateBirth" name="dateBirth" placeholder="Informe sua data de nascimento" required>
+                                <small class="feedbackdateBirth fs-6 text text-danger"></small>
                             </div>
                             <div class="col-md-6 col-sm-12 mt-2">                
                                 <label for="email">Endereço de email <span style="color: red"> *</span></label>
                                 <input type="email" class="form-control" id="email" name="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" placeholder="Seu melhor email" required>                    
+                                <small class="feedbackemail fs-6 text text-danger"></small>
                             </div>
                             <div class="col-md-6 col-sm-12 mt-2">
                                 <label for="cpf">CPF <span style="color: red"> *</span></label>
                                 <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14" placeholder="Ex: 000.000.000-00" onkeyup="this.value = mascaraCPF(this.value)" required>
+                                <small class="feedbackcpf fs-6 text text-danger"></small>
                             </div>
                             <div class="col-md-6 col-sm-12 mt-2">
                                 <label for="phone">Telefone <span style="color: red"> *</span></label>
                                 <input type="text" class="form-control" id="phone" name="phone" maxlength="15" placeholder="Ex: (DD) 9 9999-9999" onkeyup="this.value = mascaraTelefone(this.value)" required>
+                                <small class="feedbackphone fs-6 text text-danger"></small>
                             </div>
 
                             <!-- <div class="col-md-6 col-sm-6 mt-2">
@@ -78,10 +84,12 @@
                             <div class="col-md-6 col-sm-12 mt-2">
                                 <label for="password">Senha <span style="color: red"> *</span></label>
                                 <input type="password" class="form-control" id="password" minlength="6" name="password" placeholder="Senha" required>
+                                <small class="feedbackpassword fs-6 text text-danger"></small>
                             </div>              
                             <div class="col-md-6 col-sm-12 mt-2">
                                 <label for="confirmPass">Confirmar senha <span style="color: red"> *</span></label>
                                 <input type="password" class="form-control" id="confirmPass" minlength="6" name="confirmPass" placeholder="Confirmar senha" required>
+                                <small class="feedbackconfirmPass fs-6 text text-danger"></small>
                             </div>
                             
                             <div class="col-12 mt-2 d-flex justify-content-end">

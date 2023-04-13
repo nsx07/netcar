@@ -15,9 +15,9 @@
     <?php 
         session_start();
         
-        require '../../components/nav.php';
+        require_once '../../components/nav.php';
         if (!isset($_SESSION["name"])) {
-            header("Location: ../../");
+            header("Location: /netcar/pages/login");
         }
         ?>
 
