@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 26-Mar-2023 às 00:34
+-- Tempo de geração: 13-Abr-2023 às 05:10
 -- Versão do servidor: 10.4.24-MariaDB
 -- versão do PHP: 8.1.6
 
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `acess`
+-- Estrutura da tabela `access`
 --
 
 CREATE TABLE `access` (
@@ -34,7 +34,7 @@ CREATE TABLE `access` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Extraindo dados da tabela `acess`
+-- Extraindo dados da tabela `access`
 --
 
 INSERT INTO `access` (`id`, `code`, `description`) VALUES
@@ -135,12 +135,21 @@ CREATE TABLE `user` (
   `surname` varchar(50) NOT NULL,
   `birthDate` date NOT NULL,
   `email` varchar(30) NOT NULL,
+  `password` varchar(50) NOT NULL,
   `cpf` varchar(11) NOT NULL,
   `phone` varchar(15) NOT NULL,
-  `cep` varchar(8) NOT NULL,
-  `addressNumber` int(11) NOT NULL,
-  `password` varchar(30) NOT NULL
+  `cep` varchar(8) DEFAULT NULL,
+  `addressNumber` int(11) DEFAULT NULL,
+  `street` varchar(45) DEFAULT NULL,
+  `complement` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `user`
+--
+
+INSERT INTO `user` (`id`, `id_access`, `name`, `surname`, `birthDate`, `email`, `password`, `cpf`, `phone`, `cep`, `addressNumber`, `street`, `complement`) VALUES
+(1, 1, 'dev', 'test', '2001-01-01', 'dev@test.com', 'dGVzdEB0ZXN0', '111.111.111-11', '(11) 11111-1111', NULL, NULL, NULL, NULL);
 
 --
 -- Índices para tabelas despejadas
@@ -242,7 +251,7 @@ ALTER TABLE `sales`
 -- AUTO_INCREMENT de tabela `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Restrições para despejos de tabelas
@@ -275,9 +284,6 @@ ALTER TABLE `sales`
 ALTER TABLE `user`
   ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`id_access`) REFERENCES `access` (`id`);
 COMMIT;
-
-CREATE USER 'admin'@'%' IDENTIFIED VIA mysql_native_password USING '***';
-GRANT ALL PRIVILEGES ON *.* TO 'admin'@'%' REQUIRE NONE WITH GRANT OPTION MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
