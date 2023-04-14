@@ -31,14 +31,14 @@ const getCepInfo = (cep) => {
 let form = {
     valid : false,
     fields : {
-        name : {value: '', type: 'regex', validator: /^[a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{3,}/g, valid: false, message: "Nome inválido"},
-        surName : {value: '', type: 'regex', validator: /^[a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{3,}/g, valid: false, message: "Sobrenome inválido"},
-        dateBirth: {value: '', type: 'date', validator: new Date().getFullYear(), valid: false, message: "Informe uma data válida"},
-        email : {value: '', type: 'regex', validator: /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/g, valid: false, message: "Email inválido"},
-        cpf : {value: '', type: 'minLength', validator: 11, valid: false, message: "Preencha o cpf"},
-        phone : {value: '', type: 'minLength', validator: 11, valid: false, message: "Informe o telefone"},        
-        password : {value: '', type: 'minLength', validator: 6, valid: false, message: "Senha deve ter 6 caracteres"},
-        confirmPass : {value: '', type: 'reference', validator : "password", valid: false, message: "Senhas não batem"} 
+        name : {value: '', name: "Nome", type: 'regex', validator: /^[a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{3,}/g, valid: false, message: "Nome inválido"},
+        surName : {value: '', name: "Sobrenome", type: 'regex', validator: /^[a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{3,}/g, valid: false, message: "Sobrenome inválido"},
+        dateBirth: {value: '', name: "Data nascimento", type: 'date', validator: new Date().getFullYear(), valid: false, message: "Informe uma data válida"},
+        email : {value: '', name: "Email", type: 'regex', validator: /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/g, valid: false, message: "Email inválido"},
+        cpf : {value: '', name: "Cpf", type: 'minLength', validator: 11, valid: false, message: "Preencha o cpf"},
+        phone : {value: '', name: "Telefone", type: 'minLength', validator: 11, valid: false, message: "Informe o telefone"},        
+        password : {value: '', name: "Senha", type: 'minLength', validator: 6, valid: false, message: "Senha deve ter 6 caracteres"},
+        confirmPass : {value: '', name: "Confirma senha", type: 'reference', validator : "password", valid: false, message: "Senhas não batem"} 
     }
 }
 
@@ -75,12 +75,20 @@ const parseUser = (response) => {
     return userObj;
 }
 
+const catchError = (response = "") => {
+    let match = "";
+    for (let prop in form.fields) {
+        const len = response.split(" ");
+        if (`'${prop}'` === len[len.length - 1]) {
+            return prop;
+        }
+
+    }
+    return undefined;
+}
+
 $(document).ready(() => {
     const button = $("#signup-button");
-    const toastHeadMessage = $(".toast-head")[0];
-    const toastBodyMessage = $(".toast-body")[0];
-    const toastLiveExample = document.getElementById('liveToast')
-    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
 
     for (let prop in form.fields) {
         
@@ -113,12 +121,16 @@ $(document).ready(() => {
             button.prop("disabled", !checkState());
         })
     }
-
     
     button.click(event => {
-        var data = $("#signup").serialize();
-        toastHeadMessage.innerHTML = "";
-        toastBodyMessage.innerHTML = "";
+        const data = $("#signup").serialize();
+        const Toast = Swal.mixin({
+            toast: true,
+            timer: 3000,
+            position: 'bottom-end',
+            showConfirmButton: false,
+            timerProgressBar: true,
+          })
 
         $("#default")[0].classList.add("d-none")
         $("#loading")[0].classList.remove("d-none");
@@ -132,16 +144,24 @@ $(document).ready(() => {
             success: function (response) {
                 try {
                     response = JSON.parse(response);
+
                     if (response.success) {
                         const user = parseUser(response);
-                        toastHeadMessage.innerHTML = `Logado com sucesso`;
-                        toastBodyMessage.innerHTML = `Seja bem vindo ${user.name}`;
-                        toastBootstrap.show()
+                          
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Cadastrado com sucesso!'
+                        })
+
                         setTimeout(() => location.assign(location.origin + "/netcar/pages/mainpage") ,777)
                     } else {
-                        toastHeadMessage.innerHTML = `Erro ao logar`;
-                        toastBodyMessage.innerHTML = `Credenciais incorretas.`;
-                        toastBootstrap.show()
+
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'Erro ao cadastrar!',
+                            text: `${catchError(response).name} já cadastrado.`
+                        })
+
                     }    
                 } catch (error) {
                     console.error("Error catched" + error);

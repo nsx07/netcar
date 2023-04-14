@@ -7,8 +7,8 @@
     <title>Escolha seu carro | netcar</title>
     <link rel="icon" type="image" href="../../assets/logo-minify-purple.png">
     <link rel="stylesheet" href="mainpage.css">    
-    <!-- <script src="mainpage.js"></script> -->
     <?php require '../../utils/modules.php'; ?>
+    <script src="mainpage.js"></script>
 </head>
 <body>
     

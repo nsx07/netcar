@@ -12,11 +12,9 @@
     $id_access = 2;
 
     try {
-        $cpf = str_replace([".", "-"], "", $cpf);
-        
-        $phone = str_replace(["(", ")", "-"], "", $phone);
-        
         $password = base64_encode($password);
+        $cpf = str_replace([".", "-"], "", $cpf);
+        $phone = str_replace(["(", ")", "-"], "", $phone);
 
         $sql = "INSERT INTO user 
         (id_access, name, surname, birthDate, email, cpf, phone, password) VALUES 
@@ -37,6 +35,6 @@
     
         echo json_encode($response);
     } catch (\Throwable $th) {
-        echo json_encode($th);
+        echo json_encode(mysqli_error($connect));
     }
 ?> 

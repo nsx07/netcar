@@ -25,7 +25,7 @@
               <li><a class='dropdown-item' href='#'>Perfil</a></li>
               {$isAdmin}
               <li><a class='dropdown-item' href='#'>Configurações</a></li>
-              <li><a class='dropdown-item'  data-bs-toggle='modal' data-bs-target='#staticBackdrop'>Sair</a></li>
+              <li><a class='dropdown-item' id='logout'>Sair</a></li>
             </ul> 
             </div>
           </div>
@@ -46,35 +46,4 @@
       ?>
   </nav>
 
-  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5 text-center" id="staticBackdropLabel">Deseja sair ?</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-footer d-flex justify-content-center">
-          <button type="button" id="logout" class="btn btn-danger" style="width: 45%" data-bs-dismiss="modal">Sim</button>
-          <button type="button" class="btn btn-success" style="width: 45%" data-bs-dismiss="modal">Não</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <script language="javascript">
-
-        <?php 
-          if (isset($_SESSION["name"])) {
-            echo "
-              window.onload = () => {
-                document.querySelector('#logout').addEventListener('click', (ev) => {
-                  location.assign(location.href + '?logout=1')
-                })
-              }
-          ";
-          }
-        ?>
-
-  </script>
   

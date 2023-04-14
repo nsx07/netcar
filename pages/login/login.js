@@ -43,10 +43,13 @@ const parseUser = (response) => {
 
 $(document).ready(() => {
     const button = $("#login-button");
-    const toastHeadMessage = $(".toast-head")[0];
-    const toastBodyMessage = $(".toast-body")[0];
-    const toastLiveExample = document.getElementById('liveToast')
-    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+    const Toast = Swal.mixin({
+        toast: true,
+        timer: 3000,
+        position: 'bottom-end',
+        showConfirmButton: false,
+        timerProgressBar: true,
+      });
 
     for (let prop in form.fields) {
         
@@ -75,9 +78,6 @@ $(document).ready(() => {
     button.click(event => {
         var data = $("#login").serialize();
 
-        toastHeadMessage.innerHTML = "";
-        toastBodyMessage.innerHTML = "";
-
         $("#default")[0].classList.add("d-none")
         $("#loading")[0].classList.remove("d-none");
         button.prop("disabled", true);
@@ -89,20 +89,27 @@ $(document).ready(() => {
             data: data,
             success: function (response) {
                 console.log(response);
+
                 setTimeout(function () {
                     try {
                         response = JSON.parse(response);
                         if (response.success) {
                             const user = parseUser(response);
-                            toastHeadMessage.innerHTML = `Logado com sucesso`;
-                            toastBodyMessage.innerHTML = `Seja bem vindo ${user.name}`;
-                            toastBootstrap.show()
-                            setTimeout(() => location.assign(location.origin + "/netcar/pages/mainpage") ,777)
+                              
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'Logado com sucesso!',
+                                text: `Bem vindo de novo ${response.name}!`
+                            })
+    
+                            setTimeout(() => location.assign(location.origin + "/netcar/pages/mainpage") , 1000)
                         } else {
-                            toastHeadMessage.innerHTML = `Erro ao logar`;
-                            toastBodyMessage.innerHTML = `Credenciais incorretas.`;
-                            toastBootstrap.show()
-                        }    
+
+                            Toast.fire({
+                                icon: 'error',
+                                title: 'Credenciais erradas!',
+                            })
+                        }       
                     } catch (error) {
                         console.error("Error catched" + error);
                     }
