@@ -30,9 +30,12 @@
         $response["id"] = mysqli_insert_id($connect); 
     
         $_SESSION["id"] = mysqli_insert_id($connect);
+        $_SESSION["id_access"] = $id_access;
         $_SESSION["name"] = $name;
         $_SESSION["surName"] = $surname;
-    
+        $_SESSION["time"] = time();
+        $_SESSION["max_time"] = 1800;
+
         echo json_encode($response);
     } catch (\Throwable $th) {
         echo json_encode(mysqli_error($connect));

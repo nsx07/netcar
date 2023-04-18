@@ -8,6 +8,7 @@ $(document).ready(() => {
         timerProgressBar: true,
     })
 
+
     if (logout) {
         logout.click(ev => {
             const swalWithBootstrapButtons = Swal.mixin({

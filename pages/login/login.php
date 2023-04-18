@@ -32,6 +32,9 @@
 
     $_SESSION['name'] = isset($response["name"]) ? $response["name"] : NULL; 
     $_SESSION['surName'] = isset($response["surName"]) ? $response["surName"] : NULL; 
-
+    $_SESSION["time"] = time();
+    $_SESSION["max_time"] = $_SESSION["id_access"] == 1 ? 3600 : 1800; 
+    
+    
     echo json_encode($response);
 ?>

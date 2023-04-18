@@ -11,8 +11,8 @@
 <body class="bg-dark">
     <?php 
         session_start();
-        require '../../components/nav.php';
         require_once '../../utils/modules.php';
+        require '../../components/nav.php';
         if (isset($_SESSION["name"])) {
             header("Location: ../mainpage/");
         } 

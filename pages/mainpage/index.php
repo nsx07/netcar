@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Escolha seu carro | netcar</title>
     <link rel="icon" type="image" href="../../assets/logo-minify-purple.png">
-    <link rel="stylesheet" href="mainpage.css">    
-    <?php require '../../utils/modules.php'; ?>
-    <script src="mainpage.js"></script>
+    <link rel="stylesheet" href="mainpage.css">  
 </head>
 <body>
+    <?php require '../../utils/modules.php'; ?>
+    <script src="mainpage.js"></script>
     
     <?php 
         session_start();
@@ -21,7 +21,11 @@
         }
         ?>
 
-    <div class="container-fluid py-3">
+    <div id="loader">
+    <div class="spinner"></div>
+    </div>
+
+    <div id="conteudo" class="container-fluid py-3">
         <div class="col-12">
             <form id="filter" onsubmit="return false"  method="POST">                
                 <div class="flex justify-content-center align-items-center column-gap-1 rounded">
@@ -53,9 +57,31 @@
             $jsonData = json_decode($jsonString, true);
 
             foreach ($jsonData["cars"] as $car ) { 
+                $id = time() * 0.33 / 100 * $car['year'] * rand(2, 99);
                 echo "
                 <div class='card col-lg-3 col-md-6 col-sm-12 p-0 border-none'>
-                    <img src='../../assets/{$car['assetsPath']}' class='card-img-top cars'>
+                    <div id='". $id . $car['brand'] ."' class='carousel slide'>
+                        <div class='carousel-inner'>
+                            <div class='carousel-item active'>
+                                <img src='../../assets/{$car['assetsPath']}' class='card-img-top cars'>
+                            </div>
+                            <div class='carousel-item'>
+                                <img src='../../assets/{$car['assetsPath']}' class='card-img-top cars'>
+                            </div>
+                            <div class='carousel-item'>
+                                <img src='../../assets/{$car['assetsPath']}' class='card-img-top cars'>
+                            </div>
+                        </div>
+                        <button class='carousel-control-prev' type='button' data-bs-target='#". $id . $car['brand'] . "' data-bs-slide='prev'>
+                            <span class='carousel-control-prev-icon' aria-hidden='true'></span>
+                            <span class='visually-hidden'>Previous</span>
+                        </button>
+                        <button class='carousel-control-next' type='button' data-bs-target='#". $id . $car['brand'] ."' data-bs-slide='next'>
+                            <span class='carousel-control-next-icon' aria-hidden='true'></span>
+                            <span class='visually-hidden'>Next</span>
+                        </button>
+                    </div>
+                    
                     <div class='card-body'>
                         <a href='#'> <h5 class='card-title'>{$car['model']}</h5> </a>
                         <p class='card-text'> {$car['brand']} - {$car['year']} </p>
@@ -73,6 +99,25 @@
 
     </div>
 
+    <script>
+        $(document).ready(() => {
+            const colorThief = new ColorThief();
+            const images = $(".cars");
+            for(let img of images) {
+                if (img && img.complete) {
+                    const cor = colorThief.getColor(img);
+                    const corCSS = `rgb(${cor[0]}, ${cor[1]}, ${cor[2]})`;
+                    img.style.backgroundColor = corCSS;
+                } else {
+                    img.addEventListener('load', function() {
+                        const cor = colorThief.getColor(img);
+                        const corCSS = `rgb(${cor[0]}, ${cor[1]}, ${cor[2]})`;
+                        img.style.backgroundColor = corCSS;
+                    });
+                }
+            }
+        })
+    </script>
     
     <?php require '../../components/footer.php' ;?>
 </body>
