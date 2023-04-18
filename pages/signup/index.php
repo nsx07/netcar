@@ -17,7 +17,10 @@
             header("Location: ../mainpage/");
         }
     ?>
-    <div class="vw-100 vh-100">
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+    <div id="conteudo"s class="vw-100 vh-100">
         <div class="container-fluid">
             <div class="row flex align-items-center justify-content-center p-2 m-2">
                 <div class="col-lg-6 col-sm-12 shadow bg-body-secondary rounded-3 p-4">

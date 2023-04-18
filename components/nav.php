@@ -8,12 +8,12 @@
         }
 
         if (isset($_SESSION["name"])) {
-          $isAdmin = isset($_SESSION["id_access"]) && $_SESSION["id_access"] == 1 ? "<li><a class='dropdown-item' href='/netcar/pages/cadastros'>Cadastros</a></li>" : "";
+          $isAdmin = isset($_SESSION["id_access"]) && $_SESSION["id_access"] == 1 ? "<li><a class='dropdown-item' href='/netcar/crud/'>Cadastros</a></li>" : "";
           $icon = isset($_SESSION["id_access"]) && $_SESSION["id_access"] == 1 ? "fa-user-ninja" : "fa-user";
           echo "
           <div class='flex'>
             <a class='navbar-brand shadow-md' href='/netcar/pages/mainpage'>
-              <img id='logoHeader' src='../../assets/netcar-ban.png' width='30%'>
+              <img id='logoHeader' src='/netcar/assets/netcar-ban.png' width='30%'>
             </a>
           </div>
           <div class='flex gap-2 align-items-center'> 
@@ -57,7 +57,9 @@
       const timer = $('#timeSession')[0];
       const counter = setInterval(() => {
         const currentSec = +(Date.now() / 1000).toString().split('.')[0] - logTime;
-        timer.innerHTML = '| ' + currentSec +' |';
+        if (timer) {
+          timer.innerHTML = '| ' + currentSec +' |';
+        }
         if (currentSec > ". $_SESSION["max_time"] .") {
           location.assign(location.origin + '/netcar/utils/expire.php');
           clearInterval(counter);

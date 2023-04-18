@@ -1,12 +1,3 @@
-
-let form = {
-    valid : false,
-    fields : {
-        email : {value: '', type: 'minLength', validator: 10, valid: false},
-        password : {value: '', type: 'minLength', validator: 6, valid: false},
-    }
-}
-
 const checkState = () => {
     let state = true;
     for (let item in form.fields) {
@@ -40,6 +31,13 @@ const parseUser = (response) => {
     return userObj;
 }
 
+const form = {
+    valid : false,
+    fields : {
+        email : {value: '', type: 'minLength', validator: 10, valid: false},
+        password : {value: '', type: 'minLength', validator: 6, valid: false},
+    }
+}
 
 $(document).ready(() => {
     const button = $("#login-button");
@@ -94,7 +92,7 @@ $(document).ready(() => {
                     try {
                         response = JSON.parse(response);
                         if (response.success) {
-                            const user = parseUser(response);
+                            parseUser(response);
                               
                             Toast.fire({
                                 icon: 'success',
@@ -103,24 +101,31 @@ $(document).ready(() => {
                             })
     
                             setTimeout(() => location.assign(location.origin + "/netcar/pages/mainpage") , 1000)
+                        } else if (!response.email) {
+
+                            Toast.fire({
+                                icon: 'error',
+                                title: 'Esse email não está cadastrado!',
+                            })
+
                         } else {
 
                             Toast.fire({
                                 icon: 'error',
-                                title: 'Credenciais erradas!',
+                                title: 'Senha incorreta!',
                             })
-                        }       
+
+                        }    
+                        
                     } catch (error) {
                         console.error("Error catched" + error);
                     }
-                    
                     
                     $("#default")[0].classList.remove("d-none")
                     $("#loading")[0].classList.add("d-none");
                     button.prop("disabled", false);
                 }, new Date().getMilliseconds()) ;
 
-                
             }
         })
     })

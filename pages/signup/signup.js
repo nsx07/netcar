@@ -10,14 +10,14 @@ const zipCodeMask = (value) => {
     return value
 }
 
-function mascaraCPF(cpf){
+const mascaraCPF = (cpf) => {
     cpf = cpf.replace(/\D/g, ""); // remove todos os caracteres não numéricos
     cpf = cpf.substring(0,3) + '.' + cpf.substring(3,6) + '.' + cpf.substring(6,9) + '-' + cpf.substring(9);
     
     return cpf;
 }
 
-function mascaraTelefone(telefone) {
+const mascaraTelefone = (telefone) => {
     telefone = telefone.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
     telefone = telefone.replace(/^(\d{2})(\d)/g, '($1) $2'); // Adiciona parênteses em volta dos primeiros 2 dígitos
     telefone = telefone.replace(/(\d)(\d{4})$/, '$1-$2'); // Adiciona hífen entre o quinto e sexto dígitos
@@ -26,20 +26,6 @@ function mascaraTelefone(telefone) {
 
 const getCepInfo = (cep) => {
     return `https://cdn.apicep.com/file/apicep/${cep}.json`;
-}
-
-let form = {
-    valid : false,
-    fields : {
-        name : {value: '', name: "Nome", type: 'regex', validator: /^[a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{3,}/g, valid: false, message: "Nome inválido"},
-        surName : {value: '', name: "Sobrenome", type: 'regex', validator: /^[a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{3,}/g, valid: false, message: "Sobrenome inválido"},
-        dateBirth: {value: '', name: "Data nascimento", type: 'date', validator: new Date().getFullYear(), valid: false, message: "Informe uma data válida"},
-        email : {value: '', name: "Email", type: 'regex', validator: /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/g, valid: false, message: "Email inválido"},
-        cpf : {value: '', name: "Cpf", type: 'minLength', validator: 11, valid: false, message: "Preencha o cpf"},
-        phone : {value: '', name: "Telefone", type: 'minLength', validator: 11, valid: false, message: "Informe o telefone"},        
-        password : {value: '', name: "Senha", type: 'minLength', validator: 6, valid: false, message: "Senha deve ter 6 caracteres"},
-        confirmPass : {value: '', name: "Confirma senha", type: 'reference', validator : "password", valid: false, message: "Senhas não batem"} 
-    }
 }
 
 const checkState = () => {
@@ -75,16 +61,28 @@ const parseUser = (response) => {
     return userObj;
 }
 
-const catchError = (response = "") => {
-    let match = "";
+const catchError = (response) => {
     for (let prop in form.fields) {
         const len = response.split(" ");
         if (`'${prop}'` === len[len.length - 1]) {
-            return prop;
+            return form.fields[prop];
         }
-
     }
     return undefined;
+}
+
+const form = {
+    valid : false,
+    fields : {
+        name : {value: '', name: "Nome", type: 'regex', validator: /^[a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{3,}/g, valid: false, message: "Nome inválido"},
+        surName : {value: '', name: "Sobrenome", type: 'regex', validator: /^[a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{3,}/g, valid: false, message: "Sobrenome inválido"},
+        dateBirth: {value: '', name: "Data nascimento", type: 'date', validator: new Date().getFullYear(), valid: false, message: "Informe uma data válida"},
+        email : {value: '', name: "Email", type: 'regex', validator: /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/g, valid: false, message: "Email inválido"},
+        cpf : {value: '', name: "Cpf", type: 'minLength', validator: 11, valid: false, message: "Preencha o cpf"},
+        phone : {value: '', name: "Telefone", type: 'minLength', validator: 11, valid: false, message: "Informe o telefone"},        
+        password : {value: '', name: "Senha", type: 'minLength', validator: 6, valid: false, message: "Senha deve ter 6 caracteres"},
+        confirmPass : {value: '', name: "Confirma senha", type: 'reference', validator : "password", valid: false, message: "Senhas não batem"} 
+    }
 }
 
 $(document).ready(() => {

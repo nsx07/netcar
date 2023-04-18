@@ -27,13 +27,14 @@
             $response["success"] = false;
         }
     } else {
-        $response["email"] = true;
+        $response["email"] = false;
     }
 
     $_SESSION['name'] = isset($response["name"]) ? $response["name"] : NULL; 
     $_SESSION['surName'] = isset($response["surName"]) ? $response["surName"] : NULL; 
     $_SESSION["time"] = time();
-    $_SESSION["max_time"] = $_SESSION["id_access"] == 1 ? 3600 : 1800; 
+    $_SESSION["max_time"] = isset($_SESSION["id_access"]) && $_SESSION["id_access"] == 1 ? 3600 : 1800; 
+    $_SESSION["result"] = [$result, mysqli_num_rows($result)];
     
     
     echo json_encode($response);

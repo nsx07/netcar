@@ -18,7 +18,11 @@
         } 
 
     ?>
-    <div class="vw-100 vh-100">
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <div id="conteudo" class="vw-100 vh-100">
 
 
         <div class="container-fluid">
