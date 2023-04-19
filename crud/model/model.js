@@ -3,7 +3,7 @@ const getUsers = (id) => {
         await 
         $.ajax({
             method: "GET",
-            url: "cars.php",
+            url: "model.php",
             data: id ? id : null,
             async: true,
             success : (response) => {
@@ -23,7 +23,7 @@ const setUser = (user) => {
         await 
         $.ajax({
             method: "POST",
-            url: "cars.php",
+            url: "model.php",
             data: user,
             async: true,
             success : (response) => {
@@ -43,7 +43,7 @@ const deleteUser = (id) => {
         await 
         $.ajax({
             method: "DELETE",
-            url: "cars.php",
+            url: "model.php",
             data: id,
             async: true,
             success : (response) => {

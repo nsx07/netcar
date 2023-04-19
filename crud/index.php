@@ -38,18 +38,24 @@
 
         <div class="flex justify-content-center gap-2 align-items-center p 4">
             <button onclick="location.assign(location.origin + '/netcar/crud/users')" class="btn bg-primary bg-gray-300 text-white" role="button">
-                Users
+                Usuários
                 <i class="fa-solid fa-user"></i>
             </button>
             <button onclick="location.assign(location.origin + '/netcar/crud/cars')" class="btn bg-primary bg-gray-300 text-white" role="button">
-                Cars
+                Carros
                 <i class="fa-solid fa-car"></i>
             </button>
+            <button onclick="location.assign(location.origin + '/netcar/crud/model')" class="btn bg-primary bg-gray-300 text-white" role="button">
+                Modelos
+                <i class="fa-solid fa-user"></i>
+            </button>
+            <button onclick="location.assign(location.origin + '/netcar/crud/brand')" class="btn bg-primary bg-gray-300 text-white" role="button">
+                Marca
+                <i class="fa-solid fa-car"></i>
+            </button>
+        
         </div>
-            <!-- <div class="card rounded bg-gray-400 p-2">
-            </div>
-            <div class="card rounded bg-gray-400 p-2">
-        </div> -->
+
 
     </div>
     
