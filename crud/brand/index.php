@@ -93,14 +93,14 @@
                     <small class="feedbackname fs-6 text text-danger"></small>
                 </div>
                 <div class="col-md-6 col-sm-12 mt-2">
-                    <label for="surName">Sobrenome <span style="color: red"> *</span></label>
-                    <input type="text" class="form-control" id="surName" pattern="[a-zA-Z]{3,}" name="surName" placeholder="Digite aqui seu nome completo" required>
-                    <small class="feedbacksurName fs-6 text text-danger"></small>
+                    <label for="surname">Sobrenome <span style="color: red"> *</span></label>
+                    <input type="text" class="form-control" id="surname" pattern="[a-zA-Z]{3,}" name="surname" placeholder="Digite aqui seu nome completo" required>
+                    <small class="feedbacksurname fs-6 text text-danger"></small>
                 </div>
                 <div class="col-md-6 col-sm-12 mt-2">
-                    <label for="dateBirth">Data de nascimento <span style="color: red"> *</span></label>
-                    <input type="date" class="form-control" id="dateBirth" name="dateBirth" placeholder="Informe sua data de nascimento" required>
-                    <small class="feedbackdateBirth fs-6 text text-danger"></small>
+                    <label for="birthDate">Data de nascimento <span style="color: red"> *</span></label>
+                    <input type="date" class="form-control" id="birthDate" name="birthDate" placeholder="Informe sua data de nascimento" required>
+                    <small class="feedbackbirthDate fs-6 text text-danger"></small>
                 </div>
                 <div class="col-md-6 col-sm-12 mt-2">                
                     <label for="email">Endereço de email <span style="color: red"> *</span></label>

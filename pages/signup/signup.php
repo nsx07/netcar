@@ -3,12 +3,12 @@
     require '../../database/connection_db.php';
 
     $name = $_POST["name"];
-    $birthDate = $_POST["dateBirth"];
+    $birthDate = $_POST["birthDate"];
     $cpf = $_POST["cpf"];
     $email = $_POST["email"];
     $phone = $_POST["phone"];
     $password = $_POST["password"];
-    $surname = $_POST["surName"];
+    $surname = $_POST["surname"];
     $id_access = 2;
 
     try {
@@ -25,14 +25,14 @@
         $response["success"] = true;
         $response["query"] = $sql;
         $response["name"] = $name;
-        $response["surName"] = $surname;
+        $response["surname"] = $surname;
         $response["email"] = $email;
         $response["id"] = mysqli_insert_id($connect); 
     
         $_SESSION["id"] = mysqli_insert_id($connect);
         $_SESSION["id_access"] = $id_access;
         $_SESSION["name"] = $name;
-        $_SESSION["surName"] = $surname;
+        $_SESSION["surname"] = $surname;
         $_SESSION["time"] = time();
         $_SESSION["max_time"] = 1800;
 

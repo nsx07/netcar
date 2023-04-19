@@ -23,12 +23,12 @@
     } else if (isset($_POST)) {
 
         $name = $_POST["name"];
-        $birthDate = $_POST["dateBirth"];
+        $birthDate = $_POST["birthDate"];
         $cpf = $_POST["cpf"];
         $email = $_POST["email"];
         $phone = $_POST["phone"];
         $password = $_POST["password"];
-        $surname = $_POST["surName"];
+        $surname = $_POST["surname"];
         $id_access = $_POST["id_access"];
 
         

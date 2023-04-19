@@ -7,7 +7,7 @@
         case 'POST':
             try {
                 $name = $_POST["name"];
-                $birthDate = $_POST["dateBirth"];
+                $birthDate = $_POST["birthDate"];
                 $cpf = $_POST["cpf"];
                 $email = $_POST["email"];
                 $phone = $_POST["phone"];

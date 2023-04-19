@@ -17,7 +17,7 @@
             $response["success"] = true;
 
             $response["name"] = $row["name"];
-            $response["surName"] = $row["surname"];
+            $response["surname"] = $row["surname"];
 
             $_SESSION["id"] = $row["id"];
             $_SESSION["id_access"] = $row["id_access"];
@@ -31,7 +31,7 @@
     }
 
     $_SESSION['name'] = isset($response["name"]) ? $response["name"] : NULL; 
-    $_SESSION['surName'] = isset($response["surName"]) ? $response["surName"] : NULL; 
+    $_SESSION['surname'] = isset($response["surname"]) ? $response["surname"] : NULL; 
     $_SESSION["time"] = time();
     $_SESSION["max_time"] = isset($_SESSION["id_access"]) && $_SESSION["id_access"] == 1 ? 3600 : 1800; 
     $_SESSION["result"] = [$result, mysqli_num_rows($result)];

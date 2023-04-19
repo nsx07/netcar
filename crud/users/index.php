@@ -97,8 +97,8 @@
                 </div>
                 <div class="col-md-6 col-sm-12 mt-2">
                     <label for="surname">Sobrenome <span style="color: red"> *</span></label>
-                    <input type="text" class="form-control" id="surname" pattern="[a-zA-Z]{3,}" name="surName" placeholder="Digite aqui seu nome completo" required>
-                    <small class="feedbacksurName fs-6 text text-danger"></small>
+                    <input type="text" class="form-control" id="surname" pattern="[a-zA-Z]{3,}" name="surname" placeholder="Digite aqui seu nome completo" required>
+                    <small class="feedbacksurname fs-6 text text-danger"></small>
                 </div>
                 <div class="col-md-6 col-sm-12 mt-2">
                     <label for="birthDate">Data de nascimento <span style="color: red"> *</span></label>
