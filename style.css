@@ -216,6 +216,10 @@ button {
   to { transform: rotate(360deg); }
 }
 
+table {
+  overflow-x: scroll;
+}
+
 :root {
   --main-color : #5e17eb;
   --text-color:#495057;

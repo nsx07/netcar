@@ -36,22 +36,22 @@
             </h3>
         </div>
 
-        <div class="flex justify-content-center gap-2 align-items-center p 4">
+        <div class="flex justify-content-center gap-2 align-items-center p-4">
             <button onclick="location.assign(location.origin + '/netcar/crud/users')" class="btn bg-primary bg-gray-300 text-white" role="button">
-                Usuários
-                <i class="fa-solid fa-user"></i>
+                <span class="text-base">Usuários</span>
+                <i class="fa-solid fa-user ml-2"></i>
             </button>
             <button onclick="location.assign(location.origin + '/netcar/crud/cars')" class="btn bg-primary bg-gray-300 text-white" role="button">
-                Carros
-                <i class="fa-solid fa-car"></i>
+                <span class="text-base">Carros</span>
+                <i class="fa-solid fa-car-side ml-2"></i>
             </button>
             <button onclick="location.assign(location.origin + '/netcar/crud/model')" class="btn bg-primary bg-gray-300 text-white" role="button">
-                Modelos
-                <i class="fa-solid fa-user"></i>
+                <span class="text-base">Modelos</span>
+                <i class="fa-solid fa-car-on ml-2"></i>
             </button>
             <button onclick="location.assign(location.origin + '/netcar/crud/brand')" class="btn bg-primary bg-gray-300 text-white" role="button">
-                Marca
-                <i class="fa-solid fa-car"></i>
+                <span class="text-base">Marcas</span>
+                <i class="fa-solid fa-briefcase ml-2"></i>
             </button>
         
         </div>

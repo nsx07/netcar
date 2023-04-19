@@ -12,5 +12,3 @@ $database = 'netcar';
 $connect = mysqli_connect("localhost", "root", "", "netcar");
 
 if (!$connect) die ("<h2>Database error</h2>");
-
-?>

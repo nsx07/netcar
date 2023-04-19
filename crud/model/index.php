@@ -28,30 +28,37 @@
         <div class="spinner"></div>
     </div>
 
-
     <div id="conteudo" class="flex flex-column justify-content-center gap-3 vw-100">
-        <div class="card rounded p-2 mt-3 mx-5">
-            <form id='search' onsubmit="return false" target="_self">
-                <div class="row grid-items-center px-2">
-                    <div class="col-6 flex align-items-center gap-2">
+        <div class="card shadow rounded p-3 mt-3 mx-5">
+            <div class="row grid-items-center px-2">
+                <div class="col-md-6 col-sm-12 flex-column align-items-center gap-2">
+                    <div class="flex justify-content-start column-gap-1">
                         <i class="fa-solid fa-user fa-2x"></i>
-                        <h3 class="font-medium font-xl m-0">Modelos</h3>
-                        <button class="btn btn-sm text-white bg-default" id="new" data-bs-toggle="modal" data-bs-target="#formModal">
-                            NOVO
-                            <i class="fa-solid fa-plus"></i>
-                        </button>
-                    </div>
-                    <div class="col-6">
-                        <div class="input-group">
-                            <input type="text" class="form-control border-none w-75 bg-gray-200"  id="keyword" name="keyword" placeholder="Pesquisar"> 
-                            <span class="input-group-text border-none" id="searchBtn" > <i class="fa-solid fa-search"></i> </span>
-                        </div>
-                    </div>
+                        <h3 class="font-medium font-xl m-0">Usuários</h3>
+                    </div>                    
                 </div>
-            </form>
+                <div class="col-md-6 col-sm-12 flex align-items-center justify-content-end">
+                    <form id='search' onsubmit="return false" target="_self" class="w-50">
+                        <div class="input-group w-100">
+                            <input type="text" class="form-control border-none bg-gray-200"  id="keyword" name="keyword" placeholder="Pesquisar"> 
+                            <span class="input-group-text border-none"> <i class="fa-solid fa-search"></i> </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
 
-        <div class="card rounded p-4 mx-5">
+        <div class="card shadow rounded p-4 mx-5">
+            <div class="flex justify-content-start align-items-center gap-3 mb-2">
+                <button class="btn btn-sm text-white bg-default" id="new" data-bs-toggle="modal" data-bs-target="#formModal">
+                    NOVO
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+                <div class="text-xs text-red-200">
+                        <span>Novos super usuários só podem ser cadastrado por aqui.</span>
+                </div>
+            </div>
+
             <table class="table">
                 <thead>
                     <tr>
