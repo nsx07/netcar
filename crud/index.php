@@ -37,14 +37,14 @@
         </div>
 
         <div class="flex justify-content-center gap-2 align-items-center p 4">
-            <a href="users" class="btn bg-primary bg-gray-300 text-white" role="button">
+            <button onclick="location.assign(location.origin + '/netcar/crud/users')" class="btn bg-primary bg-gray-300 text-white" role="button">
                 Users
                 <i class="fa-solid fa-user"></i>
-            </a>
-            <a href="cars" class="btn bg-primary bg-gray-300 text-white" role="button">
+            </button>
+            <button onclick="location.assign(location.origin + '/netcar/crud/cars')" class="btn bg-primary bg-gray-300 text-white" role="button">
                 Cars
                 <i class="fa-solid fa-car"></i>
-            </a>
+            </button>
         </div>
             <!-- <div class="card rounded bg-gray-400 p-2">
             </div>
