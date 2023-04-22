@@ -51,7 +51,7 @@
 
         <div class="card shadow rounded p-4 mx-5">
             <div class="flex justify-content-start align-items-center gap-3 mb-2">
-                <button class="btn btn-sm text-white bg-default" onclick="newUser()" data-bs-toggle="tooltip" title="Adicionar novo usuário">
+                <button class="btn btn-sm text-white bg-default" onclick="newEntity()" data-bs-toggle="tooltip" title="Adicionar novo usuário">
                     NOVO
                     <i class="fa-solid fa-plus"></i>
                 </button>

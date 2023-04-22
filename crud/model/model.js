@@ -1,4 +1,4 @@
-const getUsers = (id) => {
+const getBrands = (id) => {
     const promise = new Promise(async (res,rej) => {
         await 
         $.ajax({
@@ -7,6 +7,7 @@ const getUsers = (id) => {
             data: id ? id : null,
             async: true,
             success : (response) => {
+                models = JSON.parse(response);
                 res(JSON.parse(response))
             },
             error : (response) => {
@@ -18,13 +19,13 @@ const getUsers = (id) => {
     return promise
 }
 
-const setUser = (user) => {
+const setUser = (model) => {
     const promise = new Promise(async (res,rej) => {
         await 
         $.ajax({
             method: "POST",
             url: "model.php",
-            data: user,
+            data: model,
             async: true,
             success : (response) => {
                 res(JSON.parse(response))
@@ -43,7 +44,7 @@ const deleteUser = (id) => {
         await 
         $.ajax({
             method: "DELETE",
-            url: "model.php",
+            url: "model.php/" + id,
             data: id,
             async: true,
             success : (response) => {
@@ -58,65 +59,318 @@ const deleteUser = (id) => {
     return promise
 }
 
-const userBoilerPlate = (user) => {
-    if (!user) {
+const newEntity = () => {
+    resetForm();
+    setState("Cadastrar Modelo", () => {
+
+        $.ajax({
+            type: "POST",
+            url: "model.php",
+            async:true,
+            data: $("#form").serialize(),
+            success: function (response) {
+                console.log(response);
+                try {
+                    response = JSON.parse(response);
+
+                    if (response.success) {
+                          
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Cadastrado com sucesso!'
+                        })
+
+                        getBrands(encodeURI("method=GET"))
+                        .then(resp => {
+                            fillTable(null);
+                            fillTable(resp)
+
+                            $("#close").click();
+
+                        })
+                        .catch(resp => console.warn(resp))
+
+                    } else {
+
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'Erro ao cadastrar!',
+                            text: `${catchError(response).name} já cadastrado.`
+                        })
+
+                    }    
+                } catch (error) {
+                    console.error("Error catched" + error);
+                }
+            }
+        })
+
+    })
+}
+
+const edit = (id) => {
+    const model = models.find(model => model.id == id);
+    fillForm(model)
+    setState("Editar Modelo", () => {
+        console.log(model, $("#form").serialize() ,models);
+        $.ajax({
+            type: "POST",
+            url: "model.php",
+            async:true,
+            data: $("#form").serialize(),
+            success: function (response) {
+                console.log(response);
+                try {
+                    response = JSON.parse(response);
+
+                    if (response.success) {
+                          
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Atualizado com sucesso!'
+                        })
+
+                        getBrands()
+                        .then(resp => {
+                            fillTable(null);
+                            fillTable(resp)
+
+                            $("#close").click();
+
+                        })
+                        .catch(resp => console.warn(resp))
+
+                    } else {
+
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'Erro ao atualizar!',
+                        })
+
+                    }    
+                } catch (error) {
+                    console.error("Error catched" + error);
+                }
+            }
+        })  
+    })
+}
+
+const delete_ = (id) => {
+    Swal.fire({
+        title: 'Deseja excluir?',
+        showDenyButton: true,
+        confirmButtonText: 'Confirmar',
+        denyButtonText: `Cancelar`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+            deleteUser(encodeURI(`id=${id}`))
+            .then(response => {
+                
+                if (response.success) {
+                    getBrands()
+                    .then(resp => {
+                        fillTable(null);
+                        fillTable(resp)
+
+                        $("#close").click();
+
+                    })
+                    .catch(resp => console.warn(resp))
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Removido com sucesso!'
+                    })
+                } else {
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Erro ao excluri!'
+                    })
+                }
+            })
+            .catch(response => {
+                
+            })
+        }
+      })
+}
+
+const userBoilerPlate = (model) => {
+    if (!model) {
         return null;
     }
 
     return `<tr>
-                <td>${user.id}</td>
-                <td>${user.name}</td>
-                <td>${user.surname}</td>
-                <td>${user.email}</td>
-                <td>${user.phone}</td>
-                <td>${user.cpf}</td>
-                <td> <i class='fa-solid fa-edit'></i> </td>
-                <td> <i class='fa-solid fa-trash'></i> </td>
+                <td class="valign-center text-center">${model.id}</td>
+                <td class="valign-center text-center">${model.name}</td>
+                <td class="valign-center text-center">${model.code}</td>
+                <td class="valign-center text-center">${model.description}</td>
+                <td class="flex justify-content-center align-items-center column-gap-4"> 
+                    <a onclick='edit(${model.id})' data-bs-toggle="tooltip" title="Editar"> <i class="fa-regular fa-pen-to-square"></i></a> 
+                    <a onclick='delete_(${model.id})' data-bs-toggle="tooltip" title="Deletar"> <i class="fa-regular fa-trash-can"></i> </a>
+                </td>
             </tr>`;
 }
 
-const fillTable = (users) => {
+const fillTable = (models) => {
     const line = $("#result")[0];
 
-    if (!users) {
+    if (!models) {
         line.innerHTML = null;
         return;
     }
 
-    if (users.length === 0) {
+    if (models.length === 0) {
         line.innerHTML = "<td> <td colspan='6' class='text-center'>Nenhum registro encontrado</td> </tr>";
         return;
     }
 
-    for (let user of users) {
-        line.innerHTML += userBoilerPlate(user);
+    for (let model of models) {
+        line.innerHTML += userBoilerPlate(model);
+    }
+
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+}
+
+//#region 'Form'
+
+const setState = (label, _callback) => {
+    $("#formModalLabel")[0].innerHTML = label;
+    callback = _callback;
+    $("#modal").click();
+}
+
+const checkState = () => {
+    let state = true;
+    for (let item in form.fields) {
+        if (!form.fields[item].valid) {
+            state = false;
+        }
+    }
+
+    form.valid = state;
+    return state;
+}
+
+const checkForm = (button) => {
+    const formGroup = $("#form")[0]
+
+    for (let prop in form.fields) {
+        field = form.fields[prop]
+        field.value = formGroup[prop].value;
+        const errorMessage = $(".feedback" + prop)[0];
+        
+        switch (field.type) {
+            case 'regex': 
+                field.valid = field.value.match(field.validator) && field.value.match(field.validator).length >= 1
+                break;
+            case 'date': 
+                field.valid = field.validator - new Date(formGroup[prop].value).getFullYear() >= 17 && field.validator - new Date(formGroup[prop].value).getFullYear() < 100
+                break;
+            case 'minLength': 
+                field.valid = formGroup[prop].value.toString().length >= field.validator 
+                break;
+            case 'reference': 
+                field.valid = formGroup[prop].value === $(`#${field.validator}`)[0].value
+                break;
+            default:
+                field.valid = true;
+        }
+    
+        if (!field.valid ) {
+            errorMessage.innerHTML = field.message;
+        } else if (errorMessage && !form.valid){
+            errorMessage.innerHTML = "";
+        }
+    
+        button.prop("disabled", !checkState());
     }
 }
 
+const fillForm = (model) => {
+    const form_ = $("#form")[0];
+    for (let field in model) {
+        if (form_[field]) {
+            form_[field].value = model[field];
+            form.fields[field].value = model[field];
+        }
+    }
+    
+}
+
+const catchError = (response) => {
+    for (let prop in form.fields) {
+        const len = response.split(" ");
+        if (`'${prop}'` === len[len.length - 1]) {
+            return form.fields[prop];
+        }
+    }
+    return undefined;
+}
+
+const resetForm = () => {
+    for (let field in form.fields) {
+        $("#form")[0][field].value = null;
+    }
+} 
+
+const form = {
+    valid : false,
+    fields : {
+        id : {value: '', name: "id", type: null, valid: true},
+        name : {value: '', name: "Nome", type: 'regex', validator: /^[0-9a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{3,}/g, valid: false, message: "Nome inválido"}, 
+        code : {value: '', name: "Código", type: 'regex', validator: /^[a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{2,}/g, valid: false, message: "Código inválido"}, 
+        description : {value: '', name: "Descrição", type: 'regex', validator: /^[a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]{8,}/g, valid: false, message: "Descrição curta"}, 
+    }
+}
+
+//#endregion
+
+let models = []
+let callback;
+
+const Toast = Swal.mixin({
+    toast: true,
+    timer: 3000,
+    position: 'bottom-end',
+    showConfirmButton: false,
+    timerProgressBar: true,
+})
+
+
+
 $(window).on("load", ev => {
-    getUsers()
+    getBrands(encodeURI("method=GET"))
         .then(resp => fillTable(resp))
         .catch(resp => console.warn(resp))
  
 })
 
 $(document).ready(() => {
-    const load = $("#searchBtn");
-    load.click(event => {
-        var data = $("#search").serialize();
-        console.log(data);
-        getUsers(data)
-            .then(resp => {
-                console.log(resp);
-                fillTable(null);
-                fillTable(resp);
-            })
-
+    $("#keyword").on("keyup", ({target}) => {
+        getBrands(encodeURI(`keyword=${target.value}&method=GET`))
+        .then(resp => {
+            fillTable(null);
+            fillTable(resp);
+        })
     })
+    
 
-    $("#new").click( async () => {
+    const button = $("#save");
+    
+    $("#form").on("keyup", ev => checkForm(button))
+    $("#form").on("click", ev => checkForm(button))
 
-        
+    button.click(event => {
+        $("#default")[0].classList.add("d-none")
+        $("#loading")[0].classList.remove("d-none");
+        button.prop("disabled", true);
 
+        callback();
+                        
+        $("#default")[0].classList.remove("d-none")
+        $("#loading")[0].classList.add("d-none");
     })
 })
+

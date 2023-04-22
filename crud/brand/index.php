@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User | netcar</title>
+    <title>Marcas | netcar</title>
     <link rel="icon" type="image" href="../../assets/logo-minify-purple.png">
     <link rel="stylesheet" href="brand.css">
     <?php require_once '../../utils/modules.php' ?>
@@ -31,16 +31,16 @@
 
     <div id="conteudo" class="flex flex-column justify-content-center gap-3 vw-100">
         <div class="card shadow rounded p-3 mt-3 mx-5">
-            <div class="row grid-items-center px-2">
-                <div class="col-md-6 col-sm-12 flex-column align-items-center gap-2">
-                    <div class="flex justify-content-start column-gap-1">
-                        <i class="fa-solid fa-user fa-2x"></i>
-                        <h3 class="font-medium font-xl m-0">Usuários</h3>
+            <div class="row grid-items-center px-2 row-gap-2">
+                <div class="col-md-6 col-sm-12 flex-column align-items-center">
+                    <div class="flex justify-content-start column-gap-1 my-2">
+                        <i class="fa-solid fa-briefcase fa-2x"></i>
+                        <h3 class="font-medium font-xl ml-2">Marcas</h3>
                     </div>                    
                 </div>
                 <div class="col-md-6 col-sm-12 flex align-items-center justify-content-end">
-                    <form id='search' onsubmit="return false" target="_self" class="w-50">
-                        <div class="input-group w-100">
+                    <form id='search' onsubmit="return false" target="_self" class="my-2 w-100">
+                        <div class="input-group" data-bs-toggle="tooltip" title="Pesquisar">
                             <input type="text" class="form-control border-none bg-gray-200"  id="keyword" name="keyword" placeholder="Pesquisar"> 
                             <span class="input-group-text border-none"> <i class="fa-solid fa-search"></i> </span>
                         </div>
@@ -51,106 +51,71 @@
 
         <div class="card shadow rounded p-4 mx-5">
             <div class="flex justify-content-start align-items-center gap-3 mb-2">
-                <button class="btn btn-sm text-white bg-default" id="new" data-bs-toggle="modal" data-bs-target="#formModal">
+                <button class="btn btn-sm text-white bg-default" onclick="newEntity()" data-bs-toggle="tooltip" title="Adicionar novo usuário">
                     NOVO
                     <i class="fa-solid fa-plus"></i>
                 </button>
-                <div class="text-xs text-red-200">
-                        <span>Novos super usuários só podem ser cadastrado por aqui.</span>
-                </div>
+
             </div>
 
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Sobrenome</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Telefone</th>
-                        <th scope="col">CPF</th>
-                        <th colspan=2 scope="col">Ações</th>
-                    </tr>
-                </thead>
-                <tbody id='result'>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped rounded">
+                    <thead class="bg-dark text-white">
+                        <tr>
+                            <th class="valign-center text-center font-normal" scope="col">#</th>
+                            <th class="valign-center text-center font-normal" scope="col">Nome</th>
+                            <th class="valign-center text-center font-normal" scope="col">Código</th>
+                            <th class="valign-center text-center font-normal" scope="col">Descrição</th>
+                            <th class="valign-center text-center font-normal" scope="col">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id='result'>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
+
+    <button class="d-none" id="modal" data-bs-toggle="modal" data-bs-target="#formModal"></button>
     
     <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
         <div class="modal-header">
-            <h1 class="modal-title fs-5" id="formModalLabel">Cadastrar usuário</h1>
+            <h1 class="modal-title fs-5" id="formModalLabel"></h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+            <form id="form" onsubmit="return false"  target="_self">
+            <input type="text" id="id" name="id" class="d-none">
             <div class="row">
                 <div class="col-md-6 col-sm-12 mt-2">
                     <label for="name">Nome <span style="color: red"> *</span></label>
-                    <input type="text" class="form-control" id="name" pattern="[a-zA-Z]{3,}" name="name" placeholder="Digite aqui seu nome completo" required>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Nome completo marca" required>
                     <small class="feedbackname fs-6 text text-danger"></small>
                 </div>
                 <div class="col-md-6 col-sm-12 mt-2">
-                    <label for="surname">Sobrenome <span style="color: red"> *</span></label>
-                    <input type="text" class="form-control" id="surname" pattern="[a-zA-Z]{3,}" name="surname" placeholder="Digite aqui seu nome completo" required>
-                    <small class="feedbacksurname fs-6 text text-danger"></small>
+                    <label for="code">Código <span style="color: red"> *</span></label>
+                    <input type="text" class="form-control" id="code" name="code" placeholder="Código da marca" required>
+                    <small class="feedbackcode fs-6 text text-danger"></small>
                 </div>
-                <div class="col-md-6 col-sm-12 mt-2">
-                    <label for="birthDate">Data de nascimento <span style="color: red"> *</span></label>
-                    <input type="date" class="form-control" id="birthDate" name="birthDate" placeholder="Informe sua data de nascimento" required>
-                    <small class="feedbackbirthDate fs-6 text text-danger"></small>
+                <div class="col-12 mt-2">
+                    <label for="description">Descrição <span style="color: red"> *</span></label>
+                    <textarea type="text" class="form-control" id="description" name="description" placeholder="Descrição da marca" required></textarea>
+                    <small class="feedbackdescription fs-6 text text-danger"></small>
                 </div>
-                <div class="col-md-6 col-sm-12 mt-2">                
-                    <label for="email">Endereço de email <span style="color: red"> *</span></label>
-                    <input type="email" class="form-control" id="email" name="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" placeholder="Seu melhor email" required>                    
-                    <small class="feedbackemail fs-6 text text-danger"></small>
-                </div>
-                <div class="col-md-6 col-sm-12 mt-2">
-                    <label for="cpf">CPF <span style="color: red"> *</span></label>
-                    <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14" placeholder="Ex: 000.000.000-00" onkeyup="this.value = mascaraCPF(this.value)" required>
-                    <small class="feedbackcpf fs-6 text text-danger"></small>
-                </div>
-                <div class="col-md-6 col-sm-12 mt-2">
-                    <label for="phone">Telefone <span style="color: red"> *</span></label>
-                    <input type="text" class="form-control" id="phone" name="phone" maxlength="15" placeholder="Ex: (DD) 9 9999-9999" onkeyup="this.value = mascaraTelefone(this.value)" required>
-                    <small class="feedbackphone fs-6 text text-danger"></small>
-                </div>  
-
-                <div class="col mt-2">
-                    <label for="id_access">Tipo de usuário</label>
-                    <select class="form-select" id="id_access">
-                      <option selected disabled>Selecione o tipo </option>
-                      <option value="1">Admin</option>
-                      <option value="2">Cliente</option>
-
-                    </select>
-                </div>
-                                
-                <div class="col-md-6 col-sm-12 mt-2">
-                    <label for="password">Senha <span style="color: red"> *</span></label>
-                    <input type="password" class="form-control" id="password" minlength="6" name="password" placeholder="Senha" required>
-                    <small class="feedbackpassword fs-6 text text-danger"></small>
-                </div>              
-                <div class="col-md-6 col-sm-12 mt-2">
-                    <label for="confirmPass">Confirmar senha <span style="color: red"> *</span></label>
-                    <input type="password" class="form-control" id="confirmPass" minlength="6" name="confirmPass" placeholder="Confirmar senha" required>
-                    <small class="feedbackconfirmPass fs-6 text text-danger"></small>
-                </div>
-                
-
             </div>
+            </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button class="btn bg-default text-white" id="signup-button" type="button" disabled>
+        <button type="button" class="btn btn-secondary" id="close" data-bs-dismiss="modal">Close</button>
+        <button class="btn bg-default text-white" id="save" type="button" disabled>
             <span id="default">
-            Cadastrar
+            Salvar
             </span> 
             <span id="loading" class="d-none">
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            Cadastrando...
+            Salvando...
             </span>
             
         </button>

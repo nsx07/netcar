@@ -3,11 +3,11 @@ const getBrands = (id) => {
         await 
         $.ajax({
             method: "GET",
-            url: "brand.php",
+            url: "item.php",
             data: id ? id : null,
             async: true,
             success : (response) => {
-                brands = JSON.parse(response);
+                items = JSON.parse(response);
                 res(JSON.parse(response))
             },
             error : (response) => {
@@ -19,13 +19,13 @@ const getBrands = (id) => {
     return promise
 }
 
-const setUser = (brand) => {
+const setUser = (item) => {
     const promise = new Promise(async (res,rej) => {
         await 
         $.ajax({
             method: "POST",
-            url: "brand.php",
-            data: brand,
+            url: "item.php",
+            data: item,
             async: true,
             success : (response) => {
                 res(JSON.parse(response))
@@ -44,7 +44,7 @@ const deleteUser = (id) => {
         await 
         $.ajax({
             method: "DELETE",
-            url: "brand.php/" + id,
+            url: "item.php/" + id,
             data: id,
             async: true,
             success : (response) => {
@@ -61,11 +61,11 @@ const deleteUser = (id) => {
 
 const newEntity = () => {
     resetForm();
-    setState("Cadastrar marca", () => {
+    setState("Cadastrar Item", () => {
 
         $.ajax({
             type: "POST",
-            url: "brand.php",
+            url: "item.php",
             async:true,
             data: $("#form").serialize(),
             success: function (response) {
@@ -109,13 +109,13 @@ const newEntity = () => {
 }
 
 const edit = (id) => {
-    const brand = brands.find(brand => brand.id == id);
-    fillForm(brand)
-    setState("Editar marca", () => {
-        console.log(brand, $("#form").serialize() ,brands);
+    const item = items.find(item => item.id == id);
+    fillForm(item)
+    setState("Editar Item", () => {
+        console.log(item, $("#form").serialize() ,items);
         $.ajax({
             type: "POST",
-            url: "brand.php",
+            url: "item.php",
             async:true,
             data: $("#form").serialize(),
             success: function (response) {
@@ -195,38 +195,38 @@ const delete_ = (id) => {
       })
 }
 
-const userBoilerPlate = (brand) => {
-    if (!brand) {
+const userBoilerPlate = (item) => {
+    if (!item) {
         return null;
     }
 
     return `<tr>
-                <td class="valign-center text-center">${brand.id}</td>
-                <td class="valign-center text-center">${brand.name}</td>
-                <td class="valign-center text-center">${brand.code}</td>
-                <td class="valign-center text-center">${brand.description}</td>
+                <td class="valign-center text-center">${item.id}</td>
+                <td class="valign-center text-center">${item.name}</td>
+                <td class="valign-center text-center">${item.code}</td>
+                <td class="valign-center text-center">${item.description}</td>
                 <td class="flex justify-content-center align-items-center column-gap-4"> 
-                    <a onclick='edit(${brand.id})' data-bs-toggle="tooltip" title="Editar"> <i class="fa-regular fa-pen-to-square"></i></a> 
-                    <a onclick='delete_(${brand.id})' data-bs-toggle="tooltip" title="Deletar"> <i class="fa-regular fa-trash-can"></i> </a>
+                    <a onclick='edit(${item.id})' data-bs-toggle="tooltip" title="Editar"> <i class="fa-regular fa-pen-to-square"></i></a> 
+                    <a onclick='delete_(${item.id})' data-bs-toggle="tooltip" title="Deletar"> <i class="fa-regular fa-trash-can"></i> </a>
                 </td>
             </tr>`;
 }
 
-const fillTable = (brands) => {
+const fillTable = (items) => {
     const line = $("#result")[0];
 
-    if (!brands) {
+    if (!items) {
         line.innerHTML = null;
         return;
     }
 
-    if (brands.length === 0) {
+    if (items.length === 0) {
         line.innerHTML = "<td> <td colspan='6' class='text-center'>Nenhum registro encontrado</td> </tr>";
         return;
     }
 
-    for (let brand of brands) {
-        line.innerHTML += userBoilerPlate(brand);
+    for (let item of items) {
+        line.innerHTML += userBoilerPlate(item);
     }
 
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
@@ -288,12 +288,12 @@ const checkForm = (button) => {
     }
 }
 
-const fillForm = (brand) => {
+const fillForm = (item) => {
     const form_ = $("#form")[0];
-    for (let field in brand) {
+    for (let field in item) {
         if (form_[field]) {
-            form_[field].value = brand[field];
-            form.fields[field].value = brand[field];
+            form_[field].value = item[field];
+            form.fields[field].value = item[field];
         }
     }
     
@@ -319,7 +319,7 @@ const form = {
     valid : false,
     fields : {
         id : {value: '', name: "id", type: null, valid: true},
-        name : {value: '', name: "Nome", type: 'regex', validator: /^[a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{3,}/g, valid: false, message: "Nome inválido"}, 
+        name : {value: '', name: "Nome", type: 'regex', validator: /^[0-9a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{3,}/g, valid: false, message: "Nome inválido"}, 
         code : {value: '', name: "Código", type: 'regex', validator: /^[a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{2,}/g, valid: false, message: "Código inválido"}, 
         description : {value: '', name: "Descrição", type: 'regex', validator: /^[a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]{8,}/g, valid: false, message: "Descrição curta"}, 
     }
@@ -327,7 +327,7 @@ const form = {
 
 //#endregion
 
-let brands = []
+let items = []
 let callback;
 
 const Toast = Swal.mixin({

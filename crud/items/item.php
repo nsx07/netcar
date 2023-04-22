@@ -26,7 +26,7 @@
                 if (isset($_POST["id"]) && strlen($_POST["id"]) >= 1) {
                     $id = $_POST["id"];
                     $insert = setFields($_POST);
-                    $sql = "UPDATE BRAND SET $insert WHERE ID = $id ";                     
+                    $sql = "UPDATE ITEM SET $insert WHERE ID = $id ";                     
 
                 } else {
 
@@ -35,7 +35,7 @@
                     $description = $_POST["description"];
 
     
-                    $sql = "INSERT INTO BRAND 
+                    $sql = "INSERT INTO ITEM 
                     (name, code, description) VALUES 
                     ('$name', '$code', '$description')"; 
                 }
@@ -53,9 +53,9 @@
             $url = preg_match('!\d+!', $url, $id);
             $id = $id[0];
 
-            $sql = "DELETE FROM BRAND WHERE ID = '$id'";
+            $sql = "DELETE FROM ITEM WHERE ID = '$id'";
 
-            $result = mysqli_query($connect, $sql) or die ("Erro ao deletar marca");
+            $result = mysqli_query($connect, $sql) or die ("Erro ao deletar item");
 
             $response["success"] = $result;
 
@@ -65,13 +65,13 @@
             # code...
             if (isset($_GET["keyword"]) && $_GET["keyword"] != NULL) {
                 $key = $_GET["keyword"];
-                $sql = "SELECT * FROM BRAND 
+                $sql = "SELECT * FROM ITEM 
                         WHERE ID = '$key' or NAME LIKE '%$key%' OR CODE LIKE '%$key%' OR DESCRIPTION LIKE '%$key%'";
             } else {
-                $sql = "SELECT * FROM BRAND";
+                $sql = "SELECT * FROM ITEM";
             }
             
-            $result = mysqli_query($connect, $sql) or die("Erro ao buscar dados de marca");
+            $result = mysqli_query($connect, $sql) or die("Erro ao buscar dados de item");
         
             $users = [];
         

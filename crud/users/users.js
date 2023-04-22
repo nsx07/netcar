@@ -59,7 +59,7 @@ const deleteUser = (id) => {
     return promise
 }
 
-const newUser = () => {
+const newEntity = () => {
     resetForm();
     setState("Cadastrar usuário", () => {
 
