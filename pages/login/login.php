@@ -19,6 +19,7 @@
             $response["name"] = $row["name"];
             $response["surname"] = $row["surname"];
 
+            $response["id"] = $row["id"];
             $_SESSION["id"] = $row["id"];
             $_SESSION["id_access"] = $row["id_access"];
 

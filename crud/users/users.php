@@ -1,14 +1,25 @@
 <?php 
     require '../../database/connection_db.php';
+    session_start();
 
     function setFields($post) {
         $update = "";
         foreach ($post as $field => $value) {
             # code...
 
-            $update = $update . "SET $field = $value";
+            if ($field == "confirmPass" || $field == "id") continue;
+
+            if ($field == "cpf") $value = str_replace([".", "-"], "", $value);
+
+            if ($field == "phone") $value = str_replace(["(", ")", "-", " "], "", $value);
+            
+
+            $update = $update . " `$field` = '$value'," ;
 
         }
+        
+        $update = substr($update, 0, -1);
+           
         return $update;
     }
 
@@ -16,26 +27,28 @@
 
     switch ($method) {
         case 'POST':
-            try {
-                $name = $_POST["name"];
-                $birthDate = $_POST["birthDate"];
-                $cpf = $_POST["cpf"];
-                $email = $_POST["email"];
-                $phone = $_POST["phone"];
-                $password = $_POST["password"];
-                $surname = $_POST["surname"];
-                $id_access = $_POST["id_access"];
-                
-    
-                $password = base64_encode($password);
-                $cpf = str_replace([".", "-"], "", $cpf);
-                $phone = str_replace(["(", ")", "-"], "", $phone);
+            try {    
+
         
                 if (isset($_POST["id"]) && strlen($_POST["id"]) > 1) {
                     $id = $_POST["id"];
-                    $sql = "UPDATE user WHERE ID = $id " + setFields($_POST); 
+                    $insert = setFields($_POST);
+                    $sql = "UPDATE USER SET $insert WHERE ID = $id ";                     
 
                 } else {
+
+                    $name = $_POST["name"];
+                    $birthDate = $_POST["birthDate"];
+                    $cpf = $_POST["cpf"];
+                    $email = $_POST["email"];
+                    $phone = $_POST["phone"];
+                    $password = $_POST["password"];
+                    $surname = $_POST["surname"];
+                    $id_access = $_POST["id_access"] ?? 2;
+                    $password = base64_encode($password);
+                    $cpf = str_replace([".", "-"], "", $cpf);
+                    $phone = str_replace(["(", ")", "-", " "], "", $phone);
+                    $response["method"] = "new";
     
                     $sql = "INSERT INTO user 
                     (id_access, name, surname, birthDate, email, cpf, phone, password) VALUES 
@@ -61,7 +74,7 @@
 
             $response["success"] = $result;
 
-            echo json_encode($result);
+            echo json_encode($response);
             break;
         case 'GET':
             # code...

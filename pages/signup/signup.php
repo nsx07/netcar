@@ -14,7 +14,7 @@
     try {
         $password = base64_encode($password);
         $cpf = str_replace([".", "-"], "", $cpf);
-        $phone = str_replace(["(", ")", "-"], "", $phone);
+        $phone = str_replace(["(", ")", "-", " "], "", $phone);
 
         $sql = "INSERT INTO user 
         (id_access, name, surname, birthDate, email, cpf, phone, password) VALUES 

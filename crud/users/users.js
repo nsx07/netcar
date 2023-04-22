@@ -129,7 +129,7 @@ const edit = (id) => {
                             title: 'Atualizado com sucesso!'
                         })
 
-                        getUsers(encodeURI("method=GET"))
+                        getUsers()
                         .then(resp => {
                             fillTable(null);
                             fillTable(resp)
@@ -144,7 +144,6 @@ const edit = (id) => {
                         Toast.fire({
                             icon: 'error',
                             title: 'Erro ao atualizar!',
-                            // text: `${catchError(response).name} já cadastrado.`
                         })
 
                     }    
@@ -163,14 +162,59 @@ const setState = (label, _callback) => {
 }
 
 const delete_ = (id) => {
-    deleteUser(encodeURI(`id=${id}`))
-        .then(resp => console.log(resp))
-        .catch(resp => console.log(resp))
+    Swal.fire({
+        title: 'Deseja excluir?',
+        showDenyButton: true,
+        confirmButtonText: 'Confirmar',
+        denyButtonText: `Cancelar`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+            deleteUser(encodeURI(`id=${id}`))
+            .then(response => {
+                
+                if (response.success) {
+                    getUsers()
+                    .then(resp => {
+                        fillTable(null);
+                        fillTable(resp)
+
+                        $("#close").click();
+
+                    })
+                    .catch(resp => console.warn(resp))
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Removido com sucesso!'
+                    })
+                } else {
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Erro ao excluri!'
+                    })
+                }
+            })
+            .catch(response => {
+                
+            })
+        }
+      })
 }
 
 const userBoilerPlate = (user) => {
     if (!user) {
         return null;
+    }
+
+    let options = `<td class="valign-center text-center" data-bs-toggle="tooltip" title="Altere as suas informações no perfil"> 
+                        <i class="fa-solid fa-circle-info" style="color: var(--main-color);"></i>
+                  </td>`;
+
+    if (user.id !== JSON.parse(sessionStorage.getItem("user")).id) {
+        options = 
+            `<td class="flex justify-content-center align-items-center column-gap-4"> 
+                <a onclick='edit(${user.id})' data-bs-toggle="tooltip" title="Editar"> <i class="fa-regular fa-pen-to-square"></i></a> 
+                <a onclick='delete_(${user.id})' data-bs-toggle="tooltip" title="Deletar"> <i class="fa-regular fa-trash-can"></i> </a>
+            </td>`;
     }
 
     return `<tr>
@@ -180,24 +224,8 @@ const userBoilerPlate = (user) => {
                 <td class="valign-center text-center">${user.email}</td>
                 <td class="valign-center text-center">${user.phone}</td>
                 <td class="valign-center text-center">${user.cpf}</td>
-                <td class="flex justify-content-center align-items-center column-gap-4"> 
-                    <a onclick='edit(${user.id})'> <i class='fa-solid fa-edit'></i>  </a>
-                    <a onclick='delete_(${user.id})'> <i class='fa-solid fa-trash'></i>  </a>
-                </td>
+                ${options}
             </tr>`;
-}
-
-const fillForm = (user) => {
-    const form_ = $("#signup")[0];
-    for (let field in user) {
-        if (form_[field]) {
-            form_[field].value = user[field];
-            form.fields[field].value = user[field];
-        }
-    }
-    
-    form_["confirmPass"].value = user.password;
-    form.fields["confirmPass"].value = user.password;
 }
 
 const fillTable = (users) => {
@@ -216,6 +244,9 @@ const fillTable = (users) => {
     for (let user of users) {
         line.innerHTML += userBoilerPlate(user);
     }
+
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 }
 
 //#region 'Form'
@@ -256,6 +287,54 @@ const checkState = () => {
 
     form.valid = state;
     return state;
+}
+
+const checkForm = (button) => {
+    const formGroup = $("#signup")[0]
+
+    for (let prop in form.fields) {
+        field = form.fields[prop]
+        field.value = removeGarbbage(formGroup[prop].value);
+        const errorMessage = $(".feedback" + prop)[0];
+        
+        switch (field.type) {
+            case 'regex': 
+                field.valid = field.value.match(field.validator) && field.value.match(field.validator).length >= 1
+                break;
+            case 'date': 
+                field.valid = field.validator - new Date(formGroup[prop].value).getFullYear() >= 17 && field.validator - new Date(formGroup[prop].value).getFullYear() < 100
+                break;
+            case 'minLength': 
+                field.valid = formGroup[prop].value.toString().length >= field.validator 
+                break;
+            case 'reference': 
+                field.valid = formGroup[prop].value === $(`#${field.validator}`)[0].value
+                break;
+            default:
+                field.valid = true;
+        }
+    
+        if (!field.valid ) {
+            errorMessage.innerHTML = field.message;
+        } else if (errorMessage && !form.valid){
+            errorMessage.innerHTML = "";
+        }
+    
+        button.prop("disabled", !checkState());
+    }
+}
+
+const fillForm = (user) => {
+    const form_ = $("#signup")[0];
+    for (let field in user) {
+        if (form_[field]) {
+            form_[field].value = user[field];
+            form.fields[field].value = user[field];
+        }
+    }
+    
+    form_["confirmPass"].value = user.password;
+    form.fields["confirmPass"].value = user.password;
 }
 
 const removeGarbbage = (content) => {
@@ -312,6 +391,8 @@ const Toast = Swal.mixin({
     timerProgressBar: true,
 })
 
+
+
 $(window).on("load", ev => {
     getUsers(encodeURI("method=GET"))
         .then(resp => fillTable(resp))
@@ -328,42 +409,12 @@ $(document).ready(() => {
         })
     })
     
+
     const button = $("#save");
-
-    for (let prop in form.fields) {
-        $(`#${prop}`).on("change", (event) => {
-            console.log(prop, form);
-            field = form.fields[prop]
-            field.value = removeGarbbage(event.target.value);
-            const errorMessage = $(".feedback" + prop)[0];
-            
-            switch (field.type) {
-                case 'regex': 
-                    field.valid = field.value.match(field.validator) && field.value.match(field.validator).length >= 1
-                    break;
-                case 'date': 
-                    field.valid = field.validator - new Date(event.target.value).getFullYear() >= 17 && field.validator - new Date(event.target.value).getFullYear() < 100
-                    break;
-                case 'minLength': 
-                    field.valid = event.target.value.toString().length >= field.validator 
-                    break;
-                case 'reference': 
-                    field.valid = event.target.value === $(`#${field.validator}`)[0].value
-                    break;
-                default:
-                    field.valid = true;
-            }
-
-            if (!field.valid) {
-                errorMessage.innerHTML = field.message;
-            } else {
-                errorMessage.innerHTML = "";
-            }
-
-            button.prop("disabled", !checkState());
-        })
-    }
     
+    $("#signup").on("keyup", ev => checkForm(button))
+    $("#signup").on("click", ev => checkForm(button))
+
     button.click(event => {
         $("#default")[0].classList.add("d-none")
         $("#loading")[0].classList.remove("d-none");
