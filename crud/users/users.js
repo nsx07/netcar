@@ -59,27 +59,107 @@ const deleteUser = (id) => {
     return promise
 }
 
-const edit = (id) => {
-    const user = users.find(user => user.id);
-    fillForm(user)
-    console.log($("#signup"));
-    
-    $("#new").click();
+const newUser = () => {
+    resetForm();
+    setState("Cadastrar usuário", () => {
+
+        $.ajax({
+            type: "POST",
+            url: "users.php",
+            async:true,
+            data: $("#signup").serialize(),
+            success: function (response) {
+                console.log(response);
+                try {
+                    response = JSON.parse(response);
+
+                    if (response.success) {
+                          
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Cadastrado com sucesso!'
+                        })
+
+                        getUsers(encodeURI("method=GET"))
+                        .then(resp => {
+                            fillTable(null);
+                            fillTable(resp)
+
+                            $("#close").click();
+
+                        })
+                        .catch(resp => console.warn(resp))
+
+                    } else {
+
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'Erro ao cadastrar!',
+                            text: `${catchError(response).name} já cadastrado.`
+                        })
+
+                    }    
+                } catch (error) {
+                    console.error("Error catched" + error);
+                }
+            }
+        })
+
+    })
 }
 
-const fillForm = (user) => {
-    const form = $("#signup")[0];
-    $(".label-modal")[0].innerHTML = "Editar usuário";
+const edit = (id) => {
+    const user = users.find(user => user.id == id);
+    fillForm(user)
+    setState("Editar usuário", () => {
+        $.ajax({
+            type: "POST",
+            url: "users.php",
+            async:true,
+            data: $("#signup").serialize(),
+            success: function (response) {
+                console.log(response);
+                try {
+                    response = JSON.parse(response);
 
-    for (let field in user) {
-        if (form[field]) {
-            
-            form[field].value = user[field];
-        }
-    }
-    
-    form["confirmPass"].value = user.password;
+                    if (response.success) {
+                          
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Atualizado com sucesso!'
+                        })
 
+                        getUsers(encodeURI("method=GET"))
+                        .then(resp => {
+                            fillTable(null);
+                            fillTable(resp)
+
+                            $("#close").click();
+
+                        })
+                        .catch(resp => console.warn(resp))
+
+                    } else {
+
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'Erro ao atualizar!',
+                            // text: `${catchError(response).name} já cadastrado.`
+                        })
+
+                    }    
+                } catch (error) {
+                    console.error("Error catched" + error);
+                }
+            }
+        })  
+    })
+}
+
+const setState = (label, _callback) => {
+    $("#formModalLabel")[0].innerHTML = label;
+    callback = _callback;
+    $("#modal").click();
 }
 
 const delete_ = (id) => {
@@ -102,9 +182,22 @@ const userBoilerPlate = (user) => {
                 <td class="valign-center text-center">${user.cpf}</td>
                 <td class="flex justify-content-center align-items-center column-gap-4"> 
                     <a onclick='edit(${user.id})'> <i class='fa-solid fa-edit'></i>  </a>
-                    <a onclick='deleteUser(${user.id})'> <i class='fa-solid fa-trash'></i>  </a>
+                    <a onclick='delete_(${user.id})'> <i class='fa-solid fa-trash'></i>  </a>
                 </td>
             </tr>`;
+}
+
+const fillForm = (user) => {
+    const form_ = $("#signup")[0];
+    for (let field in user) {
+        if (form_[field]) {
+            form_[field].value = user[field];
+            form.fields[field].value = user[field];
+        }
+    }
+    
+    form_["confirmPass"].value = user.password;
+    form.fields["confirmPass"].value = user.password;
 }
 
 const fillTable = (users) => {
@@ -124,6 +217,8 @@ const fillTable = (users) => {
         line.innerHTML += userBoilerPlate(user);
     }
 }
+
+//#region 'Form'
 
 const handleZipCode = (event) => {
     let input = event.target
@@ -151,14 +246,9 @@ const mascaraTelefone = (telefone) => {
     return telefone;
 }
 
-const getCepInfo = (cep) => {
-    return `https://cdn.apicep.com/file/apicep/${cep}.json`;
-}
-
 const checkState = () => {
     let state = true;
     for (let item in form.fields) {
-
         if (!form.fields[item].valid) {
             state = false;
         }
@@ -169,23 +259,12 @@ const checkState = () => {
 }
 
 const removeGarbbage = (content) => {
-
     content = content.replaceAll("(","")
     content = content.replaceAll(")","")
     content = content.includes("@") ? content : content.replaceAll(".","")
     content = content.replaceAll("-","")
-    content = content.replaceAll(" ","")
-    
+    content = content.replaceAll(" ","")   
     return content
-}
-
-const parseUser = (response) => {
-    const userObj = {};
-    for (let prop in response) {
-        userObj[prop] = response[prop]
-    }
-    sessionStorage.setItem("user", JSON.stringify(userObj));
-    return userObj;
 }
 
 const catchError = (response) => {
@@ -198,9 +277,17 @@ const catchError = (response) => {
     return undefined;
 }
 
+const resetForm = () => {
+    for (let field in form.fields) {
+        $("#signup")[0][field].value = null;
+    }
+} 
+
 const form = {
     valid : false,
     fields : {
+        id : {value: '', name: "id", type: null, valid: true},
+        id_access: {value: '',type: null, name: "Acesso", valid: true},
         name : {value: '', name: "Nome", type: 'regex', validator: /^[a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{3,}/g, valid: false, message: "Nome inválido"},
         surname : {value: '', name: "Sobrenome", type: 'regex', validator: /^[a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{3,}/g, valid: false, message: "Sobrenome inválido"},
         birthDate: {value: '', name: "Data nascimento", type: 'date', validator: new Date().getFullYear(), valid: false, message: "Informe uma data válida"},
@@ -212,7 +299,18 @@ const form = {
     }
 }
 
+//#endregion
+
 let users = []
+let callback;
+
+const Toast = Swal.mixin({
+    toast: true,
+    timer: 3000,
+    position: 'bottom-end',
+    showConfirmButton: false,
+    timerProgressBar: true,
+})
 
 $(window).on("load", ev => {
     getUsers(encodeURI("method=GET"))
@@ -222,22 +320,19 @@ $(window).on("load", ev => {
 })
 
 $(document).ready(() => {
-    const filter = $("#keyword");
-    filter.on("keyup", ({target}) => {
-        console.log(target.value);
+    $("#keyword").on("keyup", ({target}) => {
         getUsers(encodeURI(`keyword=${target.value}&method=GET`))
         .then(resp => {
-            console.log(resp);
             fillTable(null);
             fillTable(resp);
         })
     })
-
-    const button = $("#addNew");
+    
+    const button = $("#save");
 
     for (let prop in form.fields) {
-        
         $(`#${prop}`).on("change", (event) => {
+            console.log(prop, form);
             field = form.fields[prop]
             field.value = removeGarbbage(event.target.value);
             const errorMessage = $(".feedback" + prop)[0];
@@ -255,6 +350,8 @@ $(document).ready(() => {
                 case 'reference': 
                     field.valid = event.target.value === $(`#${field.validator}`)[0].value
                     break;
+                default:
+                    field.valid = true;
             }
 
             if (!field.valid) {
@@ -268,67 +365,14 @@ $(document).ready(() => {
     }
     
     button.click(event => {
-        const data = $("#signup").serialize();
-        const Toast = Swal.mixin({
-            toast: true,
-            timer: 3000,
-            position: 'bottom-end',
-            showConfirmButton: false,
-            timerProgressBar: true,
-          })
-
         $("#default")[0].classList.add("d-none")
         $("#loading")[0].classList.remove("d-none");
         button.prop("disabled", true);
 
-
-        $.ajax({
-            type: "POST",
-            url: "users.php",
-            async:true,
-            data: data,
-            success: function (response) {
-                console.log(response);
-                try {
-                    response = JSON.parse(response);
-
-                    if (response.success) {
-                        const user = parseUser(response);
-                          
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Cadastrado com sucesso!'
-                        })
-
-                        getUsers(encodeURI("method=GET"))
-                        .then(resp => {
-                            fillTable(null);
-                            fillTable(resp)
-
-                            $("#close").click();
-
-                        })
-                        .catch(resp => console.warn(resp))
-
-                        // setTimeout(() => location.assign(location.origin + "/netcar/pages/mainpage") ,777)
-                    } else {
-
-                        Toast.fire({
-                            icon: 'error',
-                            title: 'Erro ao cadastrar!',
-                            text: `${catchError(response).name} já cadastrado.`
-                        })
-
-                    }    
-                } catch (error) {
-                    console.error("Error catched" + error);
-                }
-                
-                $("#default")[0].classList.remove("d-none")
-                $("#loading")[0].classList.add("d-none");
-
-            }
-        })
+        callback();
+                        
+        $("#default")[0].classList.remove("d-none")
+        $("#loading")[0].classList.add("d-none");
     })
 })
 

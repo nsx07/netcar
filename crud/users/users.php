@@ -1,6 +1,17 @@
 <?php 
     require '../../database/connection_db.php';
 
+    function setFields($post) {
+        $update = "";
+        foreach ($post as $field => $value) {
+            # code...
+
+            $update = $update . "SET $field = $value";
+
+        }
+        return $update;
+    }
+
     $method = $_SERVER["REQUEST_METHOD"];
 
     switch ($method) {
@@ -20,9 +31,10 @@
                 $cpf = str_replace([".", "-"], "", $cpf);
                 $phone = str_replace(["(", ")", "-"], "", $phone);
         
-                if (isset($_POST["id"])) {
+                if (isset($_POST["id"]) && strlen($_POST["id"]) > 1) {
                     $id = $_POST["id"];
-                    $sql = "UPDATE user WHERE ID = '$id'"; 
+                    $sql = "UPDATE user WHERE ID = $id " + setFields($_POST); 
+
                 } else {
     
                     $sql = "INSERT INTO user 

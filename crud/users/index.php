@@ -51,7 +51,7 @@
 
         <div class="card shadow rounded p-4 mx-5">
             <div class="flex justify-content-start align-items-center gap-3 mb-2">
-                <button class="btn btn-sm text-white bg-default" id="new" data-bs-toggle="modal" data-bs-target="#formModal">
+                <button class="btn btn-sm text-white bg-default" onclick="newUser()">
                     NOVO
                     <i class="fa-solid fa-plus"></i>
                 </button>
@@ -79,16 +79,19 @@
             </div>
         </div>
     </div>
+
+    <button class="d-none" id="modal" data-bs-toggle="modal" data-bs-target="#formModal"></button>
     
     <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
         <div class="modal-header">
-            <h1 class="modal-title fs-5 label-modal" id="formModalLabel">Cadastrar usuário</h1>
+            <h1 class="modal-title fs-5" id="formModalLabel"></h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <form id="signup" onsubmit="return false" target="_self">
+            <input type="text" id="id" name="id" class="d-none">
             <div class="row">
                 <div class="col-md-6 col-sm-12 mt-2">
                     <label for="name">Nome <span style="color: red"> *</span></label>
@@ -129,6 +132,7 @@
                       <option value="2">Cliente</option>
 
                     </select>
+                    <small class="feedbackid_access fs-6 text text-danger"></small>
                 </div>
                                 
                 <div class="col-md-6 col-sm-12 mt-2">
@@ -148,7 +152,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" id="close" data-bs-dismiss="modal">Close</button>
-        <button class="btn bg-default text-white" id="addNew" type="button" disabled>
+        <button class="btn bg-default text-white" id="save" type="button" disabled>
             <span id="default">
             Salvar
             </span> 
