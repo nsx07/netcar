@@ -80,8 +80,11 @@
             # code...
             if (isset($_GET["keyword"]) && $_GET["keyword"] != NULL) {
                 $key = $_GET["keyword"];
+
                 $sql = "SELECT * FROM USER 
-                        WHERE ID = '$key' or NAME LIKE '%$key%' OR SURNAME LIKE '%$key%' OR EMAIL LIKE '%$key%' OR CPF LIKE '%$key%' OR PHONE LIKE '%$key%'  ";
+                        WHERE ID = '$key' or NAME LIKE '%$key%' OR SURNAME LIKE '%$key%' OR EMAIL LIKE '%$key%' OR CPF LIKE '%$key%' OR PHONE LIKE '%$key%'";
+
+
             } else {
                 $sql = "SELECT * FROM USER";
             }

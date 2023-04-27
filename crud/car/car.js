@@ -1,24 +1,13 @@
-const getUsers = (id) => {
-    let httpParams = id ? decodeURI(id) : null;
-
-    
-    if (page) {
-        
-        httpParams += `&offset=${page.first}&limit=${page.last}`;
-    }
-    console.log(httpParams);
-    
+const getcars = (id) => {
     const promise = new Promise(async (res,rej) => {
         await 
         $.ajax({
             method: "GET",
-            url: "users.php",
-            data: httpParams ? httpParams : null,
+            url: "car.php",
+            data: id ? id : null,
             async: true,
             success : (response) => {
-                // console.log(response);
-                users = JSON.parse(response);
-                fillTable(users);
+                cars = JSON.parse(response);
                 res(JSON.parse(response))
             },
             error : (response) => {
@@ -27,18 +16,16 @@ const getUsers = (id) => {
         })
     })
 
-    // console.log(page);
-
     return promise
 }
 
-const setUser = (user) => {
+const setUser = (car) => {
     const promise = new Promise(async (res,rej) => {
         await 
         $.ajax({
             method: "POST",
-            url: "users.php",
-            data: user,
+            url: "car.php",
+            data: car,
             async: true,
             success : (response) => {
                 res(JSON.parse(response))
@@ -57,7 +44,7 @@ const deleteUser = (id) => {
         await 
         $.ajax({
             method: "DELETE",
-            url: "users.php/" + id,
+            url: "car.php/" + id,
             data: id,
             async: true,
             success : (response) => {
@@ -74,15 +61,15 @@ const deleteUser = (id) => {
 
 const newEntity = () => {
     resetForm();
-    setState("Cadastrar usuário", () => {
+    setState("Cadastrar Carro", () => {
 
         $.ajax({
             type: "POST",
-            url: "users.php",
+            url: "car.php",
             async:true,
-            data: $("#signup").serialize(),
+            data: $("#form").serialize(),
             success: function (response) {
-                // console.log(response);
+                console.log(response);
                 try {
                     response = JSON.parse(response);
 
@@ -93,9 +80,10 @@ const newEntity = () => {
                             title: 'Cadastrado com sucesso!'
                         })
 
-                        getUsers()
+                        getcars(encodeURI("method=GET"))
                         .then(resp => {
-                           
+                            fillTable(null);
+                            fillTable(resp)
 
                             $("#close").click();
 
@@ -121,16 +109,17 @@ const newEntity = () => {
 }
 
 const edit = (id) => {
-    const user = users.find(user => user.id == id);
-    fillForm(user)
-    setState("Editar usuário", () => {
+    const car = cars.find(car => car.id == id);
+    fillForm(car)
+    setState("Editar Carro", () => {
+        console.log(car, $("#form").serialize() ,cars);
         $.ajax({
             type: "POST",
-            url: "users.php",
+            url: "car.php",
             async:true,
-            data: $("#signup").serialize(),
+            data: $("#form").serialize(),
             success: function (response) {
-                // console.log(response);
+                console.log(response);
                 try {
                     response = JSON.parse(response);
 
@@ -141,9 +130,10 @@ const edit = (id) => {
                             title: 'Atualizado com sucesso!'
                         })
 
-                        getUsers()
+                        getcars()
                         .then(resp => {
-                           
+                            fillTable(null);
+                            fillTable(resp)
 
                             $("#close").click();
 
@@ -166,12 +156,6 @@ const edit = (id) => {
     })
 }
 
-const setState = (label, _callback) => {
-    $("#formModalLabel")[0].innerHTML = label;
-    callback = _callback;
-    $("#modal").click();
-}
-
 const delete_ = (id) => {
     Swal.fire({
         title: 'Deseja excluir?',
@@ -184,8 +168,10 @@ const delete_ = (id) => {
             .then(response => {
                 
                 if (response.success) {
-                    getUsers()
+                    getcars()
                     .then(resp => {
+                        fillTable(null);
+                        fillTable(resp)
 
                         $("#close").click();
 
@@ -209,53 +195,41 @@ const delete_ = (id) => {
       })
 }
 
-const userBoilerPlate = (user) => {
-    if (!user) {
+const userBoilerPlate = (car) => {
+    if (!car) {
         return null;
     }
 
-    let options = `<td class="valign-center text-center" data-bs-toggle="tooltip" title="Altere as suas informações no perfil"> 
-                        <i class="fa-solid fa-circle-info" style="color: var(--main-color);"></i>
-                  </td>`;
-
-    if (user.id !== JSON.parse(sessionStorage.getItem("user")).id) {
-        options = 
-            `<td class="flex justify-content-center align-items-center column-gap-4"> 
-                <a onclick='edit(${user.id})' data-bs-toggle="tooltip" title="Editar"> <i class="fa-regular fa-pen-to-square"></i></a> 
-                <a onclick='delete_(${user.id})' data-bs-toggle="tooltip" title="Deletar"> <i class="fa-regular fa-trash-can"></i> </a>
-            </td>`;
-    }
-
     return `<tr>
-                <td class="valign-center text-center">${user.id}</td>
-                <td class="valign-center text-center">${user.name}</td>
-                <td class="valign-center text-center">${user.surname}</td>
-                <td class="valign-center text-center">${user.email}</td>
-                <td class="valign-center text-center">${user.phone}</td>
-                <td class="valign-center text-center">${user.cpf}</td>
-                ${options}
+                <td class="valign-center text-center">${car.id}</td>
+                <td class="valign-center text-center">${car.banner}</td>
+                <td class="valign-center text-center">${car.name}</td>
+                <td class="valign-center text-center">${car.model.code}</td>
+                <td class="valign-center text-center">${car.brand.code}</td>
+                <td class="valign-center text-center">${car.year}</td>
+                <td class="valign-center text-center">R$ ${car.price}</td>
+                <td class="flex justify-content-center align-items-center column-gap-4"> 
+                    <a onclick='edit(${car.id})' data-bs-toggle="tooltip" title="Editar"> <i class="fa-regular fa-pen-to-square"></i></a> 
+                    <a onclick='delete_(${car.id})' data-bs-toggle="tooltip" title="Deletar"> <i class="fa-regular fa-trash-can"></i> </a>
+                </td>
             </tr>`;
 }
 
-const fillTable = (users) => {
+const fillTable = (cars) => {
     const line = $("#result")[0];
 
-    if (!users) {
+    if (!cars) {
         line.innerHTML = null;
         return;
     }
 
-    if (users.length === 0) {
-        line.innerHTML = "<td> <td colspan='6' class='text-center'>Nenhum registro encontrado</td> </tr>";
+    if (cars.length === 0) {
+        line.innerHTML = "<td> <td colspan='8' class='text-center'>Nenhum registro encontrado</td> </tr>";
         return;
     }
 
-    if (users && users.length) {
-        line.innerHTML = null;
-    }
-    
-    for (let user of users) {
-        line.innerHTML += userBoilerPlate(user);
+    for (let car of cars) {
+        line.innerHTML += userBoilerPlate(car);
     }
 
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
@@ -264,30 +238,10 @@ const fillTable = (users) => {
 
 //#region 'Form'
 
-const handleZipCode = (event) => {
-    let input = event.target
-    input.value = zipCodeMask(input.value)
-}
-  
-const zipCodeMask = (value) => {
-    if (!value) return ""
-    value = value.replace(/\D/g,'')
-    value = value.replace(/(\d{5})(\d)/,'$1-$2')
-    return value
-}
-
-const mascaraCPF = (cpf) => {
-    cpf = cpf.replace(/\D/g, ""); // remove todos os caracteres não numéricos
-    cpf = cpf.substring(0,3) + '.' + cpf.substring(3,6) + '.' + cpf.substring(6,9) + '-' + cpf.substring(9);
-    
-    return cpf;
-}
-
-const mascaraTelefone = (telefone) => {
-    telefone = telefone.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
-    telefone = telefone.replace(/^(\d{2})(\d)/g, '($1) $2'); // Adiciona parênteses em volta dos primeiros 2 dígitos
-    telefone = telefone.replace(/(\d)(\d{4})$/, '$1-$2'); // Adiciona hífen entre o quinto e sexto dígitos
-    return telefone;
+const setState = (label, _callback) => {
+    $("#formModalLabel")[0].innerHTML = label;
+    callback = _callback;
+    $("#modal").click();
 }
 
 const checkState = () => {
@@ -303,11 +257,11 @@ const checkState = () => {
 }
 
 const checkForm = (button) => {
-    const formGroup = $("#signup")[0]
+    const formGroup = $("#form")[0]
 
     for (let prop in form.fields) {
         field = form.fields[prop]
-        field.value = removeGarbbage(formGroup[prop].value);
+        field.value = formGroup[prop].value;
         const errorMessage = $(".feedback" + prop)[0];
         
         switch (field.type) {
@@ -337,26 +291,15 @@ const checkForm = (button) => {
     }
 }
 
-const fillForm = (user) => {
-    const form_ = $("#signup")[0];
-    for (let field in user) {
+const fillForm = (car) => {
+    const form_ = $("#form")[0];
+    for (let field in car) {
         if (form_[field]) {
-            form_[field].value = user[field];
-            form.fields[field].value = user[field];
+            form_[field].value = car[field];
+            form.fields[field].value = car[field];
         }
     }
     
-    form_["confirmPass"].value = user.password;
-    form.fields["confirmPass"].value = user.password;
-}
-
-const removeGarbbage = (content) => {
-    content = content.replaceAll("(","")
-    content = content.replaceAll(")","")
-    content = content.includes("@") ? content : content.replaceAll(".","")
-    content = content.replaceAll("-","")
-    content = content.replaceAll(" ","")   
-    return content
 }
 
 const catchError = (response) => {
@@ -371,31 +314,43 @@ const catchError = (response) => {
 
 const resetForm = () => {
     for (let field in form.fields) {
-        $("#signup")[0][field].value = null;
+        $("#form")[0][field].value = null;
     }
 } 
 
 const form = {
     valid : false,
-    fields : {
-        id : {value: '', name: "id", type: null, valid: true},
-        id_access: {value: '',type: null, name: "Acesso", valid: true},
-        name : {value: '', name: "Nome", type: 'regex', validator: /^[a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{3,}/g, valid: false, message: "Nome inválido"},
-        surname : {value: '', name: "Sobrenome", type: 'regex', validator: /^[a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{3,}/g, valid: false, message: "Sobrenome inválido"},
-        birthDate: {value: '', name: "Data nascimento", type: 'date', validator: new Date().getFullYear(), valid: false, message: "Informe uma data válida"},
-        email : {value: '', name: "Email", type: 'regex', validator: /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/g, valid: false, message: "Email inválido"},
-        cpf : {value: '', name: "Cpf", type: 'minLength', validator: 11, valid: false, message: "Preencha o cpf"},
-        phone : {value: '', name: "Telefone", type: 'minLength', validator: 11, valid: false, message: "Informe o telefone"},        
-        password : {value: '', name: "Senha", type: 'minLength', validator: 6, valid: false, message: "Senha deve ter 6 caracteres"},
-        confirmPass : {value: '', name: "Confirma senha", type: 'reference', validator : "password", valid: false, message: "Senhas não batem"} 
-    }
+    fields : { }
+}
+
+const getResources = () => {
+    const promise = new Promise(async (res,rej) => {
+        await 
+        $.ajax({
+            method: "GET",
+            url: "car.php",
+            data: "type=resources",
+            async: true,
+            success : (response) => {
+                console.log(response);
+                // console.log(JSON.parse(response));
+                res(JSON.parse(response))
+            },
+            error : (response) => {
+                rej(JSON.parse(response))
+            }
+        })
+    })
+
+    return promise
 }
 
 //#endregion
 
-let users = []
+let cars = [];
+let brands = [];
+let models = [];
 let callback;
-let page 
 
 const Toast = Swal.mixin({
     toast: true,
@@ -405,20 +360,29 @@ const Toast = Swal.mixin({
     timerProgressBar: true,
 })
 
+
+
 $(window).on("load", async ev => {
-    await getUsers()
+    getResources().then(r => {})
+    getcars(encodeURI("method=GET"))
+        .then(resp => fillTable(resp))
+        .catch(resp => console.warn(resp))
 })
 
 $(document).ready(() => {
-    $("#keyword").on("keyup", async ({target}) => {
-        await getUsers(encodeURI(`keyword=${target.value}`))
+    $("#keyword").on("keyup", ({target}) => {
+        getcars(encodeURI(`keyword=${target.value}&method=GET`))
+        .then(resp => {
+            fillTable(null);
+            fillTable(resp);
+        })
     })
     
 
     const button = $("#save");
     
-    $("#signup").on("keyup", ev => checkForm(button))
-    $("#signup").on("click", ev => checkForm(button))
+    $("#form").on("keyup", ev => checkForm(button))
+    $("#form").on("click", ev => checkForm(button))
 
     button.click(event => {
         $("#default")[0].classList.add("d-none")

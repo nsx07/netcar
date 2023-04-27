@@ -10,9 +10,8 @@
 </head>
 <body class="bg-dark">
     <?php 
-        session_start();
-        require '../../components/nav.php';
         require_once '../../utils/modules.php';
+        require '../../components/nav.php';
         if (isset($_SESSION["name"])) {
             header("Location: ../mainpage/");
         }
@@ -29,12 +28,12 @@
                         <div class="row">
                             <div class="col-md-6 col-sm-12 mt-2">
                                 <label for="name">Nome <span style="color: red"> *</span></label>
-                                <input type="text" class="form-control" id="name" pattern="[a-zA-Z]{3,}" name="name" placeholder="Digite aqui seu nome completo" required>
+                                <input type="text" class="form-control" id="name" pattern="[a-zA-Z]{3,}" name="name" placeholder="Digite seu nome" required>
                                 <small class="feedbackname fs-6 text text-danger"></small>
                             </div>
                             <div class="col-md-6 col-sm-12 mt-2">
                                 <label for="surname">Sobrenome <span style="color: red"> *</span></label>
-                                <input type="text" class="form-control" id="surname" pattern="[a-zA-Z]{3,}" name="surname" placeholder="Digite aqui seu nome completo" required>
+                                <input type="text" class="form-control" id="surname" pattern="[a-zA-Z]{3,}" name="surname" placeholder="Digite seu sobrenome" required>
                                 <small class="feedbacksurname fs-6 text text-danger"></small>
                             </div>
                             <div class="col-md-6 col-sm-12 mt-2">

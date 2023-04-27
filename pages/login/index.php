@@ -10,7 +10,6 @@
 </head>
 <body class="bg-dark">
     <?php 
-        session_start();
         require_once '../../utils/modules.php';
         require '../../components/nav.php';
         if (isset($_SESSION["name"])) {
@@ -39,7 +38,7 @@
                             </div>  
                             <div class="col-12">
                                 <label for="password" class="form-label">Senha</label>
-                                <input type="password" class="form-control" id="password" pattern="[a-z0-9-A-Z-!@#_$%]{6}" name="password" placeholder="Pelo menos 6 digitos" required>
+                                <input type="password" class="form-control" id="password" pattern="[a-z0-9-A-Z-!@#_$%]{6}" name="password" placeholder="Insira a senha" required>
                             </div>
                             <div class="col-12 mt-2">
                                 <button class="btn bg-default text-white btn-lg w-100" id="login-button" type="button" disabled>

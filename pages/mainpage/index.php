@@ -13,7 +13,6 @@
     <script src="mainpage.js"></script>
     
     <?php 
-        session_start();
         
         require_once '../../components/nav.php';
         if (!isset($_SESSION["name"])) {

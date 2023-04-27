@@ -11,7 +11,6 @@
 <body>
 
     <?php 
-        session_start();
         
         require_once '../components/nav.php';
         if (!isset($_SESSION["name"])) {
@@ -44,7 +43,7 @@
                     </button>
                 </div>
                 <div class="col-sm-12 col-md-6">
-                    <button onclick="location.assign(location.origin + '/netcar/crud/cars')" class="btn bg-primary bg-gray-300 text-white w-100" role="button">
+                    <button onclick="location.assign(location.origin + '/netcar/crud/car')" class="btn bg-primary bg-gray-300 text-white w-100" role="button">
                         <span class="text-base">Carros</span>
                         <i class="fa-solid fa-car-side ml-2"></i>
                     </button>

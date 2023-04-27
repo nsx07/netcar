@@ -12,7 +12,6 @@
 </head>
 <body>
     <?php 
-        session_start();
         
         require_once '../../components/nav.php';
         if (!isset($_SESSION["name"])) {
@@ -51,7 +50,7 @@
 
         <div class="card shadow rounded p-4 mx-5">
             <div class="flex justify-content-start align-items-center gap-3 mb-2">
-                <button class="btn btn-sm text-white bg-default" onclick="newEntity()" data-bs-toggle="tooltip" title="Adicionar novo usuário">
+                <button class="btn btn-sm text-white bg-default" onclick="newEntity()" data-bs-toggle="tooltip" title="Adicionar nova marca">
                     NOVO
                     <i class="fa-solid fa-plus"></i>
                 </button>
@@ -108,7 +107,7 @@
             </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" id="close" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" id="close" data-bs-dismiss="modal">Fechar</button>
         <button class="btn bg-default text-white" id="save" type="button" disabled>
             <span id="default">
             Salvar

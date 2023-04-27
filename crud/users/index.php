@@ -12,7 +12,6 @@
 </head>
 <body>
     <?php 
-        session_start();
         
         require_once '../../components/nav.php';
         if (!isset($_SESSION["name"])) {
@@ -76,6 +75,13 @@
                     <tbody id='result'>
                     </tbody>
                 </table>
+
+                <!-- <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item" id="previous" onclick="page.previous()"><a class="page-link" href="#">Anterior</a></li>
+                        <li class="page-item" id="next" onclick="page.next()"><a class="page-link" href="#">Próximo</a></li>
+                    </ul>
+                </nav> -->
             </div>
         </div>
     </div>
@@ -83,85 +89,85 @@
     <button class="d-none" id="modal" data-bs-toggle="modal" data-bs-target="#formModal"></button>
     
     <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="formModalLabel"></h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <form id="signup" onsubmit="return false"  target="_self">
-            <input type="text" id="id" name="id" class="d-none">
-            <div class="row">
-                <div class="col-md-6 col-sm-12 mt-2">
-                    <label for="name">Nome <span style="color: red"> *</span></label>
-                    <input type="text" class="form-control" id="name" pattern="[a-zA-Z]{3,}" name="name" placeholder="Seu primeiro nome" required>
-                    <small class="feedbackname fs-6 text text-danger"></small>
-                </div>
-                <div class="col-md-6 col-sm-12 mt-2">
-                    <label for="surname">Sobrenome <span style="color: red"> *</span></label>
-                    <input type="text" class="form-control" id="surname" pattern="[a-zA-Z]{3,}" name="surname" placeholder="Seu último sobrenome" required>
-                    <small class="feedbacksurname fs-6 text text-danger"></small>
-                </div>
-                <div class="col-md-6 col-sm-12 mt-2">
-                    <label for="birthDate">Data de nascimento <span style="color: red"> *</span></label>
-                    <input type="date" class="form-control" id="birthDate" name="birthDate" placeholder="Informe sua data de nascimento" required>
-                    <small class="feedbackbirthDate fs-6 text text-danger"></small>
-                </div>
-                <div class="col-md-6 col-sm-12 mt-2">                
-                    <label for="email">Endereço de email <span style="color: red"> *</span></label>
-                    <input type="email" class="form-control" id="email" name="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" placeholder="Seu melhor email" required>                    
-                    <small class="feedbackemail fs-6 text text-danger"></small>
-                </div>
-                <div class="col-md-6 col-sm-12 mt-2">
-                    <label for="cpf">CPF <span style="color: red"> *</span></label>
-                    <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14" placeholder="Ex: 000.000.000-00" onkeyup="this.value = mascaraCPF(this.value)" required>
-                    <small class="feedbackcpf fs-6 text text-danger"></small>
-                </div>
-                <div class="col-md-6 col-sm-12 mt-2">
-                    <label for="phone">Telefone <span style="color: red"> *</span></label>
-                    <input type="text" class="form-control" id="phone" name="phone" maxlength="15" placeholder="Ex: (DD) 9 9999-9999" onkeyup="this.value = mascaraTelefone(this.value)" required>
-                    <small class="feedbackphone fs-6 text text-danger"></small>
-                </div>  
-
-                <div class="col-12 mt-2">
-                    <label for="id_access">Tipo de usuário</label>
-                    <select class="form-select" id="id_access" name="id_access">
-                        <option value="1" selected>Admin</option>
-                      <option value="2">Cliente</option>
-                    </select>
-                    <small class="feedbackid_access fs-6 text text-danger"></small>
-                </div>
-                                
-                <div class="col-md-6 col-sm-12 mt-2">
-                    <label for="password">Senha <span style="color: red"> *</span></label>
-                    <input type="password" class="form-control" id="password" minlength="6" name="password" placeholder="Senha" required>
-                    <small class="feedbackpassword fs-6 text text-danger"></small>
-                </div>              
-                <div class="col-md-6 col-sm-12 mt-2">
-                    <label for="confirmPass">Confirmar senha <span style="color: red"> *</span></label>
-                    <input type="password" class="form-control" id="confirmPass" minlength="6" name="confirmPass" placeholder="Confirmar senha" required>
-                    <small class="feedbackconfirmPass fs-6 text text-danger"></small>
-                </div>
-                
-
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="formModalLabel"></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" id="close" data-bs-dismiss="modal">Close</button>
-        <button class="btn bg-default text-white" id="save" type="button" disabled>
-            <span id="default">
-            Salvar
-            </span> 
-            <span id="loading" class="d-none">
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            Salvando...
-            </span>
-            
-        </button>
-      </div>
-    </div>
+            <div class="modal-body">
+                <form id="signup" onsubmit="return false"  target="_self">
+                <input type="text" id="id" name="id" class="d-none">
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 mt-2">
+                        <label for="name">Nome <span style="color: red"> *</span></label>
+                        <input type="text" class="form-control" id="name" pattern="[a-zA-Z]{3,}" name="name" placeholder="Seu primeiro nome" required>
+                        <small class="feedbackname fs-6 text text-danger"></small>
+                    </div>
+                    <div class="col-md-6 col-sm-12 mt-2">
+                        <label for="surname">Sobrenome <span style="color: red"> *</span></label>
+                        <input type="text" class="form-control" id="surname" pattern="[a-zA-Z]{3,}" name="surname" placeholder="Seu sobrenome" required>
+                        <small class="feedbacksurname fs-6 text text-danger"></small>
+                    </div>
+                    <div class="col-md-6 col-sm-12 mt-2">
+                        <label for="birthDate">Data de nascimento <span style="color: red"> *</span></label>
+                        <input type="date" class="form-control" id="birthDate" name="birthDate" placeholder="Informe sua data de nascimento" required>
+                        <small class="feedbackbirthDate fs-6 text text-danger"></small>
+                    </div>
+                    <div class="col-md-6 col-sm-12 mt-2">                
+                        <label for="email">Endereço de email <span style="color: red"> *</span></label>
+                        <input type="email" class="form-control" id="email" name="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" placeholder="Seu melhor email" required>                    
+                        <small class="feedbackemail fs-6 text text-danger"></small>
+                    </div>
+                    <div class="col-md-6 col-sm-12 mt-2">
+                        <label for="cpf">CPF <span style="color: red"> *</span></label>
+                        <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14" placeholder="Ex: 000.000.000-00" onkeyup="this.value = mascaraCPF(this.value)" required>
+                        <small class="feedbackcpf fs-6 text text-danger"></small>
+                    </div>
+                    <div class="col-md-6 col-sm-12 mt-2">
+                        <label for="phone">Telefone <span style="color: red"> *</span></label>
+                        <input type="text" class="form-control" id="phone" name="phone" maxlength="15" placeholder="Ex: (DD) 9 9999-9999" onkeyup="this.value = mascaraTelefone(this.value)" required>
+                        <small class="feedbackphone fs-6 text text-danger"></small>
+                    </div>  
+
+                    <div class="col-12 mt-2">
+                        <label for="id_access">Tipo de usuário</label>
+                        <select class="form-select" id="id_access" name="id_access">
+                            <option value="1" selected>Admin</option>
+                        <option value="2">Cliente</option>
+                        </select>
+                        <small class="feedbackid_access fs-6 text text-danger"></small>
+                    </div>
+                                    
+                    <div class="col-md-6 col-sm-12 mt-2">
+                        <label for="password">Senha <span style="color: red"> *</span></label>
+                        <input type="password" class="form-control" id="password" minlength="6" name="password" placeholder="Senha" required>
+                        <small class="feedbackpassword fs-6 text text-danger"></small>
+                    </div>              
+                    <div class="col-md-6 col-sm-12 mt-2">
+                        <label for="confirmPass">Confirmar senha <span style="color: red"> *</span></label>
+                        <input type="password" class="form-control" id="confirmPass" minlength="6" name="confirmPass" placeholder="Confirmar senha" required>
+                        <small class="feedbackconfirmPass fs-6 text text-danger"></small>
+                    </div>
+                    
+
+                </div>
+                </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="close" data-bs-dismiss="modal">Fechar</button>
+            <button class="btn bg-default text-white" id="save" type="button" disabled>
+                <span id="default">
+                Salvar
+                </span> 
+                <span id="loading" class="d-none">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Salvando...
+                </span>
+                
+            </button>
+        </div>
+        </div>
   </div>
 </div>
 </body>

@@ -4,15 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marcas | netcar</title>
+    <title>Carros | netcar</title>
     <link rel="icon" type="image" href="../../assets/logo-minify-purple.png">
-    <link rel="stylesheet" href="item.css">
+    <link rel="stylesheet" href="car.css">
     <?php require_once '../../utils/modules.php' ?>
-    <script src="item.js"></script>
+    <script src="car.js"></script>
 </head>
 <body>
     <?php 
-        session_start();
         
         require_once '../../components/nav.php';
         if (!isset($_SESSION["name"])) {
@@ -34,8 +33,8 @@
             <div class="row grid-items-center px-2 row-gap-2">
                 <div class="col-md-6 col-sm-12 flex-column align-items-center">
                     <div class="flex justify-content-start column-gap-1 my-2">
-                        <i class="fa-solid fa-list fa-2x"></i>
-                        <h3 class="font-medium font-xl ml-0">Itens</h3>
+                        <i class="fa-solid fa-car-side fa-2x"></i>
+                        <h3 class="font-medium font-xl ml-2">Carros</h3>
                     </div>                    
                 </div>
                 <div class="col-md-6 col-sm-12 flex align-items-center justify-content-end">
@@ -51,7 +50,7 @@
 
         <div class="card shadow rounded p-4 mx-5">
             <div class="flex justify-content-start align-items-center gap-3 mb-2">
-                <button class="btn btn-sm text-white bg-default" onclick="newEntity()" data-bs-toggle="tooltip" title="Adicionar novo item">
+                <button class="btn btn-sm text-white bg-default" onclick="newEntity()" data-bs-toggle="tooltip" title="Adicionar novo carro">
                     NOVO
                     <i class="fa-solid fa-plus"></i>
                 </button>
@@ -63,9 +62,12 @@
                     <thead class="bg-dark text-white">
                         <tr>
                             <th class="valign-center text-center font-normal" scope="col">#</th>
+                            <th class="valign-center text-center font-normal" scope="col">Banner</th>
                             <th class="valign-center text-center font-normal" scope="col">Nome</th>
-                            <th class="valign-center text-center font-normal" scope="col">Código</th>
-                            <th class="valign-center text-center font-normal" scope="col">Descrição</th>
+                            <th class="valign-center text-center font-normal" scope="col">Modelo</th>
+                            <th class="valign-center text-center font-normal" scope="col">Marca</th>
+                            <th class="valign-center text-center font-normal" scope="col">Ano</th>
+                            <th class="valign-center text-center font-normal" scope="col">Preço</th>
                             <th class="valign-center text-center font-normal" scope="col">Ações</th>
                         </tr>
                     </thead>
@@ -88,23 +90,9 @@
         <div class="modal-body">
             <form id="form" onsubmit="return false"  target="_self">
             <input type="text" id="id" name="id" class="d-none">
-            <div class="row">
-                <div class="col-md-6 col-sm-12 mt-2">
-                    <label for="name">Nome <span style="color: red"> *</span></label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Nome item" required>
-                    <small class="feedbackname fs-6 text text-danger"></small>
+                <div class="row">
+                    
                 </div>
-                <div class="col-md-6 col-sm-12 mt-2">
-                    <label for="code">Código <span style="color: red"> *</span></label>
-                    <input type="text" class="form-control" id="code" name="code" placeholder="Código do item" required>
-                    <small class="feedbackcode fs-6 text text-danger"></small>
-                </div>
-                <div class="col-12 mt-2">
-                    <label for="description">Descrição <span style="color: red"> *</span></label>
-                    <textarea type="text" class="form-control" id="description" name="description" placeholder="Descrição do item" required></textarea>
-                    <small class="feedbackdescription fs-6 text text-danger"></small>
-                </div>
-            </div>
             </form>
       </div>
       <div class="modal-footer">
