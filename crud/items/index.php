@@ -12,7 +12,6 @@
 </head>
 <body>
     <?php 
-        session_start();
         
         require_once '../../components/nav.php';
         if (!isset($_SESSION["name"])) {

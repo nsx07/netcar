@@ -35,7 +35,7 @@ const form = {
     valid : false,
     fields : {
         email : {value: '', type: 'minLength', validator: 10, valid: false},
-        password : {value: '', type: 'minLength', validator: 6, valid: false},
+        password : {value: '', type: 'regex', validator: /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*_]).{8,}$/g, valid: false},
     }
 }
 
@@ -49,6 +49,7 @@ $(document).ready(() => {
         timerProgressBar: true,
       });
 
+
     for (let prop in form.fields) {
         
         $(`#${prop}`).on("change", (event) => {
@@ -57,7 +58,8 @@ $(document).ready(() => {
             
             switch (self.type) {
                 case 'regex': 
-                    self.valid = true
+                    const regex = new RegExp(self.validator);
+                    self.valid = true;//self.value.match(regex) && self.value.match(regex).length >= 1
                     break;
                 case 'date': 
                     self.valid = self.validator - new Date(event.target.value).getFullYear() >= 17 && self.validator - new Date(event.target.value).getFullYear() < 100

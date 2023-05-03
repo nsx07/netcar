@@ -12,6 +12,8 @@
             if ($field == "cpf") $value = str_replace([".", "-"], "", $value);
 
             if ($field == "phone") $value = str_replace(["(", ")", "-", " "], "", $value);
+
+            if ($field == "password") $value = base64_encode($value);
             
 
             $update = $update . " `$field` = '$value'," ;

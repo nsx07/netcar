@@ -80,13 +80,19 @@ const form = {
         email : {value: '', name: "Email", type: 'regex', validator: /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/g, valid: false, message: "Email inválido"},
         cpf : {value: '', name: "Cpf", type: 'minLength', validator: 11, valid: false, message: "Preencha o cpf"},
         phone : {value: '', name: "Telefone", type: 'minLength', validator: 11, valid: false, message: "Informe o telefone"},        
-        password : {value: '', name: "Senha", type: 'minLength', validator: 6, valid: false, message: "Senha deve ter 6 caracteres"},
+        password : {value: '', name: "Senha", type: 'regex', validator: /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*_]).{8,}$/g, valid: false, message: "<p class='text-sm mb-1'> Senha deve ter no mínimo: <br> • 1 letra maiscula <br> • 1 número <br> • 1 carecter especial <br> • 8 caracteres </p>"},
         confirmPass : {value: '', name: "Confirma senha", type: 'reference', validator : "password", valid: false, message: "Senhas não batem"} 
     }
 }
 
 $(document).ready(() => {
     const button = $("#signup-button");
+
+    $("#password").on("keyup", ev => {
+        let reg = new RegExp(/^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*_]).{8,}$/g);
+        console.log(ev.target.value.match(reg));
+        console.log(ev.target.value);
+    })
 
     for (let prop in form.fields) {
         
@@ -97,7 +103,8 @@ $(document).ready(() => {
             
             switch (field.type) {
                 case 'regex': 
-                    field.valid = field.value.match(field.validator) && field.value.match(field.validator).length >= 1
+                    const regex = new RegExp(field.validator);
+                    field.valid = field.value.match(regex) && field.value.match(regex).length >= 1
                     break;
                 case 'date': 
                     field.valid = field.validator - new Date(event.target.value).getFullYear() >= 17 && field.validator - new Date(event.target.value).getFullYear() < 100

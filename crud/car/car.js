@@ -1,4 +1,4 @@
-const getcars = (id) => {
+const getCars = (id) => {
     const promise = new Promise(async (res,rej) => {
         await 
         $.ajax({
@@ -19,7 +19,7 @@ const getcars = (id) => {
     return promise
 }
 
-const setUser = (car) => {
+const setCar = (car) => {
     const promise = new Promise(async (res,rej) => {
         await 
         $.ajax({
@@ -39,7 +39,7 @@ const setUser = (car) => {
     return promise
 }
 
-const deleteUser = (id) => {
+const deleteCar = (id) => {
     const promise = new Promise(async (res,rej) => {
         await 
         $.ajax({
@@ -80,7 +80,7 @@ const newEntity = () => {
                             title: 'Cadastrado com sucesso!'
                         })
 
-                        getcars(encodeURI("method=GET"))
+                        getCars(encodeURI("method=GET"))
                         .then(resp => {
                             fillTable(null);
                             fillTable(resp)
@@ -130,7 +130,7 @@ const edit = (id) => {
                             title: 'Atualizado com sucesso!'
                         })
 
-                        getcars()
+                        getCars()
                         .then(resp => {
                             fillTable(null);
                             fillTable(resp)
@@ -164,11 +164,11 @@ const delete_ = (id) => {
         denyButtonText: `Cancelar`,
       }).then((result) => {
         if (result.isConfirmed) {
-            deleteUser(encodeURI(`id=${id}`))
+            deleteCar(encodeURI(`id=${id}`))
             .then(response => {
                 
                 if (response.success) {
-                    getcars()
+                    getCars()
                     .then(resp => {
                         fillTable(null);
                         fillTable(resp)
@@ -195,7 +195,7 @@ const delete_ = (id) => {
       })
 }
 
-const userBoilerPlate = (car) => {
+const carBoilerPlate = (car) => {
     if (!car) {
         return null;
     }
@@ -229,7 +229,7 @@ const fillTable = (cars) => {
     }
 
     for (let car of cars) {
-        line.innerHTML += userBoilerPlate(car);
+        line.innerHTML += carBoilerPlate(car);
     }
 
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
@@ -332,8 +332,9 @@ const getResources = () => {
             data: "type=resources",
             async: true,
             success : (response) => {
-                console.log(response);
-                // console.log(JSON.parse(response));
+                // console.log(response);
+                console.log(JSON.parse(response));
+                setupResources(JSON.parse(response))
                 res(JSON.parse(response))
             },
             error : (response) => {
@@ -345,12 +346,38 @@ const getResources = () => {
     return promise
 }
 
+const setupResources = (resources) => {
+    const resourcesLabel = ["model", "brand","item"];
+
+    for (const resource of resourcesLabel) {
+        const element = $("#" + resource)[0];
+        if (resources[resource] && resources[resource].length) {
+            resources[resource].forEach(value => {
+                element.innerHTML += ` <option class='p-2' id="${value.id}" value="${value.id}"> <div> ${value.name} - ${value.description} </div> </option> `;
+            })
+        } else {
+            element.innerHTML += "<option disabled>Nenhum valor</option>";
+        }
+    }
+}
+
 //#endregion
 
+let callback;
 let cars = [];
+let items = []
 let brands = [];
 let models = [];
-let callback;
+let handleItem = (item) => {
+    const element = $("#" + item)[0].classList;
+    if (items.includes(item)) {
+        items = items.filter(it => it != item);
+        element.remove("active");
+    } else {
+        items.push(item);
+        element.add("active")
+    }
+}
 
 const Toast = Swal.mixin({
     toast: true,
@@ -360,36 +387,54 @@ const Toast = Swal.mixin({
     timerProgressBar: true,
 })
 
-
-
 $(window).on("load", async ev => {
     getResources().then(r => {})
-    getcars(encodeURI("method=GET"))
+    getCars(encodeURI("method=GET"))
         .then(resp => fillTable(resp))
         .catch(resp => console.warn(resp))
 })
 
 $(document).ready(() => {
     $("#keyword").on("keyup", ({target}) => {
-        getcars(encodeURI(`keyword=${target.value}&method=GET`))
+        getCars(encodeURI(`keyword=${target.value}&method=GET`))
         .then(resp => {
             fillTable(null);
             fillTable(resp);
         })
     })
-    
 
     const button = $("#save");
     
-    $("#form").on("keyup", ev => checkForm(button))
-    $("#form").on("click", ev => checkForm(button))
+    // $("#form").on("keyup", ev => checkForm(button))
+    // $("#form").on("click", ev => checkForm(button))
 
     button.click(event => {
         $("#default")[0].classList.add("d-none")
         $("#loading")[0].classList.remove("d-none");
-        button.prop("disabled", true);
+        button.prop("disabled", false);
 
-        callback();
+        const formData = new FormData($("#files")[0]);
+
+        $.ajax({
+            type: "POST",
+            async:true,
+            url: "car.php",
+            data: $("#form").serialize(),
+            success: function (response) {
+                console.log(response);
+                $.ajax({
+                    type: "POST",
+                    async: true,
+                    url: "car.php",
+                    data: formData,
+                    success: (responseImage) => {
+                        console.log(responseImage);
+                    }
+                })
+            }
+        })
+        
+        // callback();
                         
         $("#default")[0].classList.remove("d-none")
         $("#loading")[0].classList.add("d-none");
