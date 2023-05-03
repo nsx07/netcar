@@ -47,6 +47,7 @@
         }
       ?>
   </nav>
+  
 
 <?php 
   if (isset($_SESSION["time"])) {
