@@ -1,23 +1,43 @@
 <?php 
-    require '../database/connection_db.php';
+    session_start();
+    require '../../database/connection_db.php';
 
     $name = $_POST["name"];
-    $birthDate = $_POST["dateBirth"];
+    $birthDate = $_POST["birthDate"];
     $cpf = $_POST["cpf"];
     $email = $_POST["email"];
     $phone = $_POST["phone"];
     $password = $_POST["password"];
-    $cep = 00000000;
-    $addressNumber: 00;
-    $id_access: 2;
+    $surname = $_POST["surname"];
+    $id_access = 2;
 
-    $sql = 
-    "INSERT INTO user ('id_access','$name','surname','birthDate','email','cpf','phone','cep','addressNumber','password')
-    values ('$id_access','$name','$surname','$birthDate','$email','$cpf','$phone','$cep','$addressNumber','$password')
-    ";
+    try {
+        $password = base64_encode($password);
+        $cpf = str_replace([".", "-"], "", $cpf);
+        $phone = str_replace(["(", ")", "-", " "], "", $phone);
 
-    mysql_query($sql) or die (error());
-    $response = array("success" => true);
-    echo json_encode($response);
+        $sql = "INSERT INTO user 
+        (id_access, name, surname, birthDate, email, cpf, phone, password) VALUES 
+        ($id_access,'$name', '$surname', '$birthDate', '$email', '$cpf', '$phone', '$password')"; 
 
-?>
+        $row = mysqli_query($connect ,$sql);
+
+        $response["success"] = true;
+        $response["query"] = $sql;
+        $response["name"] = $name;
+        $response["surname"] = $surname;
+        $response["email"] = $email;
+        $response["id"] = mysqli_insert_id($connect); 
+    
+        $_SESSION["id"] = mysqli_insert_id($connect);
+        $_SESSION["id_access"] = $id_access;
+        $_SESSION["name"] = $name;
+        $_SESSION["surname"] = $surname;
+        $_SESSION["time"] = time();
+        $_SESSION["max_time"] = 1800;
+
+        echo json_encode($response);
+    } catch (\Throwable $th) {
+        echo json_encode(mysqli_error($connect));
+    }
+?> 

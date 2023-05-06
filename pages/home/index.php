@@ -11,9 +11,12 @@
     <script src="home.js"></script>
 </head>
 <body>
-    <div style="display:none"><?php require '../../components/nav.php' ?></div>
+    <?php require_once '../../utils/modules.php' ?>
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
 
-    <div class="wrapper">
+    <div id="conteudo" class="wrapper">
         <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column opacity-100">
             <header class="mb-auto ">
                 <a class="navbar-brand flex justify-content-center align-items-center" href="../../index.php">

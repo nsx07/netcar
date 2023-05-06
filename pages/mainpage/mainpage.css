@@ -5,5 +5,6 @@
     aspect-ratio: 3/2 !important;
     object-fit: contain !important;
     mix-blend-mode: darken !important;
-    background: linear-gradient(90deg, #565656, #858585, #bbbbbb, #ececec);
+    background: blur(5px);;
   }
+

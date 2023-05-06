@@ -7,27 +7,22 @@
     <title>netcar | Login </title>
     <link rel="icon" type="image" href="../../assets/logo-minify-purple.png">
     <link rel="stylesheet" href="../../style.css">
-    <script src="login.js"></script>
 </head>
 <body class="bg-dark">
-    <div class="vw-100 vh-100">
+    <?php 
+        require_once '../../utils/modules.php';
+        require '../../components/nav.php';
+        if (isset($_SESSION["name"])) {
+            header("Location: ../mainpage/");
+        } 
 
-    <?php require '../../components/nav.php';?>
-    <script>
-    function showData() {
-        const fields = ["email","password"]
-        const form = document.forms["login"]
-        const data = {};
+    ?>
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
 
-        fields.forEach(field => {
-            data[field] = form[field].value;
-            console.log(field + ": " + form[field].value);
-        })
+    <div id="conteudo" class="vw-100 vh-100">
 
-        alert(JSON.stringify(data))
-        return false;
-    }
-    </script>
 
         <div class="container-fluid">
 
@@ -36,17 +31,26 @@
                 <div class="col-lg-6 col-md-8 col-sm-12 shadow bg-body-secondary rounded-3 p-4">
                     <h2 class="text-center">Login</h2>
                     <div class="row">
-                        <form id="login" onsubmit="return showData()">
+                        <form id="login" onsubmit="return false" target="_self">
                             <div class="col-12">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" placeholder="vendas@netcar.com" aria-describedby="emailHelp" required>
+                                <input type="email" class="form-control" id="email" name="email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" placeholder="Ex: vendas@netcar.com" aria-describedby="emailHelp" required>
                             </div>  
                             <div class="col-12">
                                 <label for="password" class="form-label">Senha</label>
-                                <input type="password" class="form-control" id="password" pattern="[a-z0-9-A-Z-!@#_$%]{6}" name="password" placeholder="Senha" required>
+                                <input type="password" class="form-control" id="password" pattern="[a-z0-9-A-Z-!@#_$%]{6}" name="password" placeholder="Insira a senha" required>
                             </div>
-                            <div class="col-12">
-                                <button type="submit" class="btn w-100 bg-default text-white d-flex justify-content-center">Entrar</button>
+                            <div class="col-12 mt-2">
+                                <button class="btn bg-default text-white btn-lg w-100" id="login-button" type="button" disabled>
+                                  <span id="default">
+                                    Entrar
+                                  </span> 
+                                  <span id="loading" class="d-none">
+                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                    Entrando...
+                                  </span>
+                                  
+                                </button>
                             </div>
                         </form>
                         <small class="text-md font-medium text-center"><a href="../signup/">Não possui conta ? Faça o cadastro!</a></small>
@@ -54,7 +58,9 @@
                 </div>
 
             </div>
+            <script type="text/javascript" src="login.js"></script>
         </div>
     </div>
+
 </body>
 </html>
