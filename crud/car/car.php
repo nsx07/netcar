@@ -27,10 +27,13 @@
         case 'POST':
             try {    
                 $response = array();
+
                 if (isset($_FILES)) {
-
+                   // handle files 
+                    $response = handleFiles($_FILES);
                 } else {
-
+                    //handle data
+                    
                 }                 
 
         
@@ -55,7 +58,7 @@
         case 'GET':
             if (isset($_GET["type"]) && $_GET["type"] == "resources" ) {
 
-                $entities = ["model", "brand", "item"];
+                $entities = ["model", "item"];
                 $response = array();
 
                 foreach ($entities as $entity) {

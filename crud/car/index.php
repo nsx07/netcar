@@ -65,7 +65,8 @@
                             <th class="valign-center text-center font-normal" scope="col">Banner</th>
                             <th class="valign-center text-center font-normal" scope="col">Nome</th>
                             <th class="valign-center text-center font-normal" scope="col">Modelo</th>
-                            <th class="valign-center text-center font-normal" scope="col">Marca</th>
+                            <th class="valign-center text-center font-normal" scope="col">Combustível</th>
+                            <th class="valign-center text-center font-normal" scope="col">KM</th>
                             <th class="valign-center text-center font-normal" scope="col">Ano</th>
                             <th class="valign-center text-center font-normal" scope="col">Preço</th>
                             <th class="valign-center text-center font-normal" scope="col">Ações</th>
@@ -99,38 +100,47 @@
                             <small class="feedbackname fs-6 text text-danger"></small>
                         </div>  
 
-                        <div class="col-md-6 col-sm-12 mt-2">
+                        <div class="col-md-6 col-sm-12">
                             <label for="year">Ano <span style="color: red"> *</span></label>
                             <input type="number" class="form-control" min="1950" max="2050" step="1" name="year" id="year" placeholder="2023"/>
                             <small class="feedbackyear fs-6 text text-danger"></small>
                         </div>
 
-                        <div class="col-6 mt-2">
+                        <div class="col-md-6 col-sm-12">
                             <label for="price">Preço <span style="color: red"> *</span></label>
                             <div class="input-group mb-3 w-100">
                                 <span class="input-group-text" id="basic-addon1">R$</span>
-                                <input type="number" class="form-control" min="1000" step="100" name="price" id="price" placeholder="1000"/>
+                                <input type="number" class="form-control" min="0" step="100" name="price" id="price" placeholder="1000"/>
                                 <small class="feedbackprice fs-6 text text-danger"></small>
                             </div>
-                        </div>  
-
-                        <div class="col-md-6 col-sm-12 mt-3">
-                            <label for="brand">Marca <span style="color: red"> *</span></label>
-                            <select class="form-select" id="brand" name="brand">
-                                <option value="1" selected disabled>Selecione a marca</option>
-                            </select>
-                            <small class="feedbackbrand fs-6 text text-danger"></small>
                         </div>
 
-                        <div class="col-md-6 col-sm-12 mt-2">
+                        <div class="col-md-6 col-sm-12">
+                            <label for="kilometers">KM <span style="color: red"> *</span></label>
+                            <div class="input-group mb-3 w-100">
+                                <input type="number" class="form-control" min="0" step="1" name="kilometers" id="kilometers" placeholder="1000"/>
+                                <small class="feedbackkilometers fs-6 text text-danger"></small>
+                                <span class="input-group-text" id="basic-addon1">KM</span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-sm-12">
+                            <label for="fuel">Combustível <span style="color: red"> *</span></label>
+                            <select class="form-select" id="fuel" name="fuel">
+                            <option value="0" selected disabled>Selecione o combustível</option>
+                            </select>
+                            <small class="feedbackfuel fs-6 text text-danger"></small>
+                        </div>
+
+                        <div class="col-md-6 col-sm-12">
                             <label for="model">Modelo <span style="color: red"> *</span></label>
                             <select class="form-select" id="model" name="model">
-                            <option value="1" selected disabled>Selecione o modelo</option>
+                            <option value="0" selected disabled>Selecione o modelo</option>
                             </select>
                             <small class="feedbackmodel fs-6 text text-danger"></small>
                         </div>
 
-                        <div class="col-md-6 col-sm-12 mt-2">
+                        <div class="col-md-6 col-sm-12">
                             <label for="item">Itens <span style="color: red"> *</span></label>
                             <select class="form-select" id="item" name="item">
                                 <option value="0" selected disabled>Selecione os itens</option>
@@ -142,8 +152,8 @@
                 </form>
             </div>
 
-            <div class="row mt-2">
-                <h3>Banner e imagens</h3>
+            <div class="row mt-3">
+                <h3 class="mb-1">Banner e imagens</h3>
                 <form id="files" onsubmit="return false"  target="_self"    >
                     <div class="row">
                         <div class="col-12">
@@ -151,7 +161,7 @@
                             <input class="form-control form-control-lg" type="file" name="banner" id="banner">
                         </div>
 
-                        <div class="col-12 mt-2">
+                        <div class="col-12">
                             <label for="imagens" class="form-label">Imagens</label>
                             <input class="form-control" type="file" id="imagens" name="imagens" multiple>
                         </div>

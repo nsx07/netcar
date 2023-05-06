@@ -1,7 +1,6 @@
-const getBrands = (id) => {
+const getModels = (id) => {
     const promise = new Promise(async (res,rej) => {
-        await 
-        $.ajax({
+        await $.ajax({
             method: "GET",
             url: "model.php",
             data: id ? id : null,
@@ -69,7 +68,6 @@ const newEntity = () => {
             async:true,
             data: $("#form").serialize(),
             success: function (response) {
-                console.log(response);
                 try {
                     response = JSON.parse(response);
 
@@ -80,7 +78,7 @@ const newEntity = () => {
                             title: 'Cadastrado com sucesso!'
                         })
 
-                        getBrands(encodeURI("method=GET"))
+                        getModels(encodeURI("method=GET"))
                         .then(resp => {
                             fillTable(null);
                             fillTable(resp)
@@ -112,14 +110,12 @@ const edit = (id) => {
     const model = models.find(model => model.id == id);
     fillForm(model)
     setState("Editar Modelo", () => {
-        console.log(model, $("#form").serialize() ,models);
         $.ajax({
             type: "POST",
             url: "model.php",
             async:true,
             data: $("#form").serialize(),
             success: function (response) {
-                console.log(response);
                 try {
                     response = JSON.parse(response);
 
@@ -130,7 +126,7 @@ const edit = (id) => {
                             title: 'Atualizado com sucesso!'
                         })
 
-                        getBrands()
+                        getModels()
                         .then(resp => {
                             fillTable(null);
                             fillTable(resp)
@@ -168,7 +164,7 @@ const delete_ = (id) => {
             .then(response => {
                 
                 if (response.success) {
-                    getBrands()
+                    getModels()
                     .then(resp => {
                         fillTable(null);
                         fillTable(resp)
@@ -205,6 +201,7 @@ const userBoilerPlate = (model) => {
                 <td class="valign-center text-center">${model.name}</td>
                 <td class="valign-center text-center">${model.code}</td>
                 <td class="valign-center text-center">${model.description}</td>
+                <td class="valign-center text-center">${model.name_brand}</td>
                 <td class="flex justify-content-center align-items-center column-gap-4"> 
                     <a onclick='edit(${model.id})' data-bs-toggle="tooltip" title="Editar"> <i class="fa-regular fa-pen-to-square"></i></a> 
                     <a onclick='delete_(${model.id})' data-bs-toggle="tooltip" title="Deletar"> <i class="fa-regular fa-trash-can"></i> </a>
@@ -299,6 +296,42 @@ const fillForm = (model) => {
     
 }
 
+const getResources = () => {
+    const promise = new Promise(async (res,rej) => {
+        await 
+        $.ajax({
+            method: "GET",
+            url: "model.php",
+            data: "type=resources",
+            async: true,
+            success : (response) => {
+                setupResources(JSON.parse(response))
+                res(JSON.parse(response))
+            },
+            error : (response) => {
+                rej(JSON.parse(response))
+            }
+        })
+    })
+
+    return promise
+}
+
+const setupResources = (resources) => {
+    const resourcesLabel = ["brand"];
+
+    for (const resource of resourcesLabel) {
+        const element = $("#" + resource)[0];
+        if (resources && resources.length) {
+            resources.forEach(value => {
+                element.innerHTML += ` <option class='p-2' id="${value.id}" value="${value.id}"> <div> ${value.name} - ${value.description} </div> </option> `;
+            })
+        } else {
+            element.innerHTML += "<option disabled>Nenhum valor</option>";
+        }
+    }
+}
+
 const catchError = (response) => {
     for (let prop in form.fields) {
         const len = response.split(" ");
@@ -319,6 +352,7 @@ const form = {
     valid : false,
     fields : {
         id : {value: '', name: "id", type: null, valid: true},
+        brand : {value: '', name: "Marca", type: null, valid: true},
         name : {value: '', name: "Nome", type: 'regex', validator: /^[0-9a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{3,}/g, valid: false, message: "Nome inválido"}, 
         code : {value: '', name: "Código", type: 'regex', validator: /^[a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{2,}/g, valid: false, message: "Código inválido"}, 
         description : {value: '', name: "Descrição", type: 'regex', validator: /^[a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]{8,}/g, valid: false, message: "Descrição curta"}, 
@@ -341,7 +375,8 @@ const Toast = Swal.mixin({
 
 
 $(window).on("load", ev => {
-    getBrands(encodeURI("method=GET"))
+    getResources().then(r => {})
+    getModels(encodeURI("method=GET"))
         .then(resp => fillTable(resp))
         .catch(resp => console.warn(resp))
  
@@ -349,7 +384,7 @@ $(window).on("load", ev => {
 
 $(document).ready(() => {
     $("#keyword").on("keyup", ({target}) => {
-        getBrands(encodeURI(`keyword=${target.value}&method=GET`))
+        getModels(encodeURI(`keyword=${target.value}&method=GET`))
         .then(resp => {
             fillTable(null);
             fillTable(resp);

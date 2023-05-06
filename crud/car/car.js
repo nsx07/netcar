@@ -205,7 +205,8 @@ const carBoilerPlate = (car) => {
                 <td class="valign-center text-center">${car.banner}</td>
                 <td class="valign-center text-center">${car.name}</td>
                 <td class="valign-center text-center">${car.model.code}</td>
-                <td class="valign-center text-center">${car.brand.code}</td>
+                <td class="valign-center text-center">${car.fuel}</td>
+                <td class="valign-center text-center">${car.kilometers} KM</td>
                 <td class="valign-center text-center">${car.year}</td>
                 <td class="valign-center text-center">R$ ${car.price}</td>
                 <td class="flex justify-content-center align-items-center column-gap-4"> 
@@ -224,7 +225,7 @@ const fillTable = (cars) => {
     }
 
     if (cars.length === 0) {
-        line.innerHTML = "<td> <td colspan='8' class='text-center'>Nenhum registro encontrado</td> </tr>";
+        line.innerHTML = "<td> <td colspan='10' class='text-center'>Nenhum registro encontrado</td> </tr>";
         return;
     }
 
@@ -332,8 +333,6 @@ const getResources = () => {
             data: "type=resources",
             async: true,
             success : (response) => {
-                // console.log(response);
-                console.log(JSON.parse(response));
                 setupResources(JSON.parse(response))
                 res(JSON.parse(response))
             },
@@ -347,13 +346,14 @@ const getResources = () => {
 }
 
 const setupResources = (resources) => {
-    const resourcesLabel = ["model", "brand","item"];
+    const resourcesLabel = ["model","item", "fuel"]
+    resources.fuel = fuelTypes;
 
     for (const resource of resourcesLabel) {
         const element = $("#" + resource)[0];
         if (resources[resource] && resources[resource].length) {
             resources[resource].forEach(value => {
-                element.innerHTML += ` <option class='p-2' id="${value.id}" value="${value.id}"> <div> ${value.name} - ${value.description} </div> </option> `;
+                element.innerHTML += ` <option class='p-2' id="${value.id}" value="${resource === 'fuel' ? value.name : value.id}"> <div> ${value.name} - ${value.code} </div> </option> `;
             })
         } else {
             element.innerHTML += "<option disabled>Nenhum valor</option>";
@@ -368,6 +368,13 @@ let cars = [];
 let items = []
 let brands = [];
 let models = [];
+
+const fuelTypes = [
+    {id: 0, code: "ET", name: "Etanol"},
+    {id: 0, code: "GA", name: "Gasolina"},
+    {id: 0, code: "DS", name: "Diesel"},
+]
+
 let handleItem = (item) => {
     const element = $("#" + item)[0].classList;
     if (items.includes(item)) {
@@ -414,25 +421,26 @@ $(document).ready(() => {
         button.prop("disabled", false);
 
         const formData = new FormData($("#files")[0]);
+        console.log($("#form").serialize());
 
-        $.ajax({
-            type: "POST",
-            async:true,
-            url: "car.php",
-            data: $("#form").serialize(),
-            success: function (response) {
-                console.log(response);
-                $.ajax({
-                    type: "POST",
-                    async: true,
-                    url: "car.php",
-                    data: formData,
-                    success: (responseImage) => {
-                        console.log(responseImage);
-                    }
-                })
-            }
-        })
+        // $.ajax({
+        //     type: "POST",
+        //     async:true,
+        //     url: "car.php",
+        //     data: $("#form").serialize(),
+        //     success: function (response) {
+        //         console.log(response);
+        //         $.ajax({
+        //             type: "POST",
+        //             async: true,
+        //             url: "car.php",
+        //             data: formData,
+        //             success: (responseImage) => {
+        //                 console.log(responseImage);
+        //             }
+        //         })
+        //     }
+        // })
         
         // callback();
                         

@@ -62,7 +62,6 @@ CREATE TABLE `brand` (
 
 CREATE TABLE `car` (
   `id` int(11) NOT NULL,
-  `id_brand` int(11) DEFAULT NULL,
   `id_model` int(11) DEFAULT NULL,
   `price` float NOT NULL,
   `fuel` varchar(30) NOT NULL,
@@ -104,6 +103,7 @@ CREATE TABLE `item` (
 
 CREATE TABLE `model` (
   `id` int(11) NOT NULL,
+  `id_brand` int(11) NOT NULL,
   `code` varchar(30) NOT NULL,
   `name` varchar(50) NOT NULL,
   `description` text DEFAULT NULL
@@ -165,6 +165,7 @@ ALTER TABLE `access`
 -- Índices para tabela `brand`
 --
 ALTER TABLE `brand`
+  ADD UNIQUE KEY `code`(`code`),
   ADD PRIMARY KEY (`id`);
 
 --
@@ -172,7 +173,6 @@ ALTER TABLE `brand`
 --
 ALTER TABLE `car`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_brand` (`id_brand`),
   ADD KEY `id_model` (`id_model`);
 
 --
@@ -187,13 +187,16 @@ ALTER TABLE `car_itens`
 -- Índices para tabela `item`
 --
 ALTER TABLE `item`
+  ADD UNIQUE KEY `code`(`code`),
   ADD PRIMARY KEY (`id`);
 
 --
 -- Índices para tabela `model`
 --
 ALTER TABLE `model`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `code`(`code`),
+  ADD KEY `id_brand` (`id_brand`);
 
 --
 -- Índices para tabela `sales`
@@ -261,8 +264,11 @@ ALTER TABLE `user`
 -- Limitadores para a tabela `car`
 --
 ALTER TABLE `car`
-  ADD CONSTRAINT `car_ibfk_1` FOREIGN KEY (`id_brand`) REFERENCES `brand` (`id`),
   ADD CONSTRAINT `car_ibfk_2` FOREIGN KEY (`id_model`) REFERENCES `model` (`id`);
+
+--
+ALTER TABLE `model`
+  ADD CONSTRAINT `car_ibfk_1` FOREIGN KEY (`id_brand`) REFERENCES `brand` (`id`);
 
 --
 -- Limitadores para a tabela `car_itens`

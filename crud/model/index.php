@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marcas | netcar</title>
+    <title>Modelos | netcar</title>
     <link rel="icon" type="image" href="../../assets/logo-minify-purple.png">
     <link rel="stylesheet" href="model.css">
     <?php require_once '../../utils/modules.php' ?>
@@ -65,6 +65,7 @@
                             <th class="valign-center text-center font-normal" scope="col">Nome</th>
                             <th class="valign-center text-center font-normal" scope="col">Código</th>
                             <th class="valign-center text-center font-normal" scope="col">Descrição</th>
+                            <th class="valign-center text-center font-normal" scope="col">Marca</th>
                             <th class="valign-center text-center font-normal" scope="col">Ações</th>
                         </tr>
                     </thead>
@@ -98,6 +99,15 @@
                     <input type="text" class="form-control" id="code" name="code" placeholder="Código do modelo" required>
                     <small class="feedbackcode fs-6 text text-danger"></small>
                 </div>
+
+                <div class="col-12 mt-3">
+                    <label for="brand">Marca <span style="color: red"> *</span></label>
+                    <select class="form-select" id="brand" name="brand">
+                        <option value="1" selected disabled>Selecione a marca</option>
+                    </select>
+                    <small class="feedbackbrand fs-6 text text-danger"></small>
+                </div>
+
                 <div class="col-12 mt-2">
                     <label for="description">Descrição <span style="color: red"> *</span></label>
                     <textarea type="text" class="form-control" id="description" name="description" placeholder="Descrição do modelo" required></textarea>
