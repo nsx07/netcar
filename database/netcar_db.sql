@@ -65,7 +65,7 @@ CREATE TABLE `car` (
   `id_model` int(11) DEFAULT NULL,
   `price` float NOT NULL,
   `fuel` varchar(30) NOT NULL,
-  `year` date NOT NULL,
+  `year` varchar(10) NOT NULL,
   `kilometers` float NOT NULL,
   `color` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
