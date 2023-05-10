@@ -149,7 +149,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `id_access`, `name`, `surname`, `birthDate`, `email`, `password`, `cpf`, `phone`, `cep`, `addressNumber`, `street`, `complement`) VALUES
-(1, 1, 'dev', 'test', '2001-01-01', 'dev@test.com', 'dGVzdEB0ZXN0', '111.111.111-11', '(11) 11111-1111', NULL, NULL, NULL, NULL);
+(1, 1, 'dev', 'test', '2001-01-01', 'dev@test.com', 'dGVzdEB0ZXN0', '11111111111', '11111111111', NULL, NULL, NULL, NULL);
 
 --
 -- Índices para tabelas despejadas
