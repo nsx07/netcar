@@ -61,15 +61,16 @@
                 <table class="table table-bordered table-striped rounded">
                     <thead class="bg-dark text-white">
                         <tr>
-                            <th class="valign-center text-center font-normal" scope="col">#</th>
-                            <th class="valign-center text-center font-normal" scope="col">Banner</th>
-                            <th class="valign-center text-center font-normal" scope="col">Nome</th>
-                            <th class="valign-center text-center font-normal" scope="col">Modelo</th>
-                            <th class="valign-center text-center font-normal" scope="col">Combustível</th>
-                            <th class="valign-center text-center font-normal" scope="col">KM</th>
-                            <th class="valign-center text-center font-normal" scope="col">Ano</th>
-                            <th class="valign-center text-center font-normal" scope="col">Preço</th>
-                            <th class="valign-center text-center font-normal" scope="col">Ações</th>
+                            <th class="valign-center text-center font-normal">#</th>
+                            <th class="valign-center text-center font-normal">Banner</th>
+                            <th class="valign-center text-center font-normal">Nome</th>
+                            <th class="valign-center text-center font-normal">Modelo</th>
+                            <th class="valign-center text-center font-normal">Combustível</th>
+                            <th class="valign-center text-center font-normal">KM</th>
+                            <th class="valign-center text-center font-normal">Ano</th>
+                            <th class="valign-center text-center font-normal">Preço</th>
+                            <th class="valign-center text-center font-normal">Cor</th>
+                            <th class="valign-center text-center font-normal">Ações</th>
                         </tr>
                     </thead>
                     <tbody id='result'>
@@ -148,14 +149,20 @@
                             <small class="feedbackitem fs-6 text text-danger"></small>
                         </div>
 
-                    </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label for="item">Cor <span style="color: red"> *</span></label>
+                            <input type="color" class="form-control" id="color" name="color" placeholder="Escolha uma cor">
+                            <small class="feedbackitem fs-6 text text-danger"></small>
+                        </div>
+
+                    <!-- </div>
                 </form>
             </div>
 
             <div class="row mt-3">
                 <h3 class="mb-1">Banner e imagens</h3>
                 <form id="files" onsubmit="return false"  target="_self"    >
-                    <div class="row">
+                    <div class="row"> -->
                         <div class="col-12">
                             <label for="banner" class="form-label">Banner</label>
                             <input class="form-control form-control-lg" type="file" name="banner" id="banner">
@@ -166,7 +173,7 @@
                             <input class="form-control" type="file" id="imagens" name="imagens" multiple>
                         </div>
                     </div>
-                </form>
+                <!-- </form> -->
             </div>
       </div>
       <div class="modal-footer">

@@ -7,6 +7,7 @@ const getCars = (id) => {
             data: id ? id : null,
             async: true,
             success : (response) => {
+                console.log(response);
                 cars = JSON.parse(response);
                 res(JSON.parse(response))
             },
@@ -63,6 +64,7 @@ const newEntity = () => {
     resetForm();
     setState("Cadastrar Carro", () => {
 
+        console.log($("#form").serialize());
         $.ajax({
             type: "POST",
             url: "car.php",
@@ -202,13 +204,14 @@ const carBoilerPlate = (car) => {
 
     return `<tr>
                 <td class="valign-center text-center">${car.id}</td>
-                <td class="valign-center text-center">${car.banner}</td>
+                <td class="valign-center text-center">${car.banner ? car.banner : "-"}</td>
                 <td class="valign-center text-center">${car.name}</td>
-                <td class="valign-center text-center">${car.model.code}</td>
+                <td class="valign-center text-center">${car.code}</td>
                 <td class="valign-center text-center">${car.fuel}</td>
                 <td class="valign-center text-center">${car.kilometers} KM</td>
                 <td class="valign-center text-center">${car.year}</td>
                 <td class="valign-center text-center">R$ ${car.price}</td>
+                <td style='background-color: ${car.color};'></td>
                 <td class="flex justify-content-center align-items-center column-gap-4"> 
                     <a onclick='edit(${car.id})' data-bs-toggle="tooltip" title="Editar"> <i class="fa-regular fa-pen-to-square"></i></a> 
                     <a onclick='delete_(${car.id})' data-bs-toggle="tooltip" title="Deletar"> <i class="fa-regular fa-trash-can"></i> </a>
@@ -321,7 +324,17 @@ const resetForm = () => {
 
 const form = {
     valid : false,
-    fields : { }
+    fields : {
+        id: {value: '', name: "id", type: null, valid: true},
+        id_model: {value: '', name: "id_model", type: null, valid: true},
+        code: {value: '', name: "code", type: null, valid: true},
+        price: {value: '', name: "price", type: null, valid: true},
+        fuel: {value: '', name: "fuel", type: null, valid: true},
+        year: {value: '', name: "year", type: null, valid: true},
+        kilometers: {value: '', name: "kilometers", type: null, valid: true},
+        color: {value: '', name: "color", type: null, valid: true},
+        name: {value: '', name: "name", type: null, valid: true}
+    }
 }
 
 const getResources = () => {
@@ -361,6 +374,22 @@ const setupResources = (resources) => {
     }
 }
 
+const saveImages = (formData) => {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            type: "POST",
+            async: true,
+            url: "car.php",
+            data: formData,
+            success: (responseImage) => {
+                console.log(responseImage);
+                resolve(responseImage)
+            }, 
+            error: (err) => reject(err)
+        })
+    })
+}
+
 //#endregion
 
 let callback;
@@ -371,8 +400,9 @@ let models = [];
 
 const fuelTypes = [
     {id: 0, code: "ET", name: "Etanol"},
-    {id: 0, code: "GA", name: "Gasolina"},
-    {id: 0, code: "DS", name: "Diesel"},
+    {id: 1, code: "GA", name: "Gasolina"},
+    {id: 2, code: "DS", name: "Diesel"},
+    {id: 3, code: "FX", name: "Flex"},
 ]
 
 let handleItem = (item) => {
@@ -420,29 +450,7 @@ $(document).ready(() => {
         $("#loading")[0].classList.remove("d-none");
         button.prop("disabled", false);
 
-        const formData = new FormData($("#files")[0]);
-        console.log($("#form").serialize());
-
-        // $.ajax({
-        //     type: "POST",
-        //     async:true,
-        //     url: "car.php",
-        //     data: $("#form").serialize(),
-        //     success: function (response) {
-        //         console.log(response);
-        //         $.ajax({
-        //             type: "POST",
-        //             async: true,
-        //             url: "car.php",
-        //             data: formData,
-        //             success: (responseImage) => {
-        //                 console.log(responseImage);
-        //             }
-        //         })
-        //     }
-        // })
-        
-        // callback();
+        callback();
                         
         $("#default")[0].classList.remove("d-none")
         $("#loading")[0].classList.add("d-none");

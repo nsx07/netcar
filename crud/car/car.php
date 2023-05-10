@@ -6,7 +6,8 @@
         $update = "";
         foreach ($post as $field => $value) {
             # code...     
-
+            if ($field == "id" || $field == "name") continue;
+            
             $update = $update . " `$field` = '$value'," ;
 
         }
@@ -17,7 +18,7 @@
     }
 
     function handleFiles($files) {
-
+        
     }
 
     $method = $_SERVER["REQUEST_METHOD"];
@@ -26,17 +27,33 @@
     switch ($method) {
         case 'POST':
             try {    
-                $response = array();
 
-                if (isset($_FILES)) {
-                   // handle files 
-                    $response = handleFiles($_FILES);
+                if (isset($_POST["id"]) && strlen($_POST["id"]) >= 1) {
+
+                    $id = $_POST["id"];
+                    $insert = setFields($_POST);
+                    $sql = "UPDATE CAR SET $insert WHERE ID = $id ";  
                 } else {
-                    //handle data
-                    
-                }                 
+                    //insert
+                    $year = $_POST["year"];
+                    $price = $_POST["price"];
+                    $kilometer = $_POST["kilometers"];
+                    $fuel = $_POST["fuel"];
+                    $color = $_POST["color"];
+                    $id_model = $_POST["model"];
 
-        
+                    
+
+                    $sql = "INSERT INTO CAR
+                    (`id_model`, `price`, `fuel`, `year`, `kilometers`, `color`) VALUES
+                    ($id_model, cast($price as float), '$fuel', '$year', $kilometer, '$color')";
+                }
+                               
+                
+                $row = mysqli_query($connect ,$sql);
+                $response["success"] = true;
+                $response["query"] = $sql;
+                
                 echo json_encode($response);
             } catch (\Throwable $th) {
                 echo json_encode(mysqli_error($connect));
@@ -73,29 +90,25 @@
                     $response[$entity] = $temp;
                 }
 
-
-
                 echo json_encode($response);
                 // exit("Exit");
             } else {
-                if (isset($_GET["keyword"]) && $_GET["keyword"] != NULL) {
+                if (isset($_GET["keyword"]) && !empty($_GET["keyword"])) {
                     $key = $_GET["keyword"];
-                    $sql = "SELECT * FROM CAR 
-                            WHERE ID = '$key' or NAME LIKE '%$key%' ";
+                    $sql = "SELECT C.id as id, C.id_model as id_model, M.code as code, C.price as price, C.fuel as fuel, C.year as year,  C.kilometers as kilometers, C.color as color, M.name as name  FROM CAR AS C INNER JOIN MODEL AS M ON C.id_model = M.id
+                            WHERE M.NAME LIKE '%$key%' or C.NAME LIKE '%$key%' or C.YEAR ";
                 } else {
-                    $sql = "SELECT * FROM CAR";
+                    $sql = "SELECT C.id as id, C.id_model as id_model, M.code as code, C.price as price, C.fuel as fuel, C.year as year,  C.kilometers as kilometers, C.color as color, M.name as name  FROM CAR AS C INNER JOIN MODEL AS M ON C.id_model = M.id";
                 }
                 
                 $result = mysqli_query($connect, $sql) or die("Erro ao buscar dados de marca");
-            
-                $users = [];
-            
-                $users = array();
+                        
+                $cars = array();
                 while( $data = mysqli_fetch_assoc($result) ) {
-                    $users[] = $data;
+                    $cars[] = $data;    
                 }
             
-                echo json_encode($users);
+                echo json_encode($cars);
                 break;
             }
 
