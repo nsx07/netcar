@@ -26,6 +26,7 @@
     }
 
     $method = $_SERVER["REQUEST_METHOD"];
+    $_SESSION["time"] = time();
 
     switch ($method) {
         case 'POST':
