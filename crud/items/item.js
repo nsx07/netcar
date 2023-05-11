@@ -321,7 +321,7 @@ const form = {
         id : {value: '', name: "id", type: null, valid: true},
         name : {value: '', name: "Nome", type: 'regex', validator: /^[0-9a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{3,}/g, valid: false, message: "Nome inválido"}, 
         code : {value: '', name: "Código", type: 'regex', validator: /^[a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{2,}/g, valid: false, message: "Código inválido"}, 
-        description : {value: '', name: "Descrição", type: 'regex', validator: /^[a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]{8,}/g, valid: false, message: "Descrição curta"}, 
+        description : {value: '', name: "Descrição", type: null}, 
     }
 }
 

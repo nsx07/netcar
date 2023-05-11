@@ -318,7 +318,8 @@ const catchError = (response) => {
 
 const resetForm = () => {
     for (let field in form.fields) {
-        $("#form")[0][field].value = null;
+        console.log(field);
+        // $("#form")[0][field].value = null;
     }
 } 
 
