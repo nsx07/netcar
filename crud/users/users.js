@@ -130,7 +130,7 @@ const edit = (id) => {
             async:true,
             data: $("#signup").serialize(),
             success: function (response) {
-                // console.log(response);
+                console.log(response);
                 try {
                     response = JSON.parse(response);
 

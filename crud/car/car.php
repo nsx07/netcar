@@ -4,9 +4,17 @@
 
     function setFields($post) {
         $update = "";
+        $itens = array();
         foreach ($post as $field => $value) {
             # code...     
-            if ($field == "id" || $field == "name") continue;
+            if ($field == "id" || $field == "name" || $field == "flexRadioDefault") continue;
+
+            if ($field == "model") $field = "id_model";
+
+            if ($field == "item") {
+                array_push($value);
+                continue;
+            }
             
             $update = $update . " `$field` = '$value'," ;
 
@@ -96,7 +104,7 @@
                 if (isset($_GET["keyword"]) && !empty($_GET["keyword"])) {
                     $key = $_GET["keyword"];
                     $sql = "SELECT C.id as id, C.id_model as id_model, M.code as code, C.price as price, C.fuel as fuel, C.year as year,  C.kilometers as kilometers, C.color as color, M.name as name  FROM CAR AS C INNER JOIN MODEL AS M ON C.id_model = M.id
-                            WHERE M.NAME LIKE '%$key%' or C.NAME LIKE '%$key%' or C.YEAR ";
+                            WHERE M.NAME LIKE '%$key%' or C.YEAR LIKE '%$key%' ";
                 } else {
                     $sql = "SELECT C.id as id, C.id_model as id_model, M.code as code, C.price as price, C.fuel as fuel, C.year as year,  C.kilometers as kilometers, C.color as color, M.name as name  FROM CAR AS C INNER JOIN MODEL AS M ON C.id_model = M.id";
                 }

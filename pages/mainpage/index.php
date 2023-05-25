@@ -49,10 +49,9 @@
         </div> 
 
 
-        <div class="row gap-2 flex justify-content-center px-6 pm-2">
+        <div class="row gap-2 flex justify-content-center px-6 pm-2" id="content">
 
-            <?php 
-            $jsonString = file_get_contents('../../assets/cars.json');
+            <!-- $jsonString = file_get_contents('../../assets/cars.json');
             $jsonData = json_decode($jsonString, true);
 
             foreach ($jsonData["cars"] as $car ) { 
@@ -91,9 +90,7 @@
                         </div>
                         </form>
                     </div>
-                </div> ";
-                }
-            ?>
+                </div> "; -->
         </div>
 
     </div>
@@ -118,6 +115,5 @@
         })
     </script>
     
-    <?php require '../../components/footer.php' ;?>
 </body>
 </html>

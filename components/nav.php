@@ -1,6 +1,6 @@
   <nav class="navbar bg-body-tertiary shadow justify-content-between px-3">
       <?php 
-        if (isset($_GET["logout"]) && $_GET["logout"] == 1) {
+        if (isset($_GET["logout"])) {
           $_SESSION = array();
 
           session_destroy();

@@ -1,3 +1,5 @@
+//#region API Methods
+
 const getCars = (id) => {
     const promise = new Promise(async (res,rej) => {
         await 
@@ -7,7 +9,6 @@ const getCars = (id) => {
             data: id ? id : null,
             async: true,
             success : (response) => {
-                console.log(response);
                 cars = JSON.parse(response);
                 res(JSON.parse(response))
             },
@@ -197,6 +198,10 @@ const delete_ = (id) => {
       })
 }
 
+//#endregion
+
+//#region Listing
+
 const carBoilerPlate = (car) => {
     if (!car) {
         return null;
@@ -239,6 +244,8 @@ const fillTable = (cars) => {
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 }
+
+//#endregion
 
 //#region 'Form'
 
@@ -318,7 +325,8 @@ const catchError = (response) => {
 
 const resetForm = () => {
     for (let field in form.fields) {
-        $("#form")[0][field].value = null;
+        console.log(field);
+        // $("#form")[0][field].value = null;
     }
 } 
 
@@ -359,7 +367,7 @@ const getResources = () => {
 }
 
 const setupResources = (resources) => {
-    const resourcesLabel = ["model","item", "fuel"]
+    const resourcesLabel = ["model", "fuel"]
     resources.fuel = fuelTypes;
 
     for (const resource of resourcesLabel) {
@@ -372,6 +380,21 @@ const setupResources = (resources) => {
             element.innerHTML += "<option disabled>Nenhum valor</option>";
         }
     }
+
+    const itemElement = $("#item")[0];
+    console.log(itemElement);
+    resources["item"].forEach(item => {
+        itemElement.innerHTML += `
+        <div class='col-6'>
+            <input class="form-check-input" type="checkbox" value="" id="${item.id}" onclick="handleItem(${item.id})">
+            <label class="form-check-label" for="${item.id}"> ${item.name} </label>
+        </div>`;
+    })
+
+    if (!resources["item"].length) {
+        itemElement.innerHTML += `<div class='col-12'> <span class="text-sm font-medium"> <i class="fa-regular fa-circle-xmark"></i> Nenhum item cadastrado </span> </div>`;
+    }
+
 }
 
 const saveImages = (formData) => {
@@ -390,13 +413,44 @@ const saveImages = (formData) => {
     })
 }
 
-//#endregion
+const fillSelectColor = () => {
+    let options = "";
+    for (let color in comumColors) {
+        options += `
+            <option value="${comumColors[color]}"> 
+                <div class='flex align-items-center justify-content-center gap-2'>
+                 <span class='border-circle p-2' style='background: #${comumColors[color]}'></span> 
+                 <span>${color}</span> 
+                </div>   
+            </option>
+        `;
+    } return "<select class='form-select' id='select' name='color'>" + options + "</select>";
+}
 
-let callback;
-let cars = [];
-let items = []
-let brands = [];
-let models = [];
+const comumColors = {
+    Azul: "#0000FF",
+    Vermelho: "#FF0000",
+    Verde: "#00FF00",
+    Amarelo: "#FFFF00",
+    Laranja: "#FFA500",
+    Roxo: "#800080",
+    Rosa: "#FFC0CB",
+    Preto: "#000000",
+    Branco: "#FFFFFF",
+    Cinza: "#808080"
+};
+
+const toggleColorSelector = (type) => {
+    const divInput = $("#colorInput")[0];
+    if (type === "picker") {
+        $("#select")[0]?.remove();
+        divInput.innerHTML = inputs.picker;
+    } else {
+        $("#picker")[0]?.remove();
+        divInput.innerHTML = inputs.select;
+    }
+
+}
 
 const fuelTypes = [
     {id: 0, code: "ET", name: "Etanol"},
@@ -405,16 +459,35 @@ const fuelTypes = [
     {id: 3, code: "FX", name: "Flex"},
 ]
 
-let handleItem = (item) => {
-    const element = $("#" + item)[0].classList;
+let inputs = {
+    current : "picker",
+    picker: "<input  type='color' class='form-control' id='picker' name='color' placeholder='Escolha uma cor'>",
+    select: fillSelectColor()
+}
+
+let handleItem = (item, event) => {
+    if (event) {
+        event.preventDefault();
+    }
     if (items.includes(item)) {
         items = items.filter(it => it != item);
-        element.remove("active");
     } else {
         items.push(item);
-        element.add("active")
     }
+    console.log(items);
 }
+
+//#endregion
+
+//#region Variables
+
+let cars = [];
+let items = [];
+let brands = [];
+let models = [];
+let callback = null;
+
+//#endregion
 
 const Toast = Swal.mixin({
     toast: true,
@@ -429,6 +502,8 @@ $(window).on("load", async ev => {
     getCars(encodeURI("method=GET"))
         .then(resp => fillTable(resp))
         .catch(resp => console.warn(resp))
+
+    toggleColorSelector("select")
 })
 
 $(document).ready(() => {
@@ -456,4 +531,3 @@ $(document).ready(() => {
         $("#loading")[0].classList.add("d-none");
     })
 })
-

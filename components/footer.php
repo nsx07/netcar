@@ -1,4 +1,4 @@
-<div class="bg-white shadow relative bottom-0 w-100">
+<div class="bg-white shadow fixed bottom-0 w-100">
   <div class="container">
     <div class="row p-2">
       <!-- <div class="col-6 col-md-2 col-sm-12">

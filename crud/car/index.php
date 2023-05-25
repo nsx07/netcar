@@ -143,16 +143,44 @@
 
                         <div class="col-md-6 col-sm-12">
                             <label for="item">Itens <span style="color: red"> *</span></label>
-                            <select class="form-select" id="item" name="item">
+                            <div class="dropdown" style="width: 100% !important">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Selecione os itens
+                                </button>
+                                <div class="dropdown-menu p-2 ">
+                                    <div class="grid" id="item">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <select class="form-select"  name="item">
                                 <option value="0" selected disabled>Selecione os itens</option>
-                            </select>
+                            </select> -->
                             <small class="feedbackitem fs-6 text text-danger"></small>
                         </div>
 
                         <div class="col-md-6 col-sm-12">
-                            <label for="item">Cor <span style="color: red"> *</span></label>
-                            <input type="color" class="form-control" id="color" name="color" placeholder="Escolha uma cor">
+                            <div class="flex align-items-center jusitfy-content-center gap-2">
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" onclick="toggleColorSelector('picker')">
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                    RGB
+                                </label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" onclick="toggleColorSelector('select')" checked>
+                                <label class="form-check-label" for="flexRadioDefault2">
+                                    Selecionar
+                                </label>
+                               </div>
+                            </div>
+
+                            <div id="colorInput">
+                                <label for="item">Cor <span style="color: red"> *</span></label>
+                                
+                            </div>
                             <small class="feedbackitem fs-6 text text-danger"></small>
+
                         </div>
 
                     <!-- </div>
