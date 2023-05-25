@@ -20,7 +20,7 @@
             <span id='timeSession'></span>
             <div class='dropdown dropstart cursor-pointer'>
               <ul class='dropdown-menu dropdown-menu-lg-end dropdown-menu-dark shadow-2'>
-                <li><a class='dropdown-item' href='#'>Perfil</a></li>
+                <li><a class='dropdown-item' href='../../components/page_usuario.php'>Perfil</a></li>
                 {$isAdmin}
                 <li><a class='dropdown-item' href='#'>Configurações</a></li>
                 <li><a class='dropdown-item' id='logout'>Sair</a></li>
