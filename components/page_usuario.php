@@ -17,18 +17,25 @@
     </div>
     <img id="imagem" src="#" alt="Imagem de perfil" class="img-thumbnail mb-3" style="max-width: 400px; display: block; margin: 0 auto; border: 2px solid black;">
  
-    
     <div class="form-group">
-      <label for="nome">Nome:</label>
-      <input type="text"" class="form-control" id="nome" placeholder="Digite seu nome">
+      <label for="nome">Nome</label>
+      <input type="text" class="form-control" id="nome" placeholder="Digite seu nome">
     </div>
     <div class="form-group">
-      <label for="email">E-mail:</label>
+      <label for="email">E-mail</label>
       <input type="email" class="form-control" id="email" placeholder="Digite seu e-mail">
     </div>
     <div class="form-group">
-      <label for="telefone">Telefone:</label>
+      <label for="telefone">Telefone</label>
       <input type="tel" class="form-control" id="telefone" placeholder="Digite seu telefone">
+    </div>
+    <div class="form-group">
+      <label for="senha">Nova Senha</label>
+      <input type="password" class="form-control" id="senha" placeholder="Digite sua senha">
+    </div>
+    <div class="form-group">
+      <label for="confirmar-senha">Confirmar senha</label>
+      <input type="password" class="form-control" id="confirmar-senha" placeholder="Digite novamente sua senha">
     </div>
     <button class="btn btn-primary">Salvar</button>
   </div>
@@ -36,14 +43,16 @@
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <scriptsrc="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
   <script>
     const inputImagem = document.getElementById('input-imagem');
     const imagem = document.getElementById('imagem');
     const nome = document.getElementById('nome');
     const email = document.getElementById('email');
-    const telefone = document.getElementById('telefone');
+    const telefone =document.getElementById('telefone');
+    const senha = document.getElementById('senha');
+    const confirmarSenha = document.getElementById('confirmar-senha');
 
     nome.value = "João Silva";
     email.value = "joao.silva@example.com";
@@ -62,12 +71,13 @@
       }
     });
 
-    
     const botaoSalvar = document.querySelector('button');
     botaoSalvar.addEventListener('click', function() {
       console.log(`Nome: ${nome.value}`);
       console.log(`E-mail: ${email.value}`);
       console.log(`Telefone: ${telefone.value}`);
+      console.log(`Senha: ${senha.value}`);
+      console.log(`Confirmar senha: ${confirmarSenha.value}`);
     });
   </script>
 </body>
