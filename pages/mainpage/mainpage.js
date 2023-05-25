@@ -53,12 +53,17 @@ const carBoilerPlate = (car) => {
         </div>
         
         <div class='card-body'>
-            <a href='#'> <h5 class='card-title'>${car.modelName}</h5> </a>
+            <div class='flex justify-content-between align-items-center'>
+                <a href='#'> <h5 class='card-title'>${car.modelName}</h5> </a>
+                <div class='border-round-md px-2 py-1 text-white shadow-2' style="background: ${car.color}">
+                    <span>R$ ${car.price}</span>
+                </div>
+            </div>
             <p class='card-text'> ${car.brandName} - ${car.year} </p>
             <form id='purcharse_car' onsubmit='return false'>
             <div class='flex gap-2 justify-content-center'>
-                <button type='submit' href='#' class='btn w-100 text-white btn-success'>Salvar <i class='fa-solid fa-bookmark'></i></button>
-                <button type='submit' href='#' class='btn w-100 text-white bg-default'>Comprar <i class='fa-solid fa-cart-shopping'></i></button>
+                <button type='submit' href='#' class='btn w-100 text-white shadow-2 btn-success'>Salvar <i class='fa-solid fa-bookmark'></i></button>
+                <button type='submit' href='#' class='btn w-100 text-white shadow-2 bg-default'>Comprar <i class='fa-solid fa-cart-shopping'></i></button>
             </div>
             </form>
         </div>

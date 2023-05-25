@@ -92,11 +92,11 @@
             } else {
                 if (isset($_GET["keyword"]) && !empty($_GET["keyword"])) {
                     $key = $_GET["keyword"];
-                    $sql = "SELECT C.id as id, M.name as modelName, B.name as brandName, C.year as year, C.kilometers as kilometers, B.name as brand, C.price as price 
+                    $sql = "SELECT C.color as color, C.id as id, M.name as modelName, B.name as brandName, C.year as year, C.kilometers as kilometers, B.name as brand, C.price as price 
                             FROM CAR AS C INNER JOIN MODEL AS M ON C.id_model = M.id INNER JOIN BRAND AS B ON M.id_brand = B.id
                             WHERE M.NAME LIKE '%$key%' or C.YEAR LIKE '%$key%' ";
                 } else {
-                    $sql = "SELECT C.id as id, M.name as modelName, B.name as brandName, C.year as year, C.kilometers as kilometers, B.name as brand, C.price as price 
+                    $sql = "SELECT C.color as color, C.id as id, M.name as modelName, B.name as brandName, C.year as year, C.kilometers as kilometers, B.name as brand, C.price as price 
                             FROM CAR AS C INNER JOIN MODEL AS M ON C.id_model = M.id INNER JOIN BRAND AS B ON M.id_brand = B.id";
                 }
                 

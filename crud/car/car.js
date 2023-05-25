@@ -502,6 +502,8 @@ $(window).on("load", async ev => {
     getCars(encodeURI("method=GET"))
         .then(resp => fillTable(resp))
         .catch(resp => console.warn(resp))
+
+    toggleColorSelector("select")
 })
 
 $(document).ready(() => {
