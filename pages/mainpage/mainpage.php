@@ -6,17 +6,7 @@
         $update = "";
         $itens = array();
         foreach ($post as $field => $value) {
-            # code...     
-            if ($field == "id" || $field == "name" || $field == "flexRadioDefault") continue;
 
-            if ($field == "model") $field = "id_model";
-
-            if ($field == "item") {
-                array_push($value);
-                continue;
-            }
-            
-            $update = $update . " `$field` = '$value'," ;
 
         }
         
@@ -26,7 +16,6 @@
     }
 
     function handleFiles($files) {
-        
     }
 
     $method = $_SERVER["REQUEST_METHOD"];
@@ -103,10 +92,12 @@
             } else {
                 if (isset($_GET["keyword"]) && !empty($_GET["keyword"])) {
                     $key = $_GET["keyword"];
-                    $sql = "SELECT C.id as id, C.id_model as id_model, M.code as code, C.price as price, C.fuel as fuel, C.year as year,  C.kilometers as kilometers, C.color as color, M.name as name  FROM CAR AS C INNER JOIN MODEL AS M ON C.id_model = M.id
+                    $sql = "SELECT C.id as id, M.name as modelName, B.name as brandName, C.year as year, C.kilometers as kilometers, B.name as brand, C.price as price 
+                            FROM CAR AS C INNER JOIN MODEL AS M ON C.id_model = M.id INNER JOIN BRAND AS B ON M.id_brand = B.id
                             WHERE M.NAME LIKE '%$key%' or C.YEAR LIKE '%$key%' ";
                 } else {
-                    $sql = "SELECT C.id as id, C.id_model as id_model, M.code as code, C.price as price, C.fuel as fuel, C.year as year,  C.kilometers as kilometers, C.color as color, M.name as name  FROM CAR AS C INNER JOIN MODEL AS M ON C.id_model = M.id";
+                    $sql = "SELECT C.id as id, M.name as modelName, B.name as brandName, C.year as year, C.kilometers as kilometers, B.name as brand, C.price as price 
+                            FROM CAR AS C INNER JOIN MODEL AS M ON C.id_model = M.id INNER JOIN BRAND AS B ON M.id_brand = B.id";
                 }
                 
                 $result = mysqli_query($connect, $sql) or die("Erro ao buscar dados de marca");
