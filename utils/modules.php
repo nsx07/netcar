@@ -31,6 +31,8 @@
       const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
     })
 
+    const WWWROOTPATH = "/netcar/wwwroot/";
+
 
   </script>
   

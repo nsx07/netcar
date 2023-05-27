@@ -62,8 +62,8 @@ const carBoilerPlate = (car) => {
             <p class='card-text'> ${car.brandName} - ${car.year} </p>
             <form id='purcharse_car' onsubmit='return false'>
             <div class='flex gap-2 justify-content-center'>
-                <button type='submit' href='#' class='btn w-100 text-white shadow-2 btn-success'>Salvar <i class='fa-solid fa-bookmark'></i></button>
-                <button type='submit' href='#' class='btn w-100 text-white shadow-2 bg-default'>Comprar <i class='fa-solid fa-cart-shopping'></i></button>
+                <a type='submit' class='btn w-100 text-white shadow-2 btn-success'>Salvar <i class='fa-solid fa-bookmark'></i></a>
+                <a type='submit' href='../car/?id=${car.id}' class='btn w-100 text-white shadow-2 bg-default'>Ver detalhes <i class='fa-solid fa-cart-shopping'></i></a>
             </div>
             </form>
         </div>

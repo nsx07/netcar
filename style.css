@@ -41,7 +41,7 @@ a {
     color: #24292E;
 }
 
-a:hover {
+a :not(.button):hover {
   color: #5e17eb !important;
   text-emphasis-color: var(--main-color) !important;
 }
@@ -384,4 +384,22 @@ table {
 .btn-close{
   position: absolute;
   right: 4%
+}
+
+.profile-pic {
+  display: flex;
+  justify-content: center;
+}
+
+#preview {
+  width: 300px;
+  height: 300px;
+  background-color: #f1f1f1;
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+}
+
+#fileInput {
+  display: none;
 }

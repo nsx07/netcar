@@ -1,19 +1,11 @@
-const getUsers = (id) => {
-    let httpParams = id ? decodeURI(id) : null;
-
-    
-    if (page) {
-        
-        httpParams += `&offset=${page.first}&limit=${page.last}`;
-    }
-    console.log(httpParams);
+const getEntities = (id) => {
     
     const promise = new Promise(async (res,rej) => {
         await 
         $.ajax({
             method: "GET",
             url: "users.php",
-            data: httpParams ? httpParams : null,
+            data: id,
             async: true,
             success : (response) => {
                 // console.log(response);
@@ -27,32 +19,11 @@ const getUsers = (id) => {
         })
     })
 
-    // console.log(page);
 
     return promise
 }
 
-const setUser = (user) => {
-    const promise = new Promise(async (res,rej) => {
-        await 
-        $.ajax({
-            method: "POST",
-            url: "users.php",
-            data: user,
-            async: true,
-            success : (response) => {
-                res(JSON.parse(response))
-            },
-            error : (response) => {
-                rej(JSON.parse(response))
-            }
-        })
-    })
-
-    return promise
-}
-
-const deleteUser = (id) => {
+const deleteEntity = (id) => {
     const promise = new Promise(async (res,rej) => {
         await 
         $.ajax({
@@ -93,7 +64,7 @@ const newEntity = () => {
                             title: 'Cadastrado com sucesso!'
                         })
 
-                        getUsers()
+                        getEntities()
                         .then(resp => {
                            
 
@@ -124,11 +95,17 @@ const edit = (id) => {
     const user = users.find(user => user.id == id);
     fillForm(user)
     setState("Editar usuário", () => {
+        var serialize = $("#signup").serialize();
+        serialize += changePassword ? "&changePass=true" : "&changePass=false";
+
+        console.log(serialize);
+
+
         $.ajax({
             type: "POST",
             url: "users.php",
             async:true,
-            data: $("#signup").serialize(),
+            data: serialize,
             success: function (response) {
                 console.log(response);
                 try {
@@ -141,7 +118,7 @@ const edit = (id) => {
                             title: 'Atualizado com sucesso!'
                         })
 
-                        getUsers()
+                        getEntities()
                         .then(resp => {
                            
 
@@ -169,10 +146,11 @@ const edit = (id) => {
 const setState = (label, _callback) => {
     $("#formModalLabel")[0].innerHTML = label;
     callback = _callback;
+    operation = label;
     $("#modal").click();
 }
 
-const delete_ = (id) => {
+const confirmDelete = (id) => {
     Swal.fire({
         title: 'Deseja excluir?',
         showDenyButton: true,
@@ -180,11 +158,11 @@ const delete_ = (id) => {
         denyButtonText: `Cancelar`,
       }).then((result) => {
         if (result.isConfirmed) {
-            deleteUser(encodeURI(`id=${id}`))
+            deleteEntity(encodeURI(`id=${id}`))
             .then(response => {
                 
                 if (response.success) {
-                    getUsers()
+                    getEntities()
                     .then(resp => {
 
                         $("#close").click();
@@ -222,7 +200,7 @@ const userBoilerPlate = (user) => {
         options = 
             `<td class="flex justify-content-center align-items-center column-gap-4"> 
                 <a onclick='edit(${user.id})' data-bs-toggle="tooltip" title="Editar"> <i class="fa-regular fa-pen-to-square"></i></a> 
-                <a onclick='delete_(${user.id})' data-bs-toggle="tooltip" title="Deletar"> <i class="fa-regular fa-trash-can"></i> </a>
+                <a onclick='confirmDelete(${user.id})' data-bs-toggle="tooltip" title="Deletar"> <i class="fa-regular fa-trash-can"></i> </a>
             </td>`;
     }
 
@@ -302,10 +280,17 @@ const checkState = () => {
     return state;
 }
 
-const checkForm = (button) => {
+const checkForm = (button, skipPass = false) => {
     const formGroup = $("#signup")[0]
 
     for (let prop in form.fields) {
+
+        if (skipPass) {
+            if (prop === "confirmPass" || prop === "password") {
+                continue;
+            }
+        }
+
         field = form.fields[prop]
         field.value = removeGarbbage(formGroup[prop].value);
         const errorMessage = $(".feedback" + prop)[0];
@@ -396,7 +381,8 @@ const form = {
 
 let users = []
 let callback;
-let page 
+let operation; 
+let changePassword = false;
 
 const Toast = Swal.mixin({
     toast: true,
@@ -407,21 +393,59 @@ const Toast = Swal.mixin({
 })
 
 $(window).on("load", async ev => {
-    await getUsers()
+    await getEntities()
 })
 
 $(document).ready(() => {
     $("#keyword").on("keyup", async ({target}) => {
-        await getUsers(encodeURI(`keyword=${target.value}`))
+        await getEntities(encodeURI(`keyword=${target.value}`))
     })
 
-    
-    
-
+    const changePass = $("#changePass");
     const button = $("#save");
+
+    $("#modal").on("click", ev => {
+        if (operation === "Editar usuário") {
+            $("#changePassDiv")[0].classList.remove("d-none")
+            if (!changePassword) {
+                form.fields.password.valid = true
+                form.fields.confirmPass.valid = true
+                $("#password").prop("disabled", !changePassword);
+                $("#confirmPass").prop("disabled", !changePassword);
+                checkForm(button, true);
+            }
+
+        } else {
+            $("#changePassDiv")[0].classList.add("d-none");
+            $("#password").prop("disabled", false);
+            $("#confirmPass").prop("disabled", false);
+            changePassword = true;
+        }
+    })
+
+    changePass.on("change", ev => {
+        changePassword = !changePassword;
+
+        if (!changePassword) {
+            form.fields.password.valid = true
+            form.fields.confirmPass.valid = true
+            checkForm(button, true);
+            $("#password").prop("disabled", true);
+            $("#confirmPass").prop("disabled", true);
+            $(".feedbackpassword")[0].innerHTML = "";
+            $(".feedbackconfirmPass")[0].innerHTML = ""
+        } else {
+            form.fields.password.valid = false
+            form.fields.confirmPass.valid = false
+            $("#password").prop("disabled", false);
+            $("#confirmPass").prop("disabled", false);
+            checkForm(button);
+        }
+
+    })
     
-    $("#signup").on("keyup", ev => checkForm(button))
-    $("#signup").on("click", ev => checkForm(button))
+    $("#signup").on("keyup", ev => checkForm(button, !changePassword))
+    $("#signup").on("click", ev => checkForm(button, !changePassword))
 
     button.click(event => {
         $("#default")[0].classList.add("d-none")
@@ -434,4 +458,3 @@ $(document).ready(() => {
         $("#loading")[0].classList.add("d-none");
     })
 })
-

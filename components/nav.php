@@ -118,24 +118,9 @@
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
-  <!DOCTYPE html>
-<html>
-<head>
-    <style>
-        .profile-pic {
-            display: flex;
-            justify-content: center;
-        }
-    </style>
-</head>
-<body>
     <div class="profile-pic">
         <img src="/netcar/assets/ícone.png" alt="Foto de Perfil" width="200" height="200">
+
     </div>
-    <div>
-      
-    </div>
-</body>
-</html>
   </div>
 </div>

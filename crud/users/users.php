@@ -13,9 +13,20 @@
 
             if ($field == "phone") $value = str_replace(["(", ")", "-", " "], "", $value);
 
-            if ($field == "password") $value = base64_encode($value);
             
+            if ($field == "password" ) {
+                if ($post["changePass"]) {
+                    $value = base64_encode($value);
+                } else {
+                    continue;
+                }
+            }
 
+            if ($field == "changePass") {
+                continue;
+            }
+            
+            
             $update = $update . " `$field` = '$value'," ;
 
         }
