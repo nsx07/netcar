@@ -130,10 +130,10 @@
 </head>
 <body>
     <div class="profile-pic">
-        <h3>foto de perfil</h3>
+        <h3>foto de perfil</h3> 
     </div>
     <div>
-      
+    <button type="submit" href="#" class="btn w-100 text-white bg-default">Suporte <i class="fa-solid fa-headset"></i></button>
     </div>
 </body>
 </html>
