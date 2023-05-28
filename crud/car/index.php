@@ -39,7 +39,7 @@
                 </div>
                 <div class="col-md-6 col-sm-12 flex align-items-center justify-content-end">
                     <form id='search' onsubmit="return false" target="_self" class="my-2 w-100">
-                        <div class="input-group" data-bs-toggle="tooltip" title="Pesquisar">
+                        <div class="input-group" title="Pesquisar">
                             <input type="text" class="form-control border-none bg-gray-200"  id="keyword" name="keyword" placeholder="Pesquisar"> 
                             <span class="input-group-text border-none"> <i class="fa-solid fa-search"></i> </span>
                         </div>
@@ -85,22 +85,16 @@
     <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="formModalLabel"></h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <div class="row">
-                <h3>Dados</h3>
-                <form id="form" onsubmit="return false"  target="_self">
-                <input type="text" id="id" name="id" class="d-none">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="formModalLabel"></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <h3>Dados</h3>
+                    <form id="form" onsubmit="return false"  target="_self">
+                    <input type="text" id="id" name="id" class="d-none">
                     <div class="row">
-                        <div class="col-md-6 col-sm-12">
-                            <label for="name">Nome <span style="color: red"> *</span></label>
-                            <input type="text" class="form-control" id="name" name="name" maxlength="15" placeholder="Nome carro">
-                            <small class="feedbackname fs-6 text text-danger"></small>
-                        </div>  
-
                         <div class="col-md-6 col-sm-12">
                             <label for="year">Ano <span style="color: red"> *</span></label>
                             <input type="number" class="form-control" min="1950" max="2050" step="1" name="year" id="year" placeholder="2023"/>
@@ -142,6 +136,30 @@
                         </div>
 
                         <div class="col-md-6 col-sm-12">
+                            <div class="flex align-items-center jusitfy-content-center gap-2">
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" onclick="toggleColorSelector('picker')">
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                    RGB
+                                </label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" onclick="toggleColorSelector('select')" checked>
+                                <label class="form-check-label" for="flexRadioDefault2">
+                                    Selecionar
+                                </label>
+                                </div>
+                            </div>
+
+                            <div id="colorInput">
+                                <label for="item">Cor <span style="color: red"> *</span></label>
+                                
+                            </div>
+                            <small class="feedbackitem fs-6 text text-danger"></small>
+
+                        </div>
+
+                        <div class="col-12">
                             <label for="item">Itens <span style="color: red"> *</span></label>
                             <div class="dropdown" style="width: 100% !important">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -153,70 +171,45 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- <select class="form-select"  name="item">
-                                <option value="0" selected disabled>Selecione os itens</option>
-                            </select> -->
                             <small class="feedbackitem fs-6 text text-danger"></small>
                         </div>
 
-                        <div class="col-md-6 col-sm-12">
-                            <div class="flex align-items-center jusitfy-content-center gap-2">
-                              <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" onclick="toggleColorSelector('picker')">
-                                <label class="form-check-label" for="flexRadioDefault1">
-                                    RGB
-                                </label>
-                                </div>
-                                <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" onclick="toggleColorSelector('select')" checked>
-                                <label class="form-check-label" for="flexRadioDefault2">
-                                    Selecionar
-                                </label>
-                               </div>
-                            </div>
+                        <input class="d-none" type="file" id="images" name="images" onchange="showPreview(event)" accept="image/*" multiple>
+                        <!-- <div class="col-12">
+                            <label for="images" class="form-label">Imagens</label>
+                            <div id="preview" onclick="editImage()"></div>
+                        </div> -->
 
-                            <div id="colorInput">
-                                <label for="item">Cor <span style="color: red"> *</span></label>
-                                
-                            </div>
-                            <small class="feedbackitem fs-6 text text-danger"></small>
+                    </div>
+
+                    <div class="p-2 border-none" id="images-container">
+                        <p class="text-semibold font-2xl text-left">Imagens</p>
+                        <div class="flex align-items-center justify-content-center p-3" id="carousel-images">
 
                         </div>
-
-                    <!-- </div>
-                </form>
-            </div>
-
-            <div class="row mt-3">
-                <h3 class="mb-1">Banner e imagens</h3>
-                <form id="files" onsubmit="return false"  target="_self"    >
-                    <div class="row"> -->
-                        <div class="col-12">
-                            <label for="banner" class="form-label">Banner</label>
-                            <input class="form-control form-control-lg" type="file" name="banner" id="banner">
-                        </div>
-
-                        <div class="col-12">
-                            <label for="imagens" class="form-label">Imagens</label>
-                            <input class="form-control" type="file" id="imagens" name="imagens" multiple>
+                        <div class="flex align-items-center justify-content-end">
+                            <button class="btn btn-warning" onclick="deleteImage()">
+                                <span class="text-lg text-semibold text-white">Excluir</span>
+                                <i class="fa-solid fa-trash ml-2"></i>
+                            </button>
                         </div>
                     </div>
-                <!-- </form> -->
+
+                </div>
             </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" id="close" data-bs-dismiss="modal">Fechar</button>
-        <button class="btn bg-default text-white" id="save" type="button" >
-            <span id="default">
-            Salvar
-            </span> 
-            <span id="loading" class="d-none">
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            Salvando...
-            </span>
-            
-        </button>
-      </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="close" data-bs-dismiss="modal">Fechar</button>
+                <button class="btn bg-default text-white" id="save" type="button" >
+                    <span id="default">
+                    Salvar
+                    </span> 
+                    <span id="loading" class="d-none">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Salvando...
+                    </span>
+                    
+                </button>
+            </div>
     </div>
   </div>
 </div>

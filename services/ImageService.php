@@ -2,6 +2,7 @@
 
 define("wwwroot", "../../wwwroot/");
 
+
 function saveImage($fileName, $target, $image) {
     $targetDir = get_defined_constants()["wwwroot"] . 'images/' . $target . "/";
     $targetFile = $targetDir . basename($image['name']);
@@ -48,6 +49,7 @@ function saveImage($fileName, $target, $image) {
 }
 
 function saveImages($baseName, $target, $images) {
+    $responses = array();
     $targetDir = get_defined_constants()["wwwroot"] . 'images/' . $target . "/";
 
     foreach ($_FILES['images']['tmp_name'] as $key => $tmp_name) {
@@ -57,11 +59,13 @@ function saveImages($baseName, $target, $images) {
         $targetFile = $targetDir . $imageName;
 
         if (move_uploaded_file($tmp_name, $targetFile)) {
-            echo "A imagem $imageName foi enviada com sucesso.";
+            $responses[$key] = "A imagem $imageName foi enviada com sucesso.";
         } else {
-            echo "Ocorreu um erro ao enviar a imagem $imageName.";
+            $responses[$key] = "Ocorreu um erro ao enviar a imagem $imageName.";
         }
     }
+
+    return $responses;
 }
 
 function getImages($baseName, $target) {
@@ -81,20 +85,39 @@ function getImages($baseName, $target) {
     return $filesMatch;
 }
 
+function deleteImage($imgPath) {
+    $response = array();
+
+    if (file_exists($imgPath)) {
+        if (unlink($imgPath)) {
+            $response["message"] = "A imagem foi excluída com sucesso.";
+        } else {
+            $response["message"] = "Ocorreu um erro ao excluir a imagem " . $imgPath;
+        }
+    } else {
+        $response["message"] = "O arquivo não existe.";
+    }
+
+    echo $response["message"];
+
+    return $response;
+}
+
 function deleteImages($baseName, $target) {
+    $response = array();
     $images = getImages($baseName, $target);
 
     foreach ($images as $image => $name) {
         $imagePath = get_defined_constants()["wwwroot"] . 'images/' . $target . "/" . $name;
         if (file_exists($imagePath)) {
             if (unlink($imagePath)) {
-                echo "A imagem foi excluída com sucesso.";
+                $response[$image] = "A imagem foi excluída com sucesso.";
             } else {
-                echo "Ocorreu um erro ao excluir a imagem " . $name;
+                $response[$image] = "Ocorreu um erro ao excluir a imagem " . $name;
             }
         } else {
-            echo "O arquivo não existe.";
+            $response[$image] = "O arquivo não existe.";
         }
     }
-
+    return $response;
 }

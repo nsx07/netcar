@@ -1,5 +1,6 @@
 <?php 
     require '../../database/connection_db.php';
+    require '../../services/ImageService.php';
     session_start();
 
     $method = $_SERVER["REQUEST_METHOD"];
@@ -63,6 +64,10 @@
                             
                     $car = array();
                     while( $data = mysqli_fetch_assoc($result) ) {
+                        $imgs = getImages($data["id"],"cars");
+
+                        $data["images"] = $imgs;
+        
                         $car[] = $data;    
                     }
                 

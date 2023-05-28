@@ -81,8 +81,3 @@ $(document).ready(function() {
       });
     });
   });
-
-function editImages() {
-  var fileInput = document.getElementById('fileInput');
-  fileInput.click();
-}

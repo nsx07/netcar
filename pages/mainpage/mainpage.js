@@ -26,6 +26,28 @@ const getCars = (id) => {
 
 //#region Listing
 
+const applyImages = (car) => {
+    let imagesElement = "";
+
+    if (car.images && car.images < 1 ) {
+        car.images = ["default.png", "netcar-ban.png"];
+    }
+
+    const ids = [], images = [];
+
+    car.images.forEach((image, index) => {
+        const id = Math.pow(index, Math.random() + 1).toString() + image;
+        const imagePath = `${WWWROOTPATH}images/cars/${image}`;
+        imagesElement += `
+            <div class='carousel-item ${index === 0 ? 'active' : ''}'>
+                <img id='${id}' src='${imagePath}' class='card-img-top cars'>
+            </div>
+        `;
+    });
+
+    return imagesElement
+}
+
 const carBoilerPlate = (car) => {
     if (!car) {
         return null;
@@ -35,12 +57,7 @@ const carBoilerPlate = (car) => {
     <div class='card col-lg-3 col-md-6 col-sm-12 p-0 border-none'>
         <div id='${car.id}' class='carousel slide'>
             <div class='carousel-inner'>
-                <div class='carousel-item'>
-                    <img src='../../assets/default.png' class='card-img-top cars'>
-                </div>
-                <div class='carousel-item active'>
-                    <img src='../../assets/netcar-ban.png' class='card-img-top cars'>
-                </div>
+                ${applyImages(car)}
             </div>
             <button class='carousel-control-prev' type='button' data-bs-target='#${car.id}' data-bs-slide='prev'>
                 <span class='carousel-control-prev-icon' aria-hidden='true'></span>
@@ -55,8 +72,8 @@ const carBoilerPlate = (car) => {
         <div class='card-body'>
             <div class='flex justify-content-between align-items-center'>
                 <a href='#'> <h5 class='card-title'>${car.modelName}</h5> </a>
-                <div class='border-round-md px-2 py-1 text-white shadow-2' style="background: ${car.color}">
-                    <span>R$ ${car.price}</span>
+                <div class='border-round-md px-2 py-1 text-white shadow-2'>
+                    <span class='text-gray-800'>R$ ${car.price}</span>
                 </div>
             </div>
             <p class='card-text'> ${car.brandName} - ${car.year} </p>

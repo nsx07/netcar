@@ -1,5 +1,6 @@
 <?php 
     require '../../database/connection_db.php';
+    require '../../services/ImageService.php';
     session_start();
 
     function setFields($post) {
@@ -33,34 +34,64 @@
     $_SESSION["time"] = time();
 
     switch ($method) {
+        case "PUT":
+            if (isset($_PUT['deleteImgPath'])) {
+                
+
+                $imgPath = $_PUT['deleteImgPath'];
+
+                $response = deleteImage($imgPath);
+                
+                exit(json_encode($response));
+            }
+
+
+            echo $_PUT['deleteImgPath'];
+
+            break;
         case 'POST':
-            try {    
+            try {   
+            
+                $serializedData = $_POST['data'];
+                parse_str($serializedData, $formData);
 
-                if (isset($_POST["id"]) && strlen($_POST["id"]) >= 1) {
+                $upload = array();
+                $id = NULL;
+                if (isset($formData["id"]) && strlen($formData["id"]) >= 1) {
 
-                    $id = $_POST["id"];
-                    $insert = setFields($_POST);
-                    $sql = "UPDATE CAR SET $insert WHERE ID = $id ";  
+                    $id = $formData["id"];
+                    $insert = setFields($formData);
+                    $sql = "UPDATE CAR SET $insert WHERE ID = $id ";
+
+                    if (isset($id) && isset($_FILES["images"])) {
+                        $upload = saveImages($id, "cars", $_FILES["images"]);
+                    }
+
                 } else {
                     //insert
-                    $year = $_POST["year"];
-                    $price = $_POST["price"];
-                    $kilometer = $_POST["kilometers"];
-                    $fuel = $_POST["fuel"];
-                    $color = $_POST["color"];
-                    $id_model = $_POST["model"];
-
-                    
+                    $year = $formData["year"];
+                    $price = $formData["price"];
+                    $kilometer = $formData["kilometers"];
+                    $fuel = $formData["fuel"];
+                    $color = $formData["color"];
+                    $id_model = $formData["model"];
 
                     $sql = "INSERT INTO CAR
                     (`id_model`, `price`, `fuel`, `year`, `kilometers`, `color`) VALUES
                     ($id_model, cast($price as float), '$fuel', '$year', $kilometer, '$color')";
+
+                    $row = mysqli_query($connect ,$sql);
+                    $id = mysqli_insert_id($connect); 
+
+                    if (isset($id) && isset($_FILES["images"])) {
+                        $upload = saveImages($id, "cars", $_FILES["images"]);
+                    }
                 }
-                               
                 
-                $row = mysqli_query($connect ,$sql);
+
                 $response["success"] = true;
                 $response["query"] = $sql;
+                $response["upload"] = $upload;
                 
                 echo json_encode($response);
             } catch (\Throwable $th) {
@@ -68,6 +99,7 @@
             }
             break;
         case 'DELETE':
+
             $url = $_SERVER['REQUEST_URI'];
             $url = preg_match('!\d+!', $url, $id);
             $id = $id[0];
@@ -76,6 +108,7 @@
 
             $result = mysqli_query($connect, $sql) or die ("Erro ao deletar carro");
 
+            $response["deleteImages"] = deleteImages($id, "cars");
             $response["success"] = $result;
 
             echo json_encode($response);
@@ -113,6 +146,11 @@
                         
                 $cars = array();
                 while( $data = mysqli_fetch_assoc($result) ) {
+
+                    $imgs = getImages($data["id"],"cars");
+
+                    $data["images"] = $imgs;
+
                     $cars[] = $data;    
                 }
             
