@@ -1,3 +1,5 @@
+//#region API Methods
+
 const getCars = (id) => {
     const promise = new Promise(async (res,rej) => {
         await 
@@ -7,27 +9,8 @@ const getCars = (id) => {
             data: id ? id : null,
             async: true,
             success : (response) => {
+                console.log(response)
                 cars = JSON.parse(response);
-                res(JSON.parse(response))
-            },
-            error : (response) => {
-                rej(JSON.parse(response))
-            }
-        })
-    })
-
-    return promise
-}
-
-const setCar = (car) => {
-    const promise = new Promise(async (res,rej) => {
-        await 
-        $.ajax({
-            method: "POST",
-            url: "car.php",
-            data: car,
-            async: true,
-            success : (response) => {
                 res(JSON.parse(response))
             },
             error : (response) => {
@@ -61,13 +44,19 @@ const deleteCar = (id) => {
 
 const newEntity = () => {
     resetForm();
+    fillCarousel(null);
     setState("Cadastrar Carro", () => {
+        console.log($("#form").serialize());
+        const data = prepareImages();
+        data.append("data", $("#form").serialize())
 
         $.ajax({
             type: "POST",
             url: "car.php",
             async:true,
-            data: $("#form").serialize(),
+            processData: false,
+            contentType: false,
+            data: data,
             success: function (response) {
                 console.log(response);
                 try {
@@ -110,14 +99,21 @@ const newEntity = () => {
 
 const edit = (id) => {
     const car = cars.find(car => car.id == id);
-    fillForm(car)
+    fillForm(car);
+    fillCarousel(car);
     setState("Editar Carro", () => {
         console.log(car, $("#form").serialize() ,cars);
+
+        const data = prepareImages();
+        console.log(data.get("images[]"));
+        data.append("data", $("#form").serialize())
         $.ajax({
             type: "POST",
             url: "car.php",
             async:true,
-            data: $("#form").serialize(),
+            processData: false,
+            contentType: false,
+            data: data,
             success: function (response) {
                 console.log(response);
                 try {
@@ -154,6 +150,25 @@ const edit = (id) => {
             }
         })  
     })
+}
+
+const deleteImage = () => {
+    const activeImage = $(".active img")[0]
+    const parsed = activeImage.src.split("netcar")[1];
+    const parsedTo = "../.." + parsed
+
+    $.ajax({
+        type: "PUT",
+        url: "car.php",
+        async:true,
+        processData: false,
+        contentType: false,
+        data: encodeURI("deleteImgPath=" + parsedTo),
+        success: function (response) {
+            console.log(response);
+            location.reload();
+        }
+    })  
 }
 
 const delete_ = (id) => {
@@ -195,23 +210,67 @@ const delete_ = (id) => {
       })
 }
 
+const prepareImages = () => {
+    var formData = new FormData();
+    console.log($('#images')[0]);
+    $.each($('#images')[0].files, function(i, file) {
+      formData.append('images[]', file);
+    });
+
+    return formData;
+}
+
+//#endregion
+
+//#region Listing
+
+function showPreview(event) {
+    var input = event.target;
+    var reader = new FileReader();
+
+    reader.onload = function() {
+        var preview = $('#' + currentImg);
+        preview.prop("src", reader.result)
+    };
+
+    reader.readAsDataURL(input.files[0]);
+}
+
+let currentImg = null; 
+
+function editImage(imgId) {
+    currentImg = imgId;
+    $("#images").click();
+}
+
 const carBoilerPlate = (car) => {
     if (!car) {
         return null;
     }
 
+    if (car.images && car.images < 1 ) {
+        car.images = ["default.png"];
+    }
+
     return `<tr>
-                <td class="valign-center text-center">${car.id}</td>
-                <td class="valign-center text-center">${car.banner}</td>
-                <td class="valign-center text-center">${car.name}</td>
-                <td class="valign-center text-center">${car.model.code}</td>
-                <td class="valign-center text-center">${car.fuel}</td>
-                <td class="valign-center text-center">${car.kilometers} KM</td>
-                <td class="valign-center text-center">${car.year}</td>
-                <td class="valign-center text-center">R$ ${car.price}</td>
-                <td class="flex justify-content-center align-items-center column-gap-4"> 
-                    <a onclick='edit(${car.id})' data-bs-toggle="tooltip" title="Editar"> <i class="fa-regular fa-pen-to-square"></i></a> 
-                    <a onclick='delete_(${car.id})' data-bs-toggle="tooltip" title="Deletar"> <i class="fa-regular fa-trash-can"></i> </a>
+                <td class="td.item text-center"> <div class='td-item-center'>${car.id}</div> </td>
+                <td class="td.item text-center"> 
+                    <div class='p-2 flex justify-content-center align-items-center'>
+                        <img src="${WWWROOTPATH}images/cars/${car.images[0]}" class="max-w-3rem border-circle">
+                    </div>
+                </td>
+                <td class="td.item text-center"> <div class='td-item-center'>${car.name}</div> </td>
+                <td class="td.item text-center"> <div class='td-item-center'>${car.code}</div> </td>
+                <td class="td.item text-center"> <div class='td-item-center'>${car.fuel}</div> </td>
+                <td class="td.item text-center"> <div class='td-item-center'>${car.kilometers} KM</div> </td>
+                <td class="td.item text-center"> <div class='td-item-center'>${car.year}</div> </td>
+                <td class="td.item text-center"> <div class='td-item-center'>R$ ${car.price} </div></td>
+                <td style='background-color: ${car.color};'></td>
+                <td class="td-item"> 
+                    <div class="flex justify-content-center align-items-center column-gap-4">
+                        <a onclick='edit(${car.id})' data-bs-toggle="tooltip" title="Editar"> <i class="fa-regular fa-pen-to-square"></i></a> 
+                        <a onclick='delete_(${car.id})' data-bs-toggle="tooltip" title="Deletar"> <i class="fa-regular fa-trash-can"></i> </a>
+                    </div>
                 </td>
             </tr>`;
 }
@@ -237,7 +296,67 @@ const fillTable = (cars) => {
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 }
 
+//#endregion
+
 //#region 'Form'
+
+const applyImages = (car) => {
+    let imagesElement = "";
+
+    if (car.images && car.images < 1 ) {
+        car.images = ["default.png", "netcar-ban.png"];
+    }
+
+    car.images.forEach((image, index) => {
+        const id = Math.pow(index, Math.random() + 1).toString() + Date.now().toString();
+        const imagePath = `${WWWROOTPATH}images/cars/${image}`;
+        imagesElement += `
+            <div class='carousel-item ${index === 0 ? 'active' : ''}'>
+                <img id='${id}' src='${imagePath}'  onclick="editImage('${id}')" class='card-img-top cars'>
+            </div>
+        `;
+    });
+
+    return imagesElement
+}
+
+
+
+const fillCarousel = (car) => {
+    const container = $("#images-container")[0];
+    
+    if (!car) {
+        container.classList.add("d-none");
+        return;
+    }
+
+    if (car.images.length === 0) {
+        car.images = ["default.png", "netcar-ban.png"];
+    }
+    
+    const carousel = $("#carousel-images")[0];
+    if (car.images && car.images.length >= 1) {
+        container.classList.remove("d-none");
+        carousel.innerHTML = `
+        <div id='${car.id}-${car.price}-${Date.now()}' class='carousel slide'>
+            <div class='carousel-inner'>
+                ${applyImages(car)}
+            </div>
+            <button class='carousel-control-prev' type='button' data-bs-target='#${car.id}-${car.price}-${Date.now()}' data-bs-slide='prev'>
+                <span class='carousel-control-prev-icon' aria-hidden='true'></span>
+                <span class='visually-hidden'>Previous</span>
+            </button>
+            <button class='carousel-control-next' type='button' data-bs-target='#${car.id}-${car.price}-${Date.now()}' data-bs-slide='next'>
+                <span class='carousel-control-next-icon' aria-hidden='true'></span>
+                <span class='visually-hidden'>Next</span>
+            </button>
+        </div>`;
+        console.log(carousel.innerHTML);
+
+    } else {
+        container.classList.add("d-none");
+    }
+}
 
 const setState = (label, _callback) => {
     $("#formModalLabel")[0].innerHTML = label;
@@ -295,6 +414,8 @@ const checkForm = (button) => {
 const fillForm = (car) => {
     const form_ = $("#form")[0];
     for (let field in car) {
+        if (field === "images") continue
+
         if (form_[field]) {
             form_[field].value = car[field];
             form.fields[field].value = car[field];
@@ -315,13 +436,24 @@ const catchError = (response) => {
 
 const resetForm = () => {
     for (let field in form.fields) {
-        $("#form")[0][field].value = null;
+        console.log(field);
+        // $("#form")[0][field].value = null;
     }
 } 
 
 const form = {
     valid : false,
-    fields : { }
+    fields : {
+        id: {value: '', name: "id", type: null, valid: true},
+        id_model: {value: '', name: "id_model", type: null, valid: true},
+        code: {value: '', name: "code", type: null, valid: true},
+        price: {value: '', name: "price", type: null, valid: true},
+        fuel: {value: '', name: "fuel", type: null, valid: true},
+        year: {value: '', name: "year", type: null, valid: true},
+        kilometers: {value: '', name: "kilometers", type: null, valid: true},
+        color: {value: '', name: "color", type: null, valid: true},
+        name: {value: '', name: "name", type: null, valid: true}
+    }
 }
 
 const getResources = () => {
@@ -345,8 +477,9 @@ const getResources = () => {
     return promise
 }
 
-const setupResources = (resources) => {
-    const resourcesLabel = ["model","item", "fuel"]
+const setupResources = (resources_) => {
+    resources = resources_;
+    const resourcesLabel = ["model", "fuel"]
     resources.fuel = fuelTypes;
 
     for (const resource of resourcesLabel) {
@@ -359,32 +492,112 @@ const setupResources = (resources) => {
             element.innerHTML += "<option disabled>Nenhum valor</option>";
         }
     }
+
+    const itemElement = $("#item")[0];
+    console.log(itemElement);
+    resources["item"].forEach(item => {
+        itemElement.innerHTML += `
+        <div class='col-6'>
+            <input class="form-check-input" type="checkbox" value="" id="${item.id}" onclick="handleItem(${item.id})">
+            <label class="form-check-label" for="${item.id}"> ${item.name} </label>
+        </div>`;
+    })
+
+    if (!resources["item"].length) {
+        itemElement.innerHTML += `<div class='col-12'> <span class="text-sm font-medium"> <i class="fa-regular fa-circle-xmark"></i> Nenhum item cadastrado </span> </div>`;
+    }
+
+}
+
+const fillSelectColor = () => {
+    let options = "";
+    for (let color in comumColors) {
+        options += `
+            <option value="${comumColors[color]}"> 
+                <div class='flex align-items-center justify-content-center gap-2'>
+                 <span class='border-circle p-2' style='background: #${comumColors[color]}'></span> 
+                 <span>${color}</span> 
+                </div>   
+            </option>
+        `;
+    } return "<select class='form-select' id='select' name='color'>" + options + "</select>";
+}
+
+const comumColors = {
+    Azul: "#0000FF",
+    Vermelho: "#FF0000",
+    Verde: "#00FF00",
+    Amarelo: "#FFFF00",
+    Laranja: "#FFA500",
+    Roxo: "#800080",
+    Rosa: "#FFC0CB",
+    Preto: "#000000",
+    Branco: "#FFFFFF",
+    Cinza: "#808080"
+};
+
+const toggleColorSelector = (type) => {
+    const divInput = $("#colorInput")[0];
+    if (type === "picker") {
+        $("#select")[0]?.remove();
+        divInput.innerHTML = inputs.picker;
+    } else {
+        $("#picker")[0]?.remove();
+        divInput.innerHTML = inputs.select;
+    }
+
+}
+
+const fuelTypes = [
+    {id: 0, code: "ET", name: "Etanol"},
+    {id: 1, code: "GA", name: "Gasolina"},
+    {id: 2, code: "DS", name: "Diesel"},
+    {id: 3, code: "FX", name: "Flex"},
+]
+
+let inputs = {
+    current : "picker",
+    picker: "<input  type='color' class='form-control' id='picker' name='color' placeholder='Escolha uma cor'>",
+    select: fillSelectColor()
+}
+
+let handleItem = (item, event) => {
+    if (event) {
+        event.preventDefault();
+    }
+    if (items.includes(item)) {
+        items = items.filter(it => it != item);
+    } else {
+        items.push(item);
+    }
+
+    const itemsDiv = $("#item-list")[0];
+
+    itemsDiv.innerHTML = "";
+
+    items.forEach((item, index) => {
+        console.log(item);
+        itemsDiv.innerHTML += `
+        <span class='flex align-items-center gap-2 border-round-xl bg-gray-100 text-black-alpha-90'>
+            ${resources["item"].filter(r => r.id == item)[0].name}
+        </span>`;
+    })
+
+    console.log(items);
 }
 
 //#endregion
 
-let callback;
+//#region Variables
+
+let resources = [];
 let cars = [];
-let items = []
+let items = [];
 let brands = [];
 let models = [];
+let callback = null;
 
-const fuelTypes = [
-    {id: 0, code: "ET", name: "Etanol"},
-    {id: 0, code: "GA", name: "Gasolina"},
-    {id: 0, code: "DS", name: "Diesel"},
-]
-
-let handleItem = (item) => {
-    const element = $("#" + item)[0].classList;
-    if (items.includes(item)) {
-        items = items.filter(it => it != item);
-        element.remove("active");
-    } else {
-        items.push(item);
-        element.add("active")
-    }
-}
+//#endregion
 
 const Toast = Swal.mixin({
     toast: true,
@@ -399,6 +612,8 @@ $(window).on("load", async ev => {
     getCars(encodeURI("method=GET"))
         .then(resp => fillTable(resp))
         .catch(resp => console.warn(resp))
+
+    toggleColorSelector("select")
 })
 
 $(document).ready(() => {
@@ -420,32 +635,9 @@ $(document).ready(() => {
         $("#loading")[0].classList.remove("d-none");
         button.prop("disabled", false);
 
-        const formData = new FormData($("#files")[0]);
-        console.log($("#form").serialize());
-
-        // $.ajax({
-        //     type: "POST",
-        //     async:true,
-        //     url: "car.php",
-        //     data: $("#form").serialize(),
-        //     success: function (response) {
-        //         console.log(response);
-        //         $.ajax({
-        //             type: "POST",
-        //             async: true,
-        //             url: "car.php",
-        //             data: formData,
-        //             success: (responseImage) => {
-        //                 console.log(responseImage);
-        //             }
-        //         })
-        //     }
-        // })
-        
-        // callback();
+        callback();
                         
         $("#default")[0].classList.remove("d-none")
         $("#loading")[0].classList.add("d-none");
     })
 })
-

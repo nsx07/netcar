@@ -49,54 +49,7 @@
         </div> 
 
 
-        <div class="row gap-2 flex justify-content-center px-6 pm-2">
-
-            <?php 
-            $jsonString = file_get_contents('../../assets/cars.json');
-            $jsonData = json_decode($jsonString, true);
-
-            foreach ($jsonData["cars"] as $car ) { 
-                $id = time() * 0.33 / 100 * $car['year'] * rand(2, 99);
-                echo "
-                <div class='card col-lg-3 col-md-6 col-sm-12 p-0 border-none'>
-                    <div id='". $id . $car['brand'] ."' class='carousel slide'>
-                        <div class='carousel-inner'>
-                            <div class='carousel-item active'>
-                                <img src='../../assets/{$car['assetsPath']}' class='card-img-top cars'>
-                            </div>
-                            <div class='carousel-item'>
-                                <img src='../../assets/{$car['assetsPath']}' class='card-img-top cars'>
-                            </div>
-                            <div class='carousel-item'>
-                                <img src='../../assets/{$car['assetsPath']}' class='card-img-top cars'>
-                            </div>
-                        </div>
-                        <button class='carousel-control-prev' type='button' data-bs-target='#". $id . $car['brand'] . "' data-bs-slide='prev'>
-                            <span class='carousel-control-prev-icon' aria-hidden='true'></span>
-                            <span class='visually-hidden'>Previous</span>
-                        </button>
-                        <button class='carousel-control-next' type='button' data-bs-target='#". $id . $car['brand'] ."' data-bs-slide='next'>
-                            <span class='carousel-control-next-icon' aria-hidden='true'></span>
-                            <span class='visually-hidden'>Next</span>
-                        </button>
-                    </div>
-                    
-                    <div class='card-body'>
-                        <a href='#'> <h5 class='card-title'>{$car['model']}</h5> </a>
-                        <p class='card-text'> {$car['brand']} - {$car['year']} </p>
-                        <form id='purcharse_car' onsubmit='return false'>
-                        <div class='flex gap-2 justify-content-center'>
-                            <button type='submit' href='#' class='btn w-100 text-white btn-success'>Salvar <i class='fa-solid fa-bookmark'></i></button>
-                            <button type='submit' href='#' class='btn w-100 text-white bg-default'>Comprar <i class='fa-solid fa-cart-shopping'></i></button>
-                        </div>
-                        </form>
-                    </div>
-                </div> ";
-                }
-            ?>
-        </div>
-
-    </div>
+        <div class="row gap-2 flex justify-content-center px-6 pm-2" id="content"></div>
 
     <script>
         $(document).ready(() => {
@@ -118,6 +71,5 @@
         })
     </script>
     
-    <?php require '../../components/footer.php' ;?>
 </body>
 </html>

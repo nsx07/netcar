@@ -17,6 +17,7 @@
     }
 
     $method = $_SERVER["REQUEST_METHOD"];
+    $_SESSION["time"] = time();
 
     switch ($method) {
         case 'POST':
@@ -77,11 +78,11 @@
                 if (isset($_GET["keyword"]) && $_GET["keyword"] != NULL) {
                     $key = $_GET["keyword"];
                     $sql = "SELECT M.id, M.name, M.code, M.description, B.id as id_brand, B.name as name_brand
-                            FROM MODEL as M, BRAND as B 
-                            WHERE NAME LIKE '%$key%' OR CODE LIKE '%$key%' OR DESCRIPTION LIKE '%$key%'";
+                            FROM MODEL as M INNER JOIN brand as B ON b.id = m.id_brand
+                            WHERE (NAME LIKE '%$key%' OR CODE LIKE '%$key%' OR DESCRIPTION LIKE '%$key%')";
                 } else {
                     $sql = "SELECT M.id, M.name, M.code, M.description, B.id as id_brand, B.name as name_brand
-                            FROM MODEL as M, BRAND as B";
+                            FROM MODEL as M INNER JOIN brand as B ON b.id = m.id_brand;";
                 }
                 
                 $result = mysqli_query($connect, $sql) or die("Erro ao buscar dados do modelo");

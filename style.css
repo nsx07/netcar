@@ -3,6 +3,7 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.css");
 @import url("https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5/dark.css");
 @import url("https://unpkg.com/primeflex@^3/primeflex.css");
+@import url("https://unpkg.com/jquery-tags-input/dist/jquery.tagsinput.min.css");
 
 body {
     margin : 0px;
@@ -41,7 +42,7 @@ a {
     color: #24292E;
 }
 
-a:hover {
+a :not(.button):hover {
   color: #5e17eb !important;
   text-emphasis-color: var(--main-color) !important;
 }
@@ -377,4 +378,29 @@ table {
   --primary-700:#1769aa;
   --primary-800:#125386;
   --primary-900:#0d3c61;
+}
+.offcanvas-header{
+  justify-content: center;
+}
+.btn-close{
+  position: absolute;
+  right: 4%
+}
+
+.profile-pic {
+  display: flex;
+  justify-content: center;
+}
+
+#preview {
+  width: 300px;
+  height: 300px;
+  background-color: #f1f1f1;
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+}
+
+#fileInput {
+  display: none;
 }

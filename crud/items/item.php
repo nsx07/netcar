@@ -17,6 +17,7 @@
     }
 
     $method = $_SERVER["REQUEST_METHOD"];
+    $_SESSION["time"] = time();
 
     switch ($method) {
         case 'POST':
@@ -62,7 +63,6 @@
             echo json_encode($response);
             break;
         case 'GET':
-            # code...
             if (isset($_GET["keyword"]) && $_GET["keyword"] != NULL) {
                 $key = $_GET["keyword"];
                 $sql = "SELECT * FROM ITEM 

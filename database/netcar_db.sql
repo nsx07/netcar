@@ -65,7 +65,7 @@ CREATE TABLE `car` (
   `id_model` int(11) DEFAULT NULL,
   `price` float NOT NULL,
   `fuel` varchar(30) NOT NULL,
-  `year` date NOT NULL,
+  `year` varchar(10) NOT NULL,
   `kilometers` float NOT NULL,
   `color` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -149,7 +149,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `id_access`, `name`, `surname`, `birthDate`, `email`, `password`, `cpf`, `phone`, `cep`, `addressNumber`, `street`, `complement`) VALUES
-(1, 1, 'dev', 'test', '2001-01-01', 'dev@test.com', 'dGVzdEB0ZXN0', '111.111.111-11', '(11) 11111-1111', NULL, NULL, NULL, NULL);
+(1, 1, 'dev', 'test', '2001-01-01', 'dev@test.com', 'dGVzdEB0ZXN0', '11111111111', '11111111111', NULL, NULL, NULL, NULL);
 
 --
 -- Índices para tabelas despejadas

@@ -13,9 +13,20 @@
 
             if ($field == "phone") $value = str_replace(["(", ")", "-", " "], "", $value);
 
-            if ($field == "password") $value = base64_encode($value);
             
+            if ($field == "password" ) {
+                if ($post["changePass"]) {
+                    $value = base64_encode($value);
+                } else {
+                    continue;
+                }
+            }
 
+            if ($field == "changePass") {
+                continue;
+            }
+            
+            
             $update = $update . " `$field` = '$value'," ;
 
         }
@@ -26,16 +37,18 @@
     }
 
     $method = $_SERVER["REQUEST_METHOD"];
+    $_SESSION["time"] = time();
 
     switch ($method) {
         case 'POST':
             try {    
 
         
-                if (isset($_POST["id"]) && strlen($_POST["id"]) > 1) {
+                if (isset($_POST["id"]) && strlen($_POST["id"]) >= 1) {
                     $id = $_POST["id"];
                     $insert = setFields($_POST);
                     $sql = "UPDATE USER SET $insert WHERE ID = $id ";                     
+
 
                 } else {
 
@@ -57,6 +70,7 @@
                     ($id_access,'$name', '$surname', '$birthDate', '$email', '$cpf', '$phone', '$password')"; 
                 }
         
+
                 $row = mysqli_query($connect ,$sql);
                 $response["success"] = true;
         
