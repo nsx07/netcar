@@ -154,13 +154,8 @@ const edit = (id) => {
 
 const deleteImage = () => {
     const activeImage = $(".active img")[0]
-    
-    console.log(activeImage.src);
-
-    var parsed = activeImage.src.split("netcar")[1];
-    var parsedTo = "../.." + parsed
-
-    console.log(parsed);
+    const parsed = activeImage.src.split("netcar")[1];
+    const parsedTo = "../.." + parsed
 
     $.ajax({
         type: "PUT",
@@ -482,7 +477,8 @@ const getResources = () => {
     return promise
 }
 
-const setupResources = (resources) => {
+const setupResources = (resources_) => {
+    resources = resources_;
     const resourcesLabel = ["model", "fuel"]
     resources.fuel = fuelTypes;
 
@@ -574,6 +570,19 @@ let handleItem = (item, event) => {
     } else {
         items.push(item);
     }
+
+    const itemsDiv = $("#item-list")[0];
+
+    itemsDiv.innerHTML = "";
+
+    items.forEach((item, index) => {
+        console.log(item);
+        itemsDiv.innerHTML += `
+        <span class='flex align-items-center gap-2 border-round-xl bg-gray-100 text-black-alpha-90'>
+            ${resources["item"].filter(r => r.id == item)[0].name}
+        </span>`;
+    })
+
     console.log(items);
 }
 
@@ -581,6 +590,7 @@ let handleItem = (item, event) => {
 
 //#region Variables
 
+let resources = [];
 let cars = [];
 let items = [];
 let brands = [];
@@ -616,13 +626,6 @@ $(document).ready(() => {
     })
 
     const button = $("#save");
-
-    // $("#close").on("click", ev => {
-    //     fillCarousel(null)
-    // })
-    // $("#btn-close").on("click", ev => {
-    //     fillCarousel(null)
-    // })
     
     // $("#form").on("keyup", ev => checkForm(button))
     // $("#form").on("click", ev => checkForm(button))

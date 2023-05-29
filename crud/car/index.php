@@ -171,6 +171,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="flex aling-items-center w-full p-2">
+                                <div class="flex justify-content-start gap-2 border-round bg-gray-400 p-3" id="item-list"></div>
+                            </div>
                             <small class="feedbackitem fs-6 text text-danger"></small>
                         </div>
 
