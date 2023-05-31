@@ -26,6 +26,8 @@
     if (isset($_SESSION["time"])) {
   ?>
     <script language='javascript'>
+      const WWWROOTPATH = "/netcar/wwwroot/";
+      
       $(document).ready(_ => {
         const logTime = <?php echo $_SESSION['time'];?>;
         const maxTime = <?php echo $_SESSION['max_time'];?>;
@@ -50,6 +52,9 @@
             showConfirmButton: false,
             timerProgressBar: true,
         })
+
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
     
     
         if (logout) {
@@ -82,25 +87,15 @@
         }
       })
   
+      // $(window).on('load', function() {
+      //   $('#loader').fadeOut('slow');
+      //   $('#conteudo').fadeIn('slow');
+      //   console.log('pagina carregada');
+      // });
+
+
 
     </script>
   <?php
     } 
   ?>
-
-  <script>
-    $(window).on('load', function() {
-      $('#loader').fadeOut('slow');
-      $('#conteudo').fadeIn('slow');
-    });
-
-    $(document).ready(() => {
-      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-    })
-
-    const WWWROOTPATH = "/netcar/wwwroot/";
-
-
-  </script>
-  
