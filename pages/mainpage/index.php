@@ -36,12 +36,12 @@
                     </div>
                     <div class="p-2 md:col-3 sm:col-6 xs:col-6">
                         <select class="form-select w-100" id="models" name="models" placeholder="Filtrar por modelo">
-                            <option value="semFiltroModels" selected disabled>Filtrar por modelo</option>
+                            <option value="semFiltroModels" selected>Filtrar por modelo</option>
                         </select>                    
                     </div>
                     <div class="p-2 md:col-3 sm:col-6 xs:col-6">
                         <select class="form-select w-100" id="brands" name="brands" placeholder="Filtrar por marca">
-                            <option value="semFiltroBrands" selected disabled>Filtrar por marca</option>
+                            <option value="semFiltroBrands" selected>Filtrar por marca</option>
                         </select>
                     </div>
                     <div class="p-2 md:col sm:col-6 xs:col-6">
