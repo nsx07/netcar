@@ -27,20 +27,30 @@
     <div id="conteudo" class="container-fluid py-3">
         <div class="col-12">
             <form id="filter" method="GET">                
-                <div class="flex justify-content-center align-items-center column-gap-1 rounded">
-                        <select class="form-select" id="models" style="width: 400px" name="models">
-                            <option value="semFiltroModels">Sem filtro de modelo!</option>
-                        </select>                    
-                        <div class="input-group">
+                <div class="grid grid-nogutter">
+                    <div class="p-2 md:col-4 sm:col-12 xs:col-12">
+                        <div class="input-group w-100">
                             <span class="input-group-text border-none bg-white color-default" id="basic-addon1"> <i class="fa-solid fa-search"></i> </span>
-                            <input type="text" class="form-control border-none w-95" id="name" name="name" data-noresults-text="Nothing to see here." autocomplete="off" placeholder="Pesquise..." aria-describedby="basic-addon1">          
+                            <input type="text" class="form-control border-none " id="name" name="name" placeholder="Pesquise...">          
                         </div>                    
-                        <select class="form-select" id="brands" style="width: 400px" name="brands">
-                            <option value="semFiltroBrands">Sem filtro de marca!</option>
+                    </div>
+                    <div class="p-2 md:col-3 sm:col-6 xs:col-6">
+                        <select class="form-select w-100" id="models" name="models" placeholder="Filtrar por modelo">
+                            <option value="semFiltroModels" selected disabled>Filtrar por modelo</option>
+                        </select>                    
+                    </div>
+                    <div class="p-2 md:col-3 sm:col-6 xs:col-6">
+                        <select class="form-select w-100" id="brands" name="brands" placeholder="Filtrar por marca">
+                            <option value="semFiltroBrands" selected disabled>Filtrar por marca</option>
                         </select>
-                    <input type="text" onkeyup="this.value = mascaraANO(this.value)" class="form-control border-none" style="width: 100px" id="ano" name="ano" data-noresults-text="Nothing to see here." autocomplete="off" placeholder="Ano" aria-describedby="basic-addon1" >                
-                    <button type="submit" id="search" class="btn shadow text-white bg-default" style="cursor: pointer">Buscar</button>
-                </div>
+                    </div>
+                    <div class="p-2 md:col sm:col-6 xs:col-6">
+                        <input type="text" onkeyup="this.value = mascaraANO(this.value)" class="form-control border-none w-100" id="ano" name="ano" placeholder="Ano" >                
+                    </div>
+                    <div class="p-2 md:col sm:col-6 xs:col-6">
+                    <button type="submit" id="search" class="btn shadow-2 text-white bg-default w-100">Buscar</button>
+                    </div>
+                </div>                
             </form>
         </div>
         <div class="row gap-2 flex justify-content-center px-6 pm-2" id="content"></div>
