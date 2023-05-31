@@ -5,6 +5,7 @@
     aspect-ratio: 3/2 !important;
     object-fit: contain !important;
     mix-blend-mode: darken !important;
-    background: blur(5px);;
+    background: blur(5px);
+    backdrop-filter: blur(2px);
   }
 

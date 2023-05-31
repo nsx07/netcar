@@ -54,7 +54,7 @@ const carBoilerPlate = (car) => {
     }
 
     return `
-    <div class='card col-lg-3 col-md-6 col-sm-12 p-0 border-none'>
+    <div class='card col-lg-3 col-md-6 col-sm-12 p-0 border-none min-w-15rem'>
         <div id='${car.id}' class='carousel slide'>
             <div class='carousel-inner'>
                 ${applyImages(car)}
@@ -71,21 +71,21 @@ const carBoilerPlate = (car) => {
         
         <div class='card-body'>
             <div class='flex justify-content-between align-items-center'>
-                <a href='#'> <h5 class='card-title'>${car.modelName}</h5> </a>
+                <a href='../car/?id=${car.id}'> <h5 class='card-title'>${car.modelName}</h5> </a>
                 <div class='border-round-md px-2 py-1 text-white shadow-2'>
                     <span class='text-gray-800'>R$ ${car.price}</span>
                 </div>
             </div>
             <p class='card-text'> ${car.brandName} - ${car.year} </p>
             <form id='purcharse_car' onsubmit='return false'>
-            <div class='flex gap-2 justify-content-center'>
-                <a type='submit' class='btn w-100 text-white shadow-2 btn-success'>Salvar <i class='fa-solid fa-bookmark'></i></a>
-                <a type='submit' href='../car/?id=${car.id}' class='btn w-100 text-white shadow-2 bg-default'>Ver detalhes <i class='fa-solid fa-cart-shopping'></i></a>
-            </div>
+                <div class='flex gap-2 justify-content-center align-items-center'>
+                    <a type='submit' href='../car/?id=${car.id}' class='btn w-100 text-white shadow-3 bg-default'>Detalhes <i class='fa-solid fa-cart-shopping'></i></a>
+                </div>
             </form>
         </div>
     </div> 
     `;
+            // <a type='submit' class='btn w-100 text-white shadow-2 btn-success'>Salvar <i class='fa-solid fa-bookmark'></i></a>
 }
 
 const fillTable = (cars) => {
