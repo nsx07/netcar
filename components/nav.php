@@ -22,7 +22,6 @@
               <ul class='dropdown-menu dropdown-menu-lg-end dropdown-menu-dark shadow-2'>
                 <li><a class='dropdown-item' href='../../components/page_usuario.php'>Perfil</a></li>
                 {$isAdmin}
-                <li><a class='dropdown-item' href='#'data-bs-toggle='offcanvas' data-bs-target='#offcanvasRight' aria-controls='offcanvasRight'>Configurações</a></li>
                 <li><a class='dropdown-item' id='logout'>Sair</a></li>
               </ul>
               <a class='dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false'>
@@ -111,16 +110,3 @@
   </script>
     ";
   }
-?>
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasRightLabel">Configurações</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-    <div class="profile-pic">
-        <img src="/netcar/assets/ícone.png" alt="Foto de Perfil" width="200" height="200">
-
-    </div>
-  </div>
-</div>
