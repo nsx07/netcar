@@ -62,12 +62,14 @@ CREATE TABLE `brand` (
 
 CREATE TABLE `car` (
   `id` int(11) NOT NULL,
-  `id_model` int(11) DEFAULT NULL,
+  `id_model` int(11) NOT NULL,
   `price` float NOT NULL,
   `fuel` varchar(30) NOT NULL,
   `year` varchar(10) NOT NULL,
   `kilometers` float NOT NULL,
-  `color` varchar(30) NOT NULL
+  `color` varchar(30) NOT NULL,
+  `isNew` boolean NOT NULL,
+  `plate` varchar(10) NOT NULL UNIQUE,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -77,7 +79,7 @@ CREATE TABLE `car` (
 --
 
 CREATE TABLE `car_itens` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `id_car` int(11) NOT NULL,
   `id_item` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
