@@ -1,12 +1,10 @@
   <nav class="navbar bg-body-tertiary shadow justify-content-between px-3">
       <?php 
-        if (isset($_GET["logout"])) {
+        if (isset($_GET["logout"]) && $_GET["logout"] == 1) {
           $_SESSION = array();
-
           session_destroy();
           header("Location: /netcar/pages/mainpage");
         }
-
         if (isset($_SESSION["name"])) {
           $isAdmin = isset($_SESSION["id_access"]) && $_SESSION["id_access"] == 1 ? "<li><a class='dropdown-item' href='/netcar/crud/'>Cadastros</a></li>" : "";
           $icon = isset($_SESSION["id_access"]) && $_SESSION["id_access"] == 1 ? "fa-user-ninja" : "fa-user";
@@ -20,8 +18,8 @@
             <span id='timeSession'></span>
             <div class='dropdown dropstart cursor-pointer'>
               <ul class='dropdown-menu dropdown-menu-lg-end dropdown-menu-dark shadow-2'>
-                <li><a class='dropdown-item' href='#'>Perfil</a></li>
                 {$isAdmin}
+                <li><a class='dropdown-item' href='#'data-bs-toggle='offcanvas' data-bs-target='#offcanvasRight' aria-controls='offcanvasRight'>Perfil</a></li>
                 <li><a class='dropdown-item' id='logout'>Sair</a></li>
               </ul>
               <a class='dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false'>
@@ -47,7 +45,6 @@
       ?>
   </nav>
   
-
 <?php 
   if (isset($_SESSION["time"])) {
     echo"
@@ -66,7 +63,6 @@
         }
       }, 555)
     })
-
     $(document).ready(() => {
       const logout = $('#logout');
       const Toast = Swal.mixin({
@@ -110,3 +106,42 @@
   </script>
     ";
   }
+?>
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header">
+    <div class="text"><h5></h5></div>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+      <form>
+        <div class="form-group">
+          <label for="imageInput">Altere sua imagem:</label>
+          <input type="file" class="form-control-file" id="imageInput">
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+      </form>
+      <br>
+      <br>
+      <br>
+      <h6>Alterar nome:</h6>
+      <div class="col-md-6 col-sm-12 mt-2">
+        <label for="name">Nome <span style="color: red"> *</span></label>
+        <input type="text" class="form-control" id="name" pattern="[a-zA-Z]{3,}" name="name" placeholder="Digite seu nome" required>
+        <small class="feedbackname fs-6 text text-danger"></small>
+        </div>
+        <div class="col-md-6 col-sm-12 mt-2">
+        <label for="surname">Sobrenome <span style="color: red"> *</span></label>
+        <input type="text" class="form-control" id="surname" pattern="[a-zA-Z]{3,}" name="surname" placeholder="Digite seu sobrenome" required>
+        <small class="feedbacksurname fs-6 text text-danger"></small>
+      </div>
+      <br>
+      <div class="col-12 mt-2 d-flex justify-content-end">
+        <button class="btn bg-default text-white btn-lg w-100" id="signup-button" type="button" disabled>
+          <span id="default">
+            Alterar
+          </span> 
+   
+        </button>
+      </div>
+    </div>
+</div>
