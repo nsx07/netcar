@@ -109,39 +109,12 @@
 ?>
 <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
   <div class="offcanvas-header">
-    <div class="text"><h5></h5></div>
+    <h5 class="offcanvas-title" id="offcanvasRightLabel"><?php echo $_SESSION["name"] ?></h5>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
-  <div class="offcanvas-body">
-      <form>
-        <div class="form-group">
-          <label for="imageInput">Altere sua imagem:</label>
-          <input type="file" class="form-control-file" id="imageInput">
-        </div>
-        <button type="submit" class="btn btn-primary">Enviar</button>
-      </form>
-      <br>
-      <br>
-      <br>
-      <h6>Alterar nome:</h6>
-      <div class="col-md-6 col-sm-12 mt-2">
-        <label for="name">Nome <span style="color: red"> *</span></label>
-        <input type="text" class="form-control" id="name" pattern="[a-zA-Z]{3,}" name="name" placeholder="Digite seu nome" required>
-        <small class="feedbackname fs-6 text text-danger"></small>
-        </div>
-        <div class="col-md-6 col-sm-12 mt-2">
-        <label for="surname">Sobrenome <span style="color: red"> *</span></label>
-        <input type="text" class="form-control" id="surname" pattern="[a-zA-Z]{3,}" name="surname" placeholder="Digite seu sobrenome" required>
-        <small class="feedbacksurname fs-6 text text-danger"></small>
-      </div>
-      <br>
-      <div class="col-12 mt-2 d-flex justify-content-end">
-        <button class="btn bg-default text-white btn-lg w-100" id="signup-button" type="button" disabled>
-          <span id="default">
-            Alterar
-          </span> 
-   
-        </button>
-      </div>
-    </div>
+
+
+
+  
+  </div>
 </div>
