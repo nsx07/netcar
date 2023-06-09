@@ -118,8 +118,6 @@ function deleteImage($imgPath) {
         $response["message"] = "O arquivo não existe.";
     }
 
-    echo $response["message"];
-
     return $response;
 }
 

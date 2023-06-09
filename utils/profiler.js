@@ -98,14 +98,23 @@ $(document).ready(function() {
       contentType: false,
       data: formData,
       success: (response) => {
+        console.log(response);
         response = JSON.parse(response);
-        // console.log(response);
+        console.log(response);
         if (response.status === 1) {
           PROFILEIMAGE = response.path;
           PROFILEIMAGE = "/netcar" + new String(PROFILEIMAGE).slice(2);
           showPreview(PROFILEIMAGE);
         } else {
+
+          Swal.fire({
+            position: 'bottom-start',
+            icon: 'error',
+            title: response.message,
+            showConfirmButton: false,
+          })
           PROFILEIMAGE = null;
+          
         }
         load(false);
       }
