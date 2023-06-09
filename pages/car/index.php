@@ -21,7 +21,7 @@
 
     <div id="loader"> <div class="spinner"></div> </div>
 
-    <div id="conteudo" class="container-fluid py-3">
+    <div id="conteudo">
         <div class="col-12 d-none" id="notFound">
             <div class="flex aling-items-center justify-content-center p-4">
                 <div class="alert alert-warning" role="alert">
@@ -30,19 +30,8 @@
             </div>
         </div> 
 
-        <div class="col-12" id="content">
-
-
-            <!-- <body>
-            <form action="car.php" method="post" enctype="multipart/form-data">
-                <input type="file" id="fileInput" name="image" onchange="showPreview(event)" accept="image/*" multiple>
-                <div id="preview" onclick="editImage()"></div>
-                <br>
-                <input type="submit" value="Salvar">
-            </form>
-            </body> -->
-
-
+        <div class="col-12 px-6 flex align-items-center justify-content-center" style="background: rgba(0,0,0,0.35)" id="content">
+            
         </div>
     </div>
 

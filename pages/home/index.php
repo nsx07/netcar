@@ -12,9 +12,9 @@
 </head>
 <body>
     <?php require_once '../../utils/modules.php' ?>
-    <div id="loader">
+    <!-- <div id="loader">
         <div class="spinner"></div>
-    </div>
+    </div> -->
 
     <div id="conteudo" class="wrapper">
         <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column opacity-100">
