@@ -1,5 +1,21 @@
 //#region API Methods
 
+const mascaraANO = (ano) => {
+    ano = ano.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
+    if (ano.length >= 5) {
+        if(ano.length === 5){
+            ano = ano.slice(0, 4);
+        }
+        else{
+            for (let index = ano.length; index > 3; index--) {
+                ano = ano.slice(0, index);                
+            }
+        }
+    }
+    return ano;
+}
+
+
 const getCars = (id) => {
     const promise = new Promise(async (res,rej) => {
         await 
@@ -12,6 +28,49 @@ const getCars = (id) => {
                 console.log(response);
                 cars = JSON.parse(response);
                 res(JSON.parse(response))
+            },
+            error : (response) => {
+                rej(JSON.parse(response))
+            }
+        })
+    })
+
+    return promise
+}
+
+const getBrands = (id) => {
+    const promise = new Promise(async (res,rej) => {
+        await 
+        $.ajax({
+            method: "GET",
+            url: "../../crud/brand/brand.php",
+            data: id ? id : null,
+            async: true,
+            success : (response) => {
+                brands = JSON.parse(response);
+                res(JSON.parse(response));
+                adicionarItensAoSelectBrands(brands);
+            },
+            error : (response) => {
+                rej(JSON.parse(response))
+            }
+        })
+    })
+
+    return promise
+}
+
+const getModels = (id) => {
+    const promise = new Promise(async (res,rej) => {
+        await $.ajax({
+            method: "GET",
+            url: "../../crud/model/model.php",
+            data: id ? id : null,
+            async: true,
+            success : (response) => {
+                models = JSON.parse(response);
+                res(JSON.parse(response))
+                adicionarItensAoSelectModels(models);
             },
             error : (response) => {
                 rej(JSON.parse(response))
@@ -124,6 +183,27 @@ let models = [];
 let callback = null;
 
 //#endregion
+function adicionarItensAoSelectBrands(brands) {
+    const selectElement = document.getElementById('brands');   
+    // Adiciona os itens ao <select>
+    brands.forEach((brand) => {     
+      const optionElement = document.createElement('option');        
+      optionElement.value = brand.name;
+      optionElement.textContent = brand.name;
+      selectElement.appendChild(optionElement);
+    });
+  }
+
+  function adicionarItensAoSelectModels(models) {
+    const selectElement = document.getElementById('models');
+    // Adiciona os itens ao <select>
+    models.forEach((models) => {     
+      const optionElement = document.createElement('option');        
+      optionElement.value = models.name;
+      optionElement.textContent = models.name;
+      selectElement.appendChild(optionElement);
+    });
+  }
 
 const Toast = Swal.mixin({
     toast: true,
@@ -139,33 +219,70 @@ $(window).on("load", async ev => {
             console.log(resp);
             fillTable(resp);
         })
-        .catch(resp => console.warn(resp))
-
-    
+        .catch(resp => console.warn(resp))    
 })
 
-$(document).ready(() => {
-    $("#keyword").on("keyup", ({target}) => {
-        getCars(encodeURI(`keyword=${target.value}&method=GET`))
+$(window).on("load", async ev => {        
+    getBrands(encodeURI("method=GET"))
         .then(resp => {
-            fillTable(null);
-            fillTable(resp);
+            console.log(resp);
         })
-    })
-
-    const button = $("#save");
-    
-    // $("#form").on("keyup", ev => checkForm(button))
-    // $("#form").on("click", ev => checkForm(button))
-
-    button.click(event => {
-        $("#default")[0].classList.add("d-none")
-        $("#loading")[0].classList.remove("d-none");
-        button.prop("disabled", false);
-
-        callback();
-                        
-        $("#default")[0].classList.remove("d-none")
-        $("#loading")[0].classList.add("d-none");
-    })
+        .catch(resp => console.warn(resp)) 
 })
+
+$(window).on("load", async ev => {        
+    getModels(encodeURI("method=GET"))
+        .then(resp => {
+            console.log(resp);
+        })
+        .catch(resp => console.warn(resp)) 
+})
+
+
+
+function filtrar(cars){
+    const selectElementBrand = document.getElementById('brands');
+    const selectElementModel = document.getElementById('models');
+    let brand = selectElementBrand.value;
+    let model = selectElementModel.value;
+    let ano = document.getElementById('ano').value;
+
+    if(brand != null && brand != "" && brand != "semFiltroBrands"){
+        cars = cars.filter((obj) => obj.brand === brand);
+    }     
+    if(ano != null && ano != ""){
+        cars = cars.filter((obj) => obj.year === ano);
+    }  
+    if(model != null && model != "" && model != "semFiltroModels"){
+        cars = cars.filter((obj) => obj.modelName === model);
+    }
+    fillTable(null);
+    fillTable(cars);
+    console.log(cars);   
+    
+}
+
+$(document).ready(function() {
+    $('#search').click(function(event) {
+      const promise = new Promise(async (res,rej) => { 
+      event.preventDefault();
+      var formData = $('#filter').serialize(); // Obtém os dados do formulário
+      await
+      $.ajax({
+        type: 'GET',
+        url: 'mainpage.php',
+        data: formData,
+        async: true,
+        success: (response) => {
+            cars = JSON.parse(response);
+            filtrar(cars);                                   
+        },
+        error : (response) => {
+            rej(JSON.parse(response))
+        }
+      })
+    })
+  })
+})
+
+
