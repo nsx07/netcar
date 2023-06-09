@@ -24,6 +24,31 @@ body {
   animation: gradient 15s ease infinite ;
 }
 
+#preview {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  image-rendering: optimizeQuality;
+  image-resolution: 1000;
+  border-radius: 50%;
+  z-index: 10;
+}
+
+#preview .float {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.3rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
+
+  z-index: 99999;
+  background-color: #fff;
+  color: #111;
+}
+
 @keyframes gradient {
   from {
     background-position: 0% 50%;
@@ -189,7 +214,7 @@ button {
   color: var(--main-color) !important;
 }
 
-/* #loader {
+#loader {
   position: fixed;
   top: 0;
   left: 0;
@@ -216,7 +241,7 @@ button {
 
 @keyframes spin {
   to { transform: rotate(360deg); }
-} */
+}
 
 table {
   overflow-x: scroll;

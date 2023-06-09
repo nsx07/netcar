@@ -7,10 +7,11 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.7.1/slick.js"></script>
-    
+
+    <script src="/netcar/utils/profiler.js"></script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.7.1/slick.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.7.1/slick-theme.css">
-    
     <link rel="stylesheet" href="/netcar/style.css">
   </head>
 
@@ -56,7 +57,6 @@
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
     
-    
         if (logout) {
             logout.click(ev => {
               const swalWithBootstrapButtons = Swal.mixin({
@@ -87,11 +87,11 @@
         }
       })
   
-      // $(window).on('load', function() {
-      //   $('#loader').fadeOut('slow');
-      //   $('#conteudo').fadeIn('slow');
-      //   console.log('pagina carregada');
-      // });
+      $(window).on('load', function() {
+        $('#loader').fadeOut('slow');
+        $('#conteudo').fadeIn('slow');
+        console.log('pagina carregada');
+      });
 
 
 

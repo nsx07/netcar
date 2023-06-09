@@ -2,14 +2,14 @@
 
 define("wwwroot", "../../wwwroot/");
 
-function saveImage($fileName, $target, $image) {
-    $targetDir = get_defined_constants()["wwwroot"] . 'images/' . $target . "/";
+function saveImage($fileName, $target, $image, $root = "../../") {
+    $targetDir = $root . 'wwwroot/images/' . $target . "/";
     $targetFile = $targetDir . basename($image['name']);
     $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
     $uploadOk = 1;
     $response = array();
 
-    $imageName = $fileName . '.' . $imageFileType;
+    $imageName = $fileName . "-" . uniqid() . '.' . $imageFileType;
     $targetFile = $targetDir . $imageName;
 
     if (isset($_POST["submit"])) {
@@ -42,17 +42,19 @@ function saveImage($fileName, $target, $image) {
     } else {
         if (move_uploaded_file($image['tmp_name'], $targetFile)) {
             $response['message'] = "O arquivo foi enviado com sucesso.";
+            $response["path"] = $targetFile;
         } else {
             $response['message'] = "Ocorreu um erro ao enviar o arquivo.";
         }
     }
-    $response["code"] = $uploadOk;
+    
+    $response["status"] = $uploadOk;
     return $response;
 }
 
-function saveImages($baseName, $target, $images) {
+function saveImages($baseName, $target, $images, $root = "../../") {
     $responses = array();
-    $targetDir = get_defined_constants()["wwwroot"] . 'images/' . $target . "/";
+    $targetDir = $root . 'wwwroot/images/' . $target . "/";
 
     foreach ($_FILES['images']['tmp_name'] as $key => $tmp_name) {
         $imageFileType = strtolower(pathinfo($_FILES['images']['name'][$key], PATHINFO_EXTENSION));
@@ -86,8 +88,8 @@ function getImagesByPath($baseName, $target, $path) {
     return $filesMatch;
 }
 
-function getImages($baseName, $target) {
-    $dirPath =  get_defined_constants()["wwwroot"] . 'images/' . $target . "/";
+function getImages($baseName, $target, $root = "../../") {
+    $dirPath =  $root . 'wwwroot/images/' . $target . "/";
     $files = scandir($dirPath);
     $files = array_filter($files, function($file) {
         return !in_array($file, array('.', '..'));
@@ -121,12 +123,12 @@ function deleteImage($imgPath) {
     return $response;
 }
 
-function deleteImages($baseName, $target) {
+function deleteImages($baseName, $target, $root = "../../") {
     $response = array();
-    $images = getImages($baseName, $target);
+    $images = getImages($baseName, $target, $root);
 
     foreach ($images as $image => $name) {
-        $imagePath = get_defined_constants()["wwwroot"] . 'images/' . $target . "/" . $name;
+        $imagePath = $root . 'wwwroot/images/' . $target . "/" . $name;
         if (file_exists($imagePath)) {
             if (unlink($imagePath)) {
                 $response[$image] = "A imagem foi excluída com sucesso.";

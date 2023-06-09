@@ -12,10 +12,10 @@ switch ($requestMethod) {
         if (isset($_SESSION["id"]) && isset($_FILES["image"])) {
             $imageAlready = getImagesByPath($_SESSION["id"], "users", "../wwwroot/images/users/"); 
             if (isset($imageAlready) && !empty($imageAlready)) {
-                deleteImages($_SESSION["id"], "users");
+                deleteImages($_SESSION["id"], "users", "../");
             }
             
-            $response['message'] = saveImage($_SESSION["id"], "users", $_FILES["image"]);
+            $response = saveImage($_SESSION["id"], "users", $_FILES["image"], "../");
         }
 
         echo json_encode($response);
@@ -25,10 +25,16 @@ switch ($requestMethod) {
     case 'GET':
 
         if (isset($_SESSION["id"])) {
-            $response['message'] = getImagesByPath($_SESSION["id"], "users", "../wwwroot/images/users/"); 
+            $response['image'] = getImagesByPath($_SESSION["id"], "users", "../wwwroot/images/users/"); 
         }
 
         echo json_encode($response);
 
         break;
+    case 'DELETE':
+        $response = array();
+        if (isset($_SESSION["id"])) {
+            $response["message"] = deleteImages($_SESSION["id"], "users", "../");
+        }
+        echo json_encode($response);
 }

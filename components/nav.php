@@ -24,6 +24,33 @@
             </a>
           </div>
         </div>
+
+        <div class='offcanvas offcanvas-start' tabindex='-1' id='offcanvasRight' aria-labelledby='offcanvasRightLabel'>
+        <div class='offcanvas-header'>
+          <h5 class='offcanvas-title' id='offcanvasRightLabel'> " . $_SESSION['name'] ."</h5>
+          <button type='button' class='btn-close' data-bs-dismiss='offcanvas' aria-label='Close'></button>
+        </div>
+      
+        <div class='offcanvas-body'>
+          <div class='profile-pic'>
+              <input type='file' id='fileInput' name='image' accept='image/*'>
+              
+              <div class='dropdown'>
+                <a type='button' data-bs-toggle='dropdown' aria-expanded='false'>
+      
+                  <div id='preview' class='image-profile'></div>
+      
+                </a>
+                <ul class='dropdown-menu'>
+                  <li><a class='dropdown-item cursor-pointer' onclick='editImage()'>Alterar imagem <i class='ml fa-solid fa-user-pen'></i></a></li>
+                  <li><a class='dropdown-item cursor-pointer' onclick='deleteImage()' >Excluir imagem <i class='ml fa-solid fa-trash'></i></a></li>
+                </ul>
+              </div>
+      
+          </div>
+        </div>
+      </div>
+
         ";
       } else {
         echo "
@@ -40,17 +67,3 @@
       }
     ?>
 </nav>
-  
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasRightLabel">Perfil</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-    <div class="profile-pic">
-        <input type="file" id="fileInput" name="image" onchange="showPreview(event)" accept="image/*">
-        <div id="preview" onclick="editImage()" class="image-profile"></div>
-    </div>
-  </div>
-</div>
-<script src='/netcar/utils/component.js'></script>
