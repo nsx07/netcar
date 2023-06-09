@@ -90,15 +90,15 @@
 
                 echo json_encode($response);
                 // exit("Exit");
-            } else {
-                if (isset($_GET["keyword"]) && !empty($_GET["keyword"])) {
-                    $key = $_GET["keyword"];
-                    $sql = "SELECT C.color as color, C.id as id, M.name as modelName, B.name as brandName, C.year as year, C.kilometers as kilometers, B.name as brand, C.price as price 
-                            FROM CAR AS C INNER JOIN MODEL AS M ON C.id_model = M.id INNER JOIN BRAND AS B ON M.id_brand = B.id
-                            WHERE M.NAME LIKE '%$key%' or C.YEAR LIKE '%$key%' ";
-                } else {
-                    $sql = "SELECT C.color as color, C.id as id, M.name as modelName, B.name as brandName, C.year as year, C.kilometers as kilometers, B.name as brand, C.price as price 
-                            FROM CAR AS C INNER JOIN MODEL AS M ON C.id_model = M.id INNER JOIN BRAND AS B ON M.id_brand = B.id";
+            }          
+            else {
+                $sql = "SELECT C.color as color, C.id as id, M.name as modelName, B.name as brandName, C.year as year, C.kilometers as kilometers, B.name as brand, C.price as price
+                FROM CAR AS C INNER JOIN MODEL AS M ON C.id_model = M.id INNER JOIN BRAND AS B ON M.id_brand = B.id LEFT JOIN car_itens AS CI ON C.id = CI.id_car";
+
+                $keyName = isset($_GET["name"]) ? $_GET["name"] : null;
+
+                if(isset($_GET["name"]) && !empty($_GET["name"])){
+                    $sql = $sql . " WHERE M.NAME LIKE '%$keyName%' or B.NAME LIKE '%$keyName%'";
                 }
                 
                 $result = mysqli_query($connect, $sql) or die("Erro ao buscar dados de marca");

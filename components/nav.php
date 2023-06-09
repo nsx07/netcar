@@ -3,7 +3,6 @@
       if (isset($_SESSION["name"])) {
         $isAdmin = isset($_SESSION["id_access"]) && $_SESSION["id_access"] == 1 ? "<li><a class='dropdown-item' href='/netcar/crud/'>Cadastros</a></li>" : "";
         $icon = isset($_SESSION["id_access"]) && $_SESSION["id_access"] == 1 ? "fa-user-ninja" : "fa-user";
-        // <li><a class='dropdown-item' href='#'>Perfil</a></li>
         echo "
         <div class='flex'>
           <a class='navbar-brand shadow-md' href='/netcar/pages/mainpage'>
@@ -67,3 +66,4 @@
       }
     ?>
 </nav>
+
