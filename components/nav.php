@@ -32,17 +32,17 @@
       
         <div class='offcanvas-body'>
           <div class='profile-pic'>
-              <input type='file' id='fileInput' name='image' accept='image/*'>
+              <input type='file' id='userInput' name='image' accept='image/*'>
               
               <div class='dropdown'>
                 <a type='button' data-bs-toggle='dropdown' aria-expanded='false'>
       
-                  <div id='preview' class='image-profile'></div>
+                  <div id='userPreview' class='image-profile'></div>
       
                 </a>
                 <ul class='dropdown-menu'>
-                  <li><a class='dropdown-item cursor-pointer' onclick='editImage()'>Alterar imagem <i class='ml fa-solid fa-user-pen'></i></a></li>
-                  <li><a class='dropdown-item cursor-pointer' onclick='deleteImage()' >Excluir imagem <i class='ml fa-solid fa-trash'></i></a></li>
+                  <li><a class='dropdown-item cursor-pointer' onclick='editUserImage()'>Alterar imagem <i class='ml fa-solid fa-user-pen'></i></a></li>
+                  <li><a class='dropdown-item cursor-pointer' onclick='deleteUserImage()' >Excluir imagem <i class='ml fa-solid fa-trash'></i></a></li>
                 </ul>
               </div>
       

@@ -1,5 +1,5 @@
-function showPreview(event) {
-  const preview = $('#preview')[0];
+function showUserPreview(event) {
+  const preview = $('#userPreview')[0];
 
   if (!preview) return;
 
@@ -26,13 +26,13 @@ function showPreview(event) {
 
 }
 
-function editImage() {
-  $('#fileInput').click();
+function editUserImage() {
+  $('#userInput').click();
 }
 
 let PROFILEIMAGE = null;
 
-function deleteImage() {
+function deleteUserImage() {
   if (PROFILEIMAGE) {
     load(true);
     $.ajax({
@@ -44,7 +44,7 @@ function deleteImage() {
       success: (r) => {
         // console.log(r);
         PROFILEIMAGE = null;
-        showPreview("/netcar/wwwroot/images/users/icone.png");
+        showUserPreview("/netcar/wwwroot/images/users/icone.png");
         load(false);
       }
     })
@@ -69,7 +69,7 @@ $(document).ready(function() {
             img = "icone.png"
           }
                       
-          showPreview(`/netcar/wwwroot/images/users/${img}`);
+          showUserPreview(`/netcar/wwwroot/images/users/${img}`);
           load(false);
           
         }
@@ -77,7 +77,7 @@ $(document).ready(function() {
   });
 
 
-  $('#fileInput').on("change", ev => {
+  $('#userInput').on("change", ev => {
     const formData = new FormData();
     formData.append('image', ev.target.files[0]);
     load(true);
@@ -95,7 +95,7 @@ $(document).ready(function() {
         if (response.status === 1) {
           PROFILEIMAGE = response.path;
           PROFILEIMAGE = "/netcar" + new String(PROFILEIMAGE).slice(2);
-          showPreview(PROFILEIMAGE);
+          showUserPreview(PROFILEIMAGE);
         } else {
 
           Swal.fire({
