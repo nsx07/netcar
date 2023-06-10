@@ -10,10 +10,9 @@
             # code...     
             if ($field == "id" || $field == "name" || $field == "flexRadioDefault") continue;
 
-            if ($field == "model") $field = "id_model";
-
-            if ($field == "item") {
-                array_push($value);
+            if ($field == "itens") {
+                $itens = ($value);
+                updateItens($itens, $post["id"]);
                 continue;
             }
             
@@ -26,8 +25,34 @@
         return $update;
     }
 
-    function handleFiles($files) {
-        
+    function updateItens($itens, $carId) {
+        require '../../database/connection_db.php';
+        $sql = "DELETE FROM CAR_ITENS WHERE ID_CAR = $carId";
+        $row = mysqli_query($connect ,$sql);
+        $itens = parseItens($itens);
+
+        if (count($itens) > 0) {
+            foreach ($itens as $item) {
+                $sql = "INSERT INTO CAR_ITENS (ID_CAR, ID_ITEM) VALUES ($carId, $item)";
+                $row = mysqli_query($connect ,$sql);
+            }
+        }
+
+
+    }
+
+    function parseItens($itens) {
+        $itens = explode(",", $itens);
+
+        foreach ($itens as $key => $item) {
+            $itens[$key] = intval($item);
+        }
+
+        if ($itens[0] == 0) {
+            $itens = array();
+        }
+
+        return $itens;
     }
 
     $method = $_SERVER["REQUEST_METHOD"];
@@ -44,7 +69,6 @@
                 
                 exit(json_encode($response));
             }
-
 
             echo $_PUT['deleteImgPath'];
 
@@ -75,6 +99,7 @@
                     $fuel = $formData["fuel"];
                     $color = $formData["color"];
                     $id_model = $formData["model"];
+                    $itens = parseItens($formData["itens"]);
 
                     $sql = "INSERT INTO CAR
                     (`id_model`, `price`, `fuel`, `year`, `kilometers`, `color`) VALUES
@@ -82,6 +107,13 @@
 
                     $row = mysqli_query($connect ,$sql);
                     $id = mysqli_insert_id($connect); 
+
+                    if (count($itens) > 0) {
+                        foreach ($itens as $key => $id_item) {
+                            $sql = "INSERT INTO car_itens (`id_item`, `id_car`) VALUES ($id_item, $id)";
+                            mysqli_query($connect, $sql);
+                        }
+                    }
 
                     if (isset($id) && isset($_FILES["images"])) {
                         $upload = saveImages($id, "cars", $_FILES["images"]);
@@ -104,9 +136,12 @@
             $url = preg_match('!\d+!', $url, $id);
             $id = $id[0];
 
-            $sql = "DELETE FROM CAR WHERE ID = '$id'";
+            $sql = "DELETE FROM CAR_ITENS WHERE ID_CAR = $id";
+            $row = mysqli_query($connect ,$sql);
 
+            $sql = "DELETE FROM CAR WHERE ID = '$id'";
             $result = mysqli_query($connect, $sql) or die ("Erro ao deletar carro");
+
 
             $response["deleteImages"] = deleteImages($id, "cars");
             $response["success"] = $result;
@@ -136,10 +171,12 @@
             } else {
                 if (isset($_GET["keyword"]) && !empty($_GET["keyword"])) {
                     $key = $_GET["keyword"];
-                    $sql = "SELECT C.id as id, C.id_model as id_model, M.code as code, C.price as price, C.fuel as fuel, C.year as year,  C.kilometers as kilometers, C.color as color, M.name as name  FROM CAR AS C INNER JOIN MODEL AS M ON C.id_model = M.id
+                    $sql = "SELECT C.id as id, C.id_model as model, M.code as code, C.price as price, C.fuel as fuel, C.year as year,  C.kilometers as kilometers, C.color as color, M.name as name, 
+                    (SELECT GROUP_CONCAT(i.id SEPARATOR ', ') FROM car_itens ci INNER JOIN item i ON ci.id_item = i.id WHERE ci.id_car = C.id) AS itens FROM CAR AS C INNER JOIN MODEL AS M ON C.id_model = M.id
                             WHERE M.NAME LIKE '%$key%' or C.YEAR LIKE '%$key%' ";
                 } else {
-                    $sql = "SELECT C.id as id, C.id_model as id_model, M.code as code, C.price as price, C.fuel as fuel, C.year as year,  C.kilometers as kilometers, C.color as color, M.name as name  FROM CAR AS C INNER JOIN MODEL AS M ON C.id_model = M.id";
+                    $sql = "SELECT C.id as id, C.id_model as model, M.code as code, C.price as price, C.fuel as fuel, C.year as year,  C.kilometers as kilometers, C.color as color, M.name as name, 
+                    (SELECT GROUP_CONCAT(i.id SEPARATOR ', ') FROM car_itens ci INNER JOIN item i ON ci.id_item = i.id WHERE ci.id_car = C.id) AS itens FROM CAR AS C INNER JOIN MODEL AS M ON C.id_model = M.id";
                 }
                 
                 $result = mysqli_query($connect, $sql) or die("Erro ao buscar dados de marca");

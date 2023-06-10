@@ -1,4 +1,4 @@
-const getBrands = (id) => {
+const getItens = (id) => {
     const promise = new Promise(async (res,rej) => {
         await 
         $.ajax({
@@ -19,7 +19,7 @@ const getBrands = (id) => {
     return promise
 }
 
-const setUser = (item) => {
+const setItem = (item) => {
     const promise = new Promise(async (res,rej) => {
         await 
         $.ajax({
@@ -39,7 +39,7 @@ const setUser = (item) => {
     return promise
 }
 
-const deleteUser = (id) => {
+const deleteItem = (id) => {
     const promise = new Promise(async (res,rej) => {
         await 
         $.ajax({
@@ -80,7 +80,7 @@ const newEntity = () => {
                             title: 'Cadastrado com sucesso!'
                         })
 
-                        getBrands(encodeURI("method=GET"))
+                        getItens(encodeURI("method=GET"))
                         .then(resp => {
                             fillTable(null);
                             fillTable(resp)
@@ -130,7 +130,7 @@ const edit = (id) => {
                             title: 'Atualizado com sucesso!'
                         })
 
-                        getBrands()
+                        getItens()
                         .then(resp => {
                             fillTable(null);
                             fillTable(resp)
@@ -164,11 +164,11 @@ const delete_ = (id) => {
         denyButtonText: `Cancelar`,
       }).then((result) => {
         if (result.isConfirmed) {
-            deleteUser(encodeURI(`id=${id}`))
+            deleteItem(encodeURI(`id=${id}`))
             .then(response => {
                 
                 if (response.success) {
-                    getBrands()
+                    getItens()
                     .then(resp => {
                         fillTable(null);
                         fillTable(resp)
@@ -206,8 +206,8 @@ const userBoilerPlate = (item) => {
                 <td class="valign-center text-center">${item.code}</td>
                 <td class="valign-center text-center">${item.description}</td>
                 <td class="flex justify-content-center align-items-center column-gap-4"> 
-                    <a onclick='edit(${item.id})' data-bs-toggle="tooltip" title="Editar"> <i class="fa-regular fa-pen-to-square"></i></a> 
-                    <a onclick='delete_(${item.id})' data-bs-toggle="tooltip" title="Deletar"> <i class="fa-regular fa-trash-can"></i> </a>
+                    <a class='cursor-pointer' onclick='edit(${item.id})' data-bs-toggle="tooltip" title="Editar"> <i class="fa-regular fa-pen-to-square"></i></a> 
+                    <a class='cursor-pointer' onclick='delete_(${item.id})' data-bs-toggle="tooltip" title="Deletar"> <i class="fa-regular fa-trash-can"></i> </a>
                 </td>
             </tr>`;
 }
@@ -319,9 +319,9 @@ const form = {
     valid : false,
     fields : {
         id : {value: '', name: "id", type: null, valid: true},
-        name : {value: '', name: "Nome", type: 'regex', validator: /^[0-9a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{3,}/g, valid: false, message: "Nome inválido"}, 
-        code : {value: '', name: "Código", type: 'regex', validator: /^[a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{2,}/g, valid: false, message: "Código inválido"}, 
-        description : {value: '', name: "Descrição", type: null}, 
+        name : {value: '', name: "Nome", type: 'regex', validator: /^[0-9 a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{3,}/g, valid: false, message: "Nome inválido"}, 
+        code : {value: '', name: "Código", type: 'regex', validator: /^[0-9a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{2,}/g, valid: false, message: "Código inválido"}, 
+        description : {value: '', name: "Descrição", type: null, valid:true}, 
     }
 }
 
@@ -341,7 +341,7 @@ const Toast = Swal.mixin({
 
 
 $(window).on("load", ev => {
-    getBrands(encodeURI("method=GET"))
+    getItens(encodeURI("method=GET"))
         .then(resp => fillTable(resp))
         .catch(resp => console.warn(resp))
  
@@ -349,7 +349,7 @@ $(window).on("load", ev => {
 
 $(document).ready(() => {
     $("#keyword").on("keyup", ({target}) => {
-        getBrands(encodeURI(`keyword=${target.value}&method=GET`))
+        getItens(encodeURI(`keyword=${target.value}&method=GET`))
         .then(resp => {
             fillTable(null);
             fillTable(resp);

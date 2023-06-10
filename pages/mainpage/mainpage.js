@@ -12,6 +12,13 @@ const mascaraANO = (ano) => {
             }
         }
     }
+
+    const date = new Date();
+
+    if (ano > date.getFullYear() || ano < 1950) {
+        ano = date.getFullYear();
+    }
+
     return ano;
 }
 
@@ -157,7 +164,7 @@ const fillTable = (cars) => {
 
     if (cars.length === 0) {
         line.innerHTML = `
-        <div class='p-4 flex justify-content-center aling-items-center'>
+        <div class='p-4 flex justify-content-center align-items-center'>
             <h2 class='font-semibold'>Nenhum carro encontrado</h2>
         </div>
         `;

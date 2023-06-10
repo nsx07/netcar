@@ -93,7 +93,7 @@
             }          
             else {
                 $sql = "SELECT C.color as color, C.id as id, M.name as modelName, B.name as brandName, C.year as year, C.kilometers as kilometers, B.name as brand, C.price as price
-                FROM CAR AS C INNER JOIN MODEL AS M ON C.id_model = M.id INNER JOIN BRAND AS B ON M.id_brand = B.id LEFT JOIN car_itens AS CI ON C.id = CI.id_car";
+                FROM CAR AS C INNER JOIN MODEL AS M ON C.id_model = M.id INNER JOIN BRAND AS B ON M.id_brand = B.id";
 
                 $keyName = isset($_GET["name"]) ? $_GET["name"] : null;
 

@@ -96,6 +96,14 @@
                     <input type="text" id="id" name="id" class="d-none">
                     <div class="row">
                         <div class="col-md-6 col-sm-12">
+                            <label for="model">Modelo <span style="color: red"> *</span></label>
+                            <select class="form-select" id="model" name="model">
+                            <option value="0" selected disabled>Selecione o modelo</option>
+                            </select>
+                            <small class="feedbackmodel fs-6 text text-danger"></small>
+                        </div>
+
+                        <div class="col-md-6 col-sm-12">
                             <label for="year">Ano <span style="color: red"> *</span></label>
                             <input type="number" class="form-control" min="1950" max="2050" step="1" name="year" id="year" placeholder="2023"/>
                             <small class="feedbackyear fs-6 text text-danger"></small>
@@ -128,14 +136,6 @@
                         </div>
 
                         <div class="col-md-6 col-sm-12">
-                            <label for="model">Modelo <span style="color: red"> *</span></label>
-                            <select class="form-select" id="model" name="model">
-                            <option value="0" selected disabled>Selecione o modelo</option>
-                            </select>
-                            <small class="feedbackmodel fs-6 text text-danger"></small>
-                        </div>
-
-                        <div class="col-md-6 col-sm-12">
                             <div class="flex align-items-center jusitfy-content-center gap-2">
                                 <div class="form-check">
                                 <input class="form-check-input" type="radio" name="flexRadioDefault" onclick="toggleColorSelector('picker')">
@@ -152,7 +152,7 @@
                             </div>
 
                             <div id="colorInput">
-                                <label for="item">Cor <span style="color: red"> *</span></label>
+                                <label for="color">Cor <span style="color: red"> *</span></label>
                                 
                             </div>
                             <small class="feedbackitem fs-6 text text-danger"></small>
@@ -165,37 +165,30 @@
                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Selecione os itens
                                 </button>
-                                <div class="dropdown-menu p-2 ">
-                                    <div class="grid" id="item">
-
-                                    </div>
+                                <div class="dropdown-menu p-2">
+                                    <div class="grid" id="item"></div>
                                 </div>
                             </div>
-                            <div class="flex aling-items-center w-full p-2">
-                                <div class="flex justify-content-start gap-2 border-round bg-gray-400 p-3" id="item-list"></div>
-                            </div>
+                            
+                            <div class="w-full p-2 grid gap-2 mt-2" id="item-list"></div>
+                            <input type="hidden" name="itens" id="itens" value="">
+
                             <small class="feedbackitem fs-6 text text-danger"></small>
                         </div>
 
                         <input class="d-none" type="file" id="images" name="images" onchange="showPreview(event)" accept="image/*" multiple>
-                        <!-- <div class="col-12">
-                            <label for="images" class="form-label">Imagens</label>
-                            <div id="preview" onclick="editImage()"></div>
-                        </div> -->
 
                     </div>
 
                     <div class="p-2 border-none" id="images-container">
                         <p class="text-semibold font-2xl text-left">Imagens</p>
-                        <div class="flex align-items-center justify-content-center p-3" id="carousel-images">
-
-                        </div>
                         <div class="flex align-items-center justify-content-end">
-                            <button class="btn btn-warning" onclick="deleteImage()">
-                                <span class="text-lg text-semibold text-white">Excluir</span>
+                            <button class="btn btn-sm btn-danger" onclick="deleteImage()">
+                                <span class="text-md font-medium text-white">Excluir imagem</span>
                                 <i class="fa-solid fa-trash ml-2"></i>
                             </button>
                         </div>
+                        <div class="flex align-items-center justify-content-center p-3" id="carousel-images"></div>
                     </div>
 
                 </div>

@@ -110,11 +110,14 @@ function deleteImage($imgPath) {
 
     if (file_exists($imgPath)) {
         if (unlink($imgPath)) {
+            $response["status"] = true;
             $response["message"] = "A imagem foi excluída com sucesso.";
         } else {
+            $response["status"] = false;
             $response["message"] = "Ocorreu um erro ao excluir a imagem " . $imgPath;
         }
     } else {
+        $response["status"] = false;
         $response["message"] = "O arquivo não existe.";
     }
 

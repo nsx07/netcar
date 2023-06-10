@@ -22,20 +22,45 @@ const getCars = (id) => {
     return promise
 }
 
+const getResources = () => {
+    const promise = new Promise(async (res,rej) => {
+        await 
+        $.ajax({
+            method: "GET",
+            url: "car.php",
+            data: "type=resources",
+            async: true,
+            success : (response) => {
+                setupResources(JSON.parse(response))
+                resources = JSON.parse(response);
+                res(JSON.parse(response))
+            },
+            error : (response) => {
+                rej(JSON.parse(response))
+            }
+        })
+    })
+
+    return promise
+}
+
 const deleteCar = (id) => {
     const promise = new Promise(async (res,rej) => {
         await 
+        load(true);
         $.ajax({
             method: "DELETE",
             url: "car.php/" + id,
             data: id,
             async: true,
             success : (response) => {
+                console.log(response);
                 res(JSON.parse(response))
             },
             error : (response) => {
                 rej(JSON.parse(response))
-            }
+            },
+            complete: () => load(false)
         })
     })
 
@@ -50,6 +75,7 @@ const newEntity = () => {
         const data = prepareImages();
         data.append("data", $("#form").serialize())
 
+        load(true)
         $.ajax({
             type: "POST",
             url: "car.php",
@@ -89,9 +115,10 @@ const newEntity = () => {
 
                     }    
                 } catch (error) {
-                    console.error("Error catched" + error);
+                    console.error("Error catched " + error);
                 }
-            }
+            },
+            complete: () => load(false)
         })
 
     })
@@ -99,14 +126,14 @@ const newEntity = () => {
 
 const edit = (id) => {
     const car = cars.find(car => car.id == id);
+    resetForm();
     fillForm(car);
     fillCarousel(car);
     setState("Editar Carro", () => {
-        console.log(car, $("#form").serialize() ,cars);
-
-        const data = prepareImages();
-        console.log(data.get("images[]"));
+        // console.log(car, $("#form").serialize() ,cars);
+        const data = prepareImages();        
         data.append("data", $("#form").serialize())
+        load(true);
         $.ajax({
             type: "POST",
             url: "car.php",
@@ -147,7 +174,8 @@ const edit = (id) => {
                 } catch (error) {
                     console.error("Error catched" + error);
                 }
-            }
+            },
+            complete: () => load(false)
         })  
     })
 }
@@ -157,6 +185,13 @@ const deleteImage = () => {
     const parsed = activeImage.src.split("netcar")[1];
     const parsedTo = "../.." + parsed
 
+    const idImage = images.get("/netcar" + parsed);
+    console.log(idImage);
+
+    if (parsed.includes("default.png") || parsed.includes("netcar.png")) return false
+    const df = "/netcar/wwwroot/images/cars/default.png";
+
+    load(true)
     $.ajax({
         type: "PUT",
         url: "car.php",
@@ -166,9 +201,21 @@ const deleteImage = () => {
         data: encodeURI("deleteImgPath=" + parsedTo),
         success: function (response) {
             console.log(response);
-            location.reload();
-        }
+
+            response = JSON.parse(response);
+
+            if (response.status) {
+                if (checkImage(parsed)) {
+                    location.reload();
+                }
+                fillCarousel(cars.find(car => car.id == $("#form")[0].id.value), idImage)
+            }
+            
+        },
+        complete: () => load(false)
     })  
+
+    
 }
 
 const delete_ = (id) => {
@@ -255,7 +302,7 @@ const carBoilerPlate = (car) => {
     return `<tr>
                 <td class="td.item text-center"> <div class='td-item-center'>${car.id}</div> </td>
                 <td class="td.item text-center"> 
-                    <div class='p-2 flex justify-content-center align-items-center'>
+                    <div class='p-2 flex justify-content-center align-itens-center'>
                         <img src="${WWWROOTPATH}images/cars/${car.images[0]}" class="max-w-3rem border-circle">
                     </div>
                 </td>
@@ -267,9 +314,9 @@ const carBoilerPlate = (car) => {
                 <td class="td.item text-center"> <div class='td-item-center'>R$ ${car.price} </div></td>
                 <td style='background-color: ${car.color};'></td>
                 <td class="td-item"> 
-                    <div class="flex justify-content-center align-items-center column-gap-4">
-                        <a onclick='edit(${car.id})' data-bs-toggle="tooltip" title="Editar"> <i class="fa-regular fa-pen-to-square"></i></a> 
-                        <a onclick='delete_(${car.id})' data-bs-toggle="tooltip" title="Deletar"> <i class="fa-regular fa-trash-can"></i> </a>
+                    <div class="flex justify-content-center align-itens-center column-gap-4">
+                        <a class='cursor-pointer' onclick='edit(${car.id})' data-bs-toggle="tooltip" title="Editar"> <i class="fa-regular fa-pen-to-square"></i></a> 
+                        <a class='cursor-pointer' onclick='delete_(${car.id})' data-bs-toggle="tooltip" title="Deletar"> <i class="fa-regular fa-trash-can"></i> </a>
                     </div>
                 </td>
             </tr>`;
@@ -298,18 +345,47 @@ const fillTable = (cars) => {
 
 //#endregion
 
+function checkImage(path) {
+    const result = $("#result")[0];
+    const trs = result.children;
+
+    for(let i = 0; i < trs.length; i++) {
+        const td = trs[i].cells;
+        const ban = td[1];
+        const image = ban.children[0].children[0].src;
+
+        if (image.includes(path)) {
+            return true;
+        }
+    }
+    return false;
+
+}
+
 //#region 'Form'
 
-const applyImages = (car) => {
+let images = new Map();
+
+const applyImages = (car, skip) => {
     let imagesElement = "";
 
     if (car.images && car.images < 1 ) {
         car.images = ["default.png", "netcar-ban.png"];
     }
 
+    images = new Map();
+
     car.images.forEach((image, index) => {
-        const id = Math.pow(index, Math.random() + 1).toString() + Date.now().toString();
+        const id = image.split(".")[0];
+
+        if (id === skip) {
+            return
+        }
+
         const imagePath = `${WWWROOTPATH}images/cars/${image}`;
+
+        images.set(imagePath, id);
+        
         imagesElement += `
             <div class='carousel-item ${index === 0 ? 'active' : ''}'>
                 <img id='${id}' src='${imagePath}'  onclick="editImage('${id}')" class='card-img-top cars'>
@@ -320,27 +396,27 @@ const applyImages = (car) => {
     return imagesElement
 }
 
-
-
-const fillCarousel = (car) => {
+const fillCarousel = (car, skip) => {
     const container = $("#images-container")[0];
     
     if (!car) {
         container.classList.add("d-none");
         return;
     }
-
+    
     if (car.images.length === 0) {
-        car.images = ["default.png", "netcar-ban.png"];
+        car.images = ["default.png"];
     }
+    load(true);
     
     const carousel = $("#carousel-images")[0];
+    carousel.innerHTML = "";
     if (car.images && car.images.length >= 1) {
         container.classList.remove("d-none");
         carousel.innerHTML = `
         <div id='${car.id}-${car.price}-${Date.now()}' class='carousel slide'>
             <div class='carousel-inner'>
-                ${applyImages(car)}
+                ${applyImages(car, skip)}
             </div>
             <button class='carousel-control-prev' type='button' data-bs-target='#${car.id}-${car.price}-${Date.now()}' data-bs-slide='prev'>
                 <span class='carousel-control-prev-icon' aria-hidden='true'></span>
@@ -351,11 +427,11 @@ const fillCarousel = (car) => {
                 <span class='visually-hidden'>Next</span>
             </button>
         </div>`;
-        console.log(carousel.innerHTML);
 
     } else {
         container.classList.add("d-none");
     }
+    load(false)
 }
 
 const setState = (label, _callback) => {
@@ -412,6 +488,7 @@ const checkForm = (button) => {
 }
 
 const fillForm = (car) => {
+    console.log(car);
     const form_ = $("#form")[0];
     for (let field in car) {
         if (field === "images") continue
@@ -420,6 +497,13 @@ const fillForm = (car) => {
             form_[field].value = car[field];
             form.fields[field].value = car[field];
         }
+    }
+
+    if (car.itens) {
+        form_.itens = car.itens;
+        itens = eval(`[${car.itens}]`)
+        setupItens(resources["item"], itens)
+        setItens();
     }
     
 }
@@ -436,45 +520,48 @@ const catchError = (response) => {
 
 const resetForm = () => {
     for (let field in form.fields) {
-        console.log(field);
-        // $("#form")[0][field].value = null;
+        $("#form")[0][field].value = null;
     }
+
+    itens = [];
+    setupItens(resources["item"], null);
+    setItens();
 } 
 
 const form = {
     valid : false,
     fields : {
         id: {value: '', name: "id", type: null, valid: true},
-        id_model: {value: '', name: "id_model", type: null, valid: true},
-        code: {value: '', name: "code", type: null, valid: true},
+        model: {value: '', name: "model", type: null, valid: true},
         price: {value: '', name: "price", type: null, valid: true},
         fuel: {value: '', name: "fuel", type: null, valid: true},
         year: {value: '', name: "year", type: null, valid: true},
         kilometers: {value: '', name: "kilometers", type: null, valid: true},
         color: {value: '', name: "color", type: null, valid: true},
-        name: {value: '', name: "name", type: null, valid: true}
+        name: {value: '', name: "name", type: null, valid: true},
+        itens: {value: '', name: 'itens', type: null, valid: true}
     }
 }
 
-const getResources = () => {
-    const promise = new Promise(async (res,rej) => {
-        await 
-        $.ajax({
-            method: "GET",
-            url: "car.php",
-            data: "type=resources",
-            async: true,
-            success : (response) => {
-                setupResources(JSON.parse(response))
-                res(JSON.parse(response))
-            },
-            error : (response) => {
-                rej(JSON.parse(response))
-            }
-        })
+function setupItens (itens, selected) {
+    const itemElement = $("#item")[0];
+    itemElement.innerHTML = ""
+    itens.forEach(item => {
+        let checked = false
+        if (selected && selected.includes(+item.id)) {
+            checked = true
+        }
+        
+        itemElement.innerHTML += `
+        <div class='col-6'>
+            <input class="form-check-input" type="checkbox" value="" id="${item.id}" onclick="handleItem(${item.id})" ${checked ? "checked" : ""}>
+            <label class="form-check-label" for="${item.id}"> ${item.name} </label>
+        </div>`;
     })
 
-    return promise
+    if (!itens.length) {
+        itemElement.innerHTML += `<div class='col-12'> <span class="text-sm font-medium"> <i class="fa-regular fa-circle-xmark"></i> Nenhum item cadastrado </span> </div>`;
+    }
 }
 
 const setupResources = (resources_) => {
@@ -493,19 +580,7 @@ const setupResources = (resources_) => {
         }
     }
 
-    const itemElement = $("#item")[0];
-    console.log(itemElement);
-    resources["item"].forEach(item => {
-        itemElement.innerHTML += `
-        <div class='col-6'>
-            <input class="form-check-input" type="checkbox" value="" id="${item.id}" onclick="handleItem(${item.id})">
-            <label class="form-check-label" for="${item.id}"> ${item.name} </label>
-        </div>`;
-    })
-
-    if (!resources["item"].length) {
-        itemElement.innerHTML += `<div class='col-12'> <span class="text-sm font-medium"> <i class="fa-regular fa-circle-xmark"></i> Nenhum item cadastrado </span> </div>`;
-    }
+    // setupItens(resources["item"], null)
 
 }
 
@@ -514,7 +589,7 @@ const fillSelectColor = () => {
     for (let color in comumColors) {
         options += `
             <option value="${comumColors[color]}"> 
-                <div class='flex align-items-center justify-content-center gap-2'>
+                <div class='flex align-itens-center justify-content-center gap-2'>
                  <span class='border-circle p-2' style='background: #${comumColors[color]}'></span> 
                  <span>${color}</span> 
                 </div>   
@@ -545,7 +620,6 @@ const toggleColorSelector = (type) => {
         $("#picker")[0]?.remove();
         divInput.innerHTML = inputs.select;
     }
-
 }
 
 const fuelTypes = [
@@ -565,25 +639,28 @@ let handleItem = (item, event) => {
     if (event) {
         event.preventDefault();
     }
-    if (items.includes(item)) {
-        items = items.filter(it => it != item);
+    if (itens.includes(item)) {
+        itens = itens.filter(it => it != item);
     } else {
-        items.push(item);
+        itens.push(item);
     }
 
-    const itemsDiv = $("#item-list")[0];
+    setItens();
+}
 
-    itemsDiv.innerHTML = "";
+function setItens() {
+    const itensDiv = $("#item-list")[0];
 
-    items.forEach((item, index) => {
-        console.log(item);
-        itemsDiv.innerHTML += `
-        <span class='flex align-items-center gap-2 border-round-xl bg-gray-100 text-black-alpha-90'>
+    itensDiv.innerHTML = "";
+
+    itens.forEach((item, index) => {
+        itensDiv.innerHTML += `
+        <div class='col-fixed flex align-itens-center justify-content-center p-2 border-round-xl bg-gray-200 text-black-alpha-90'>
             ${resources["item"].filter(r => r.id == item)[0].name}
-        </span>`;
+        </div>`;
     })
 
-    console.log(items);
+    $("#itens")[0].value = `${itens.map(it => it)}`;
 }
 
 //#endregion
@@ -592,7 +669,7 @@ let handleItem = (item, event) => {
 
 let resources = [];
 let cars = [];
-let items = [];
+let itens = [];
 let brands = [];
 let models = [];
 let callback = null;
@@ -608,10 +685,12 @@ const Toast = Swal.mixin({
 })
 
 $(window).on("load", async ev => {
-    getResources().then(r => {})
-    getCars(encodeURI("method=GET"))
+    load(true);
+    await getResources()
+    await getCars(encodeURI("method=GET"))
         .then(resp => fillTable(resp))
         .catch(resp => console.warn(resp))
+        .finally(() => load(false))
 
     toggleColorSelector("select")
 })

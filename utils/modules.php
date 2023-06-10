@@ -39,6 +39,7 @@
     }
     
     $(document).ready(_ => {
+      $('#loader').fadeOut('slow');
       const logTime = <?php echo $_SESSION['time'];?>;
       const maxTime = <?php echo $_SESSION['max_time'];?>;
       const timer = $('#timeSession')[0];
@@ -105,4 +106,8 @@
 
 <?php
   } 
+
 ?>
+<script>
+  $(document).ready(_ => $('#loader').fadeOut('slow'));
+</script>

@@ -23,7 +23,7 @@
 
     <div id="conteudo">
         <div class="col-12 d-none" id="notFound">
-            <div class="flex aling-items-center justify-content-center p-4">
+            <div class="flex align-items-center justify-content-center p-4">
                 <div class="alert alert-warning" role="alert">
                     <h2 class="text-xl font-semibold">Carro não encontrado</h2>
                 </div>
