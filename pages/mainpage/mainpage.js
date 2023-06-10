@@ -1,6 +1,7 @@
 //#region API Methods
 
 const mascaraANO = (ano) => {
+    const date = new Date();
     ano = ano.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
     if (ano.length >= 5) {
         if(ano.length === 5){
@@ -11,13 +12,19 @@ const mascaraANO = (ano) => {
                 ano = ano.slice(0, index);                
             }
         }
+        if (+ano > date.getFullYear() || +ano < 1950) {
+            ano = date.getFullYear();
+        }
     }
 
-    const date = new Date();
-
-    if (ano > date.getFullYear() || ano < 1950) {
-        ano = date.getFullYear();
+    if (ano.length >= 4) {
+        ano = ano.slice(0, 4);
+        if (+ano > date.getFullYear() || +ano < 1950) {
+            ano = date.getFullYear();
+        }
     }
+
+
 
     return ano;
 }
