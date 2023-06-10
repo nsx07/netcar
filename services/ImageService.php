@@ -38,13 +38,13 @@ function saveImage($fileName, $target, $image, $root = "../../") {
     }
 
     if ($uploadOk === 0) {
-        $response['message'] = "O arquivo não pôde ser enviado.";
+        $response['final_message'] = "O arquivo não pôde ser enviado.";
     } else {
         if (move_uploaded_file($image['tmp_name'], $targetFile)) {
-            $response['message'] = "O arquivo foi enviado com sucesso.";
+            $response['final_message'] = "O arquivo foi enviado com sucesso.";
             $response["path"] = $targetFile;
         } else {
-            $response['message'] = "Ocorreu um erro ao enviar o arquivo.";
+            $response['final_message'] = "Ocorreu um erro ao enviar o arquivo.";
         }
     }
     

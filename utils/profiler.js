@@ -51,15 +51,6 @@ function deleteImage() {
   }
 }
 
-function load(state) {
- if (state) {
-  $('#loader').fadeIn('slow');
- } else {
-  $('#loader').fadeOut('slow');
- }
-}
-
-
 $(document).ready(function() {
   load(true);
   $.ajax({
