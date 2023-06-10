@@ -100,13 +100,13 @@
                             <select class="form-select" id="model" name="model">
                             <option value="0" selected disabled>Selecione o modelo</option>
                             </select>
-                            <small class="feedbackmodel fs-6 text text-danger"></small>
+                             <small class="feedbackmodel fs-6 text text-danger"></small>
                         </div>
 
                         <div class="col-md-6 col-sm-12">
                             <label for="year">Ano <span style="color: red"> *</span></label>
                             <input type="number" class="form-control" min="1950" max="2050" step="1" name="year" id="year" placeholder="2023"/>
-                            <small class="feedbackyear fs-6 text text-danger"></small>
+                             <small class="feedbackyear fs-6 text text-danger"></small>
                         </div>
 
                         <div class="col-md-6 col-sm-12">
@@ -114,17 +114,17 @@
                             <div class="input-group mb-3 w-100">
                                 <span class="input-group-text" id="basic-addon1">R$</span>
                                 <input type="number" class="form-control" min="0" step="100" name="price" id="price" placeholder="1000"/>
-                                <small class="feedbackprice fs-6 text text-danger"></small>
                             </div>
+                            <small class="feedbackprice fs-6 text text-danger"></small>
                         </div>
 
                         <div class="col-md-6 col-sm-12">
                             <label for="kilometers">KM <span style="color: red"> *</span></label>
                             <div class="input-group mb-3 w-100">
                                 <input type="number" class="form-control" min="0" step="1" name="kilometers" id="kilometers" placeholder="1000"/>
-                                <small class="feedbackkilometers fs-6 text text-danger"></small>
                                 <span class="input-group-text" id="basic-addon1">KM</span>
                             </div>
+                            <small class="feedbackkilometers fs-6 text text-danger"></small>
                         </div>
 
                         <div class="col-md-6 col-sm-12">
@@ -132,7 +132,7 @@
                             <select class="form-select" id="fuel" name="fuel">
                             <option value="0" selected disabled>Selecione o combustível</option>
                             </select>
-                            <small class="feedbackfuel fs-6 text text-danger"></small>
+                             <small class="feedbackfuel fs-6 text text-danger"></small>
                         </div>
 
                         <div class="col-md-6 col-sm-12">
@@ -155,7 +155,7 @@
                                 <label for="color">Cor <span style="color: red"> *</span></label>
                                 
                             </div>
-                            <small class="feedbackitem fs-6 text text-danger"></small>
+                             <small class="feedbackitem fs-6 text text-danger"></small>
 
                         </div>
 
@@ -173,7 +173,7 @@
                             <div class="w-full p-2 grid gap-2 mt-2" id="item-list"></div>
                             <input type="hidden" name="itens" id="itens" value="">
 
-                            <small class="feedbackitem fs-6 text text-danger"></small>
+                             <small class="feedbackitem fs-6 text text-danger"></small>
                         </div>
 
                         <input class="d-none" type="file" id="images" name="images" onchange="showPreview(event)" accept="image/*" multiple>
@@ -195,7 +195,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" id="close" data-bs-dismiss="modal">Fechar</button>
-                <button class="btn bg-default text-white" id="save" type="button" >
+                <button class="btn bg-default text-white" id="save" type="button" disabled>
                     <span id="default">
                     Salvar
                     </span> 

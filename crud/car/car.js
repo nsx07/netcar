@@ -532,14 +532,14 @@ const form = {
     valid : false,
     fields : {
         id: {value: '', name: "id", type: null, valid: true},
-        model: {value: '', name: "model", type: null, valid: true},
-        price: {value: '', name: "price", type: null, valid: true},
-        fuel: {value: '', name: "fuel", type: null, valid: true},
-        year: {value: '', name: "year", type: null, valid: true},
-        kilometers: {value: '', name: "kilometers", type: null, valid: true},
-        color: {value: '', name: "color", type: null, valid: true},
-        name: {value: '', name: "name", type: null, valid: true},
-        itens: {value: '', name: 'itens', type: null, valid: true}
+        itens: {value: '', name: 'itens', type: null, valid: true},
+
+        model: {value: '', name: "Modelo", type: "regex", validator: /^[0-9]/, valid: false, message: "Selecione o modelo"},
+        price: {value: '', name: "Preço", type: "regex", validator: /^[0-9]/, valid: false, message: "Informe o preço"},
+        fuel: {value: '', name: "Combustível", type: "regex", validator: /^[a-zA-Z]/, valid: false, message: "Informe o tipo de combustível"},
+        year: {value: '', name: "Ano", type: "regex", validator: /^[0-9]{4}/, valid: false, message: "Informe o ano do veículo"},
+        kilometers: {value: '', name: "Kilometros", type: "regex", validator: /^[0-9]/, valid: false, message: "Informe a quilometragem do veículo"},
+        color: {value: '', name: "Cor", type: null, valid: false},
     }
 }
 
@@ -579,8 +579,6 @@ const setupResources = (resources_) => {
             element.innerHTML += "<option disabled>Nenhum valor</option>";
         }
     }
-
-    // setupItens(resources["item"], null)
 
 }
 
@@ -706,8 +704,8 @@ $(document).ready(() => {
 
     const button = $("#save");
     
-    // $("#form").on("keyup", ev => checkForm(button))
-    // $("#form").on("click", ev => checkForm(button))
+    $("#form").on("keyup", ev => checkForm(button))
+    $("#form").on("click", ev => checkForm(button))
 
     button.click(event => {
         $("#default")[0].classList.add("d-none")
