@@ -8,9 +8,9 @@ const getCar = (id) => {
             data: id,
             async: true,
             success : (response) => {
-              console.log(typeof response);
+              console.log( response);
               if (response != "null") {
-                
+                console.log(typeof response);
                 car = JSON.parse(response);
               }
               res(car)
@@ -127,11 +127,11 @@ $(window).on("load", async ev => {
         car = await getCar(encodeURI("id=" + id))
         console.log(car);
 
-        if (!car || !car.length) {
-          alert("Carro não encontrado");
-        } else {
+        if (car && !Array.isArray(car)) {
           document.title = `${car.name} ${car.year} | netcar`;
           setInfo();
+        } else {
+          alert("Carro não encontrado");
         }
     } else {
       alert("Carro não encontrado");
