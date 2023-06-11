@@ -21,7 +21,8 @@
 
     <div id="loader"> <div class="spinner"></div> </div>
 
-    <div id="conteudo">
+    <div id="conteudo" class="grid gap-2 w-100 overflow-y-scroll m-0">
+
         <div class="col-12 d-none" id="notFound">
             <div class="flex align-items-center justify-content-center p-4">
                 <div class="alert alert-warning" role="alert">
@@ -30,8 +31,44 @@
             </div>
         </div> 
 
-        <div class="col-12 px-6 flex align-items-center justify-content-center" style="background: rgba(0,0,0,0.35)" id="content">
-            
+        <div class="col-12 grid d-none w-screen" id="content">
+            <div class="col-12 w-screen" id="carousel"></div>
+
+            <div class="col-12 flex justify-content-center w-screen p-2 sm:px-4 md:px-8 md:mx-4">
+                <div class="grid gap-2 w-full">
+                    <div class="col-12 md:col-3 border-round-xl bg-white shadow-2" style="height:max-content">
+                        <div class="flex justify-content-between align-items-center">
+                            <span class="text-lg md:text-2xl font-semibold text-left m-2" id='carName'></span>
+                            <span class="text-lg md:text-2xl font-semibold text-left m-2" id='carPrice'></span>
+                        </div>
+                        <div class="flex justify-content-between align-items-center">
+                            <span class="text-sm md:text-xl text-left m-2"> Marca </span>
+                            <span class="text-sm md:text-xl text-left m-2" id='carBrand'></span>
+                        </div>
+                        <div class="flex justify-content-between align-items-center">
+                            <span class="text-sm md:text-xl text-left m-2"> Ano </span>
+                            <span class="text-sm md:text-xl text-left m-2" id='carYear'></span>
+                        </div>
+                        <div class="flex justify-content-between align-items-center">
+                            <span class="text-sm md:text-xl text-left m-2"> Kilometragem </span>
+                            <span class="text-sm md:text-xl text-left m-2" id='carKM'></span>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-8 border-round-xl bg-white shadow-2">
+                        <div class="grid">
+                            <div class="col-12">
+                                <span class="text-2xl text-left">Descrição</span><br>
+                                <span id='carDescription'></span>
+                            </div>
+                            <div class="col-12">
+                                <span class="text-2xl text-left">Itens do carro</span>
+                                <div class="grid gap-2 p-2" id='carItens'></div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

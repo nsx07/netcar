@@ -6,6 +6,16 @@
     $method = $_SERVER["REQUEST_METHOD"];
     $_SESSION["time"] = time();
 
+    function parseItens($itens) {
+        $itens = explode(",", $itens);
+
+        if ($itens[0] == 0 || $itens[0] == '') {
+            $itens = array();
+        }
+
+        return $itens;
+    }
+
     switch ($method) {
         case 'POST':
             try {    
@@ -16,9 +26,7 @@
                 } else {
 
                 }
-                               
                 
-             
                 $response["success"] = true;
                 
                 echo json_encode($response);
@@ -34,54 +42,36 @@
 
             break;
         case 'GET':
-            if (isset($_GET["type"]) && $_GET["type"] == "resources" ) {
+            
+            if (isset($_GET["id"]) && !empty($_GET["id"])) {
+                $id = $_GET["id"];
+                $sql = "SELECT C.id as id, C.id_model as model, M.code as code, C.price as price, C.fuel as fuel, C.year as year,  C.kilometers as kilometers, C.color as color, M.name as name, B.name as brand, M.description as description,
+                        (SELECT GROUP_CONCAT(i.name SEPARATOR ', ') FROM car_itens as ci INNER JOIN item i ON ci.id_item = i.id WHERE ci.id_car = C.id) AS itens FROM CAR AS C INNER JOIN MODEL AS M ON C.id_model = M.id  INNER JOIN BRAND AS B ON M.id_brand = B.id
+                        
+                        WHERE C.id = $id ";
+                        
+                $result = mysqli_query($connect, $sql) or die("Erro ao buscar dados de marca");
+                        
+                $car = array();
+                while( $data = mysqli_fetch_assoc($result) ) {
+                    $imgs = getImages($data["id"],"cars");
 
-                $entities = ["model", "item"];
-                $response = array();
-
-                foreach ($entities as $entity) {
-                    $sql = "SELECT * FROM $entity";
-                    $result = mysqli_query($connect, $sql) or die("Erro ao buscar dados de marca");
-                    $temp = array();    
-                    
-                    while( $data = mysqli_fetch_assoc($result) ) {
-                        array_push($temp, $data);
-                    }
-
-                    $response[$entity] = $temp;
+                    $data["images"] = $imgs;
+    
+                    $data["itens"] = parseItens($data["itens"]);
+                    $car[] = $data;    
                 }
 
-                echo json_encode($response);
-            } else {
-
-                if (isset($_GET["id"]) && !empty($_GET["id"])) {
-                    $id = $_GET["id"];
-                    $sql = "SELECT C.color as color, C.id as id, M.name as modelName, B.name as brandName, C.year as year, C.kilometers as kilometers, B.name as brand, C.price as price 
-                            FROM CAR AS C INNER JOIN MODEL AS M ON C.id_model = M.id INNER JOIN BRAND AS B ON M.id_brand = B.id
-                            WHERE C.id = $id ";
-                            
-                    $result = mysqli_query($connect, $sql) or die("Erro ao buscar dados de marca");
-                            
-                    $car = array();
-                    while( $data = mysqli_fetch_assoc($result) ) {
-                        $imgs = getImages($data["id"],"cars");
-
-                        $data["images"] = $imgs;
-        
-                        $car[] = $data;    
-                    }
-                
-                    echo json_encode($car);
-                    break;
+                if (count($car) == 0) {
+                    $car[] = null;
                 }
+
                 
+            
+                echo json_encode($car[0]);
+                break;
             }
+
     }
 
-
-    // if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['images'])) {    
-    //     require_once "../../services/ImageService.php";
-    //     saveImages($_SESSION["id"], "profile", $_FILES['images']);
-        
-    // }
     ?>

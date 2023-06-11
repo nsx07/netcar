@@ -1,19 +1,24 @@
 const getCar = (id) => {
     const promise = new Promise(async (res,rej) => {
         await 
+        load(true)
         $.ajax({
             method: "GET",
             url: "car.php",
             data: id,
             async: true,
             success : (response) => {
-                console.log(response);
+              console.log(typeof response);
+              if (response != "null") {
+                
                 car = JSON.parse(response);
-                res(JSON.parse(response))
+              }
+              res(car)
             },
             error : (response) => {
                 rej(JSON.parse(response))
-            }
+            },
+            complete: () => load(false)
         })
     })
 
@@ -27,48 +32,90 @@ const fillCarousel = (cars) => {
   } 
 
   if (cars.images.length < 1) {
-    cars.images = ["default.png", "netcar-ban.png"];
+    cars.images = ["default.png"];
   }
 
-  let content = $("#content")[0]
+  let content = $("#carousel")[0]
   let assembledNav = "";
   let assembledNavFor = "";
 
   cars.images.forEach(images => {
-    assembledNavFor += `<div class="flex align-items-center justify-content-center"><img style="width: 50vw" src="${WWWROOTPATH}images/cars/${images}" /></div>`;
-    assembledNav += `<div> <img width="50vw" src="${WWWROOTPATH}images/cars/${images}"/> </div>`
+    assembledNavFor += `<div class="flex align-items-center justify-content-center"><img class='img-carousel' src="${WWWROOTPATH}images/cars/${images}" /></div>`;
   })
 
   let carBoilerPlate = `
-  <div style="width: 100%" class="">
-    <div class="slider-for mb-2">${assembledNavFor}</div>
-    <div style="max-width: 55vw; margin: auto ">
-        <div class="slider-nav">${assembledNav}</div>
-    </div>
+  <div style="width: 100vw">
+    <div class="slider-for mb-4">${assembledNavFor}</div>
   </div>
   `;
 
   content.innerHTML += carBoilerPlate;
 
-    $('.slider-for').slick({
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: true,
+  $('.slider-for').slick({
+    dots: true,
+    infinite: true,
+    speed: 500,
     fade: true,
-    asNavFor: '.slider-nav'
-  });
-  $('.slider-nav').slick({
-    slidesToShow: 7,
-    slidesToScroll: 1,
-    asNavFor: '.slider-for',
-    arrows: false,
-    centerMode: true,
-    focusOnSelect: true
+    cssEase: 'linear'
   });
 }
 
 const parseURL = (url) => {
   return url.split("?")[1]?.split("&")[0]?.split("=")[1];;
+}
+
+const colors = {    
+  Azul: "#0000FF",
+  Vermelho: "#FF0000",
+  Verde: "#00FF00",
+  Amarelo: "#FFFF00",
+  Laranja: "#FFA500",
+  Roxo: "#800080",
+  Rosa: "#FFC0CB",
+  Preto: "#000000",
+  Branco: "#FFFFFF",
+  Cinza: "#808080"
+};
+
+const getColor = (keyValue) => {
+  for (let [key, value] of Object.entries(colors)) {
+    if (key === keyValue) {
+      return value;
+    } else if (value === keyValue) {
+      return key;
+    }
+  }
+}
+
+function setInfo() {
+  $("#content")[0].classList.remove("d-none")
+  fillCarousel(car)
+  $("#carName")[0].innerHTML = `${car.name} ${car.year}`;
+  $("#carPrice")[0].innerHTML += `R$ ${car.price}`;
+  $("#carDescription")[0].innerHTML += `${car.description}`;
+  $("#carBrand")[0].innerHTML = `${car.brand}`;
+  $("#carYear")[0].innerHTML = `${car.year}`;
+  $("#carKM")[0].innerHTML = `${car.kilometers}`;
+
+  setItens();
+}
+
+function setItens() {
+  const itenContainer = $("#carItens")[0];
+
+  if (car.itens.length < 1) {
+    itenContainer.innerHTML = `<div class="col-12 text-center">Este carro não possui nenhum item cadastrado ainda</div>`;
+    return;
+  }
+
+  for (let i = 0; i < car.itens.length; i++) {
+    itenContainer.innerHTML += `
+    <div class="col-2 bg-gray-300 border-round-2xl p-2 w-max">
+      <span class='text-black text-center font-medium'>${car.itens[i]}</span>
+    </div>
+    `;
+  }
+
 }
 
 let car = [];
@@ -78,14 +125,16 @@ $(window).on("load", async ev => {
     var id = parseURL(location.toString());
     if (id) {
         car = await getCar(encodeURI("id=" + id))
+        console.log(car);
 
-        if (!car.length) {
-            alert("Carro não encontrado!")
-        } else [
-          fillCarousel(car[0])
-        ]
+        if (!car || !car.length) {
+          alert("Carro não encontrado");
+        } else {
+          document.title = `${car.name} ${car.year} | netcar`;
+          setInfo();
+        }
     } else {
-        alert("id undefined")
+      alert("Carro não encontrado");
     }
 })
 
