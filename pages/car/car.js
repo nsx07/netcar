@@ -96,6 +96,7 @@ function setInfo() {
   $("#carBrand")[0].innerHTML = `${car.brand}`;
   $("#carYear")[0].innerHTML = `${car.year}`;
   $("#carKM")[0].innerHTML = `${car.kilometers}`;
+  $("#carColor")[0].innerHTML = `${getColor(car.color)}`
 
   setItens();
 }

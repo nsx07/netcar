@@ -15,6 +15,13 @@
                 updateItens($itens, $post["id"]);
                 continue;
             }
+
+            if ($field === "model") {
+                $field = "id_model";
+                $value = intval($value);
+                $update = $update . " `$field` = $value," ;
+                continue;
+            }
             
             $update = $update . " `$field` = '$value'," ;
 
@@ -85,10 +92,20 @@
 
                     $id = $formData["id"];
                     $insert = setFields($formData);
+                    $itens = parseItens($formData["itens"]);
                     $sql = "UPDATE CAR SET $insert WHERE ID = $id ";
 
                     if (isset($id) && isset($_FILES["images"])) {
                         $upload = saveImages($id, "cars", $_FILES["images"]);
+                    }
+
+                    $row = mysqli_query($connect ,$sql);
+
+                    if (count($itens) > 0) {
+                        foreach ($itens as $key => $id_item) {
+                            $sql = "INSERT INTO car_itens (`id_item`, `id_car`) VALUES ($id_item, $id)";
+                            mysqli_query($connect, $sql);
+                        }
                     }
 
                 } else {

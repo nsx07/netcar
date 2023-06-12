@@ -130,7 +130,7 @@ const edit = (id) => {
     fillForm(car);
     fillCarousel(car);
     setState("Editar Carro", () => {
-        // console.log(car, $("#form").serialize() ,cars);
+        console.log($("#form").serialize());
         const data = prepareImages();        
         data.append("data", $("#form").serialize())
         load(true);

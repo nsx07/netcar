@@ -53,6 +53,10 @@
                             <span class="text-sm md:text-xl text-left m-2"> Kilometragem </span>
                             <span class="text-sm md:text-xl text-left m-2" id='carKM'></span>
                         </div>
+                        <div class="flex justify-content-between align-items-center">
+                            <span class="text-sm md:text-xl text-left m-2"> Cor </span>
+                            <span class="text-sm md:text-xl text-left m-2" id='carColor'></span>
+                        </div>
                     </div>
                     <div class="col-12 md:col-8 border-round-xl bg-white shadow-2">
                         <div class="grid">
