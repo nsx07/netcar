@@ -69,7 +69,7 @@ CREATE TABLE `car` (
   `kilometers` float NOT NULL,
   `color` varchar(30) NOT NULL,
   `isNew` boolean NOT NULL,
-  `plate` varchar(10) NOT NULL UNIQUE,
+  `plate` varchar(10) NOT NULL UNIQUE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -79,7 +79,7 @@ CREATE TABLE `car` (
 --
 
 CREATE TABLE `car_itens` (
-  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `id` int(11) NOT NULL,
   `id_car` int(11) NOT NULL,
   `id_item` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -256,6 +256,13 @@ ALTER TABLE `sales`
 -- AUTO_INCREMENT de tabela `user`
 --
 ALTER TABLE `user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+--
+-- AUTO_INCREMENT de tabela `car_itens`
+--
+ALTER TABLE `car_itens`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
