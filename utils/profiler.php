@@ -1,6 +1,7 @@
 <?php
 
 require '../services/ImageService.php';
+require '../database/connection_db.php';
 
 session_start();
 
@@ -29,6 +30,21 @@ switch ($requestMethod) {
 
         if (isset($_SESSION["id"])) {
             $response['image'] = getImagesByPath($_SESSION["id"], "users", "../wwwroot/images/users/"); 
+
+            $sql = "SELECT email, phone, name, surName FROM USER WHERE ID = ".  $_SESSION["id"];
+            
+            $result = mysqli_query($connect, $sql) or die("Erro ao buscar dados de usuário");
+        
+            $users = [];
+        
+            $users = array();
+            while( $data = mysqli_fetch_assoc($result) ) {
+                $users[] = $data;
+            }
+
+            $response['user'] = $users[0];
+
+
         }
 
         echo json_encode($response);

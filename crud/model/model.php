@@ -6,6 +6,11 @@
         $update = "";
         foreach ($post as $field => $value) {
             # code...     
+            if ($field == "id") {
+                continue;
+            }
+
+            if ($field == "brand") $field = "id_brand";
 
             $update = $update . " `$field` = '$value'," ;
 

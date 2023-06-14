@@ -138,7 +138,7 @@
 
                                 <span id="changePassDiv">
                                     <div class="form-check form-switch flex align-items-center gap-2">
-                                        <input class="form-check-input" type="checkbox" role="switch" value="false" id="changePass">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="changePass">
                                         <label class="form-check-label font-semibold text-xl" for="changePass">Deseja alterar a senha ? </label>
                                     </div>
                                 </span>

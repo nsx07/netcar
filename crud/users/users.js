@@ -94,6 +94,12 @@ const newEntity = () => {
 const edit = (id) => {
     const user = users.find(user => user.id == id);
     fillForm(user)
+    form.fields.phone.validator = 11;
+    form.fields.cpf.validator = 11;
+
+    $("#phone").on("change", ev => form.fields.phone.validator = 15)
+    $("#cpf").on("change", ev => form.fields.cpf.validator = 14)
+
     setState("Editar usuário", () => {
         var serialize = $("#signup").serialize();
         serialize += changePassword ? "&changePass=true" : "&changePass=false";
@@ -405,6 +411,7 @@ $(document).ready(() => {
     const button = $("#save");
 
     $("#modal").on("click", ev => {
+        // changePass.click();
         if (operation === "Editar usuário") {
             $("#changePassDiv")[0].classList.remove("d-none")
             if (!changePassword) {

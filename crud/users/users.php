@@ -13,7 +13,6 @@
 
             if ($field == "phone") $value = str_replace(["(", ")", "-", " "], "", $value);
 
-            
             if ($field == "password" ) {
                 if ($post["changePass"]) {
                     $value = base64_encode($value);

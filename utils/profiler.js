@@ -30,6 +30,13 @@ function editUserImage() {
   $('#userInput').click();
 }
 
+function mascaraTelefone(telefone) {
+  telefone = telefone.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
+  telefone = telefone.replace(/^(\d{2})(\d)/g, '($1) $2'); // Adiciona parênteses em volta dos primeiros 2 dígitos
+  telefone = telefone.replace(/(\d)(\d{4})$/, '$1-$2'); // Adiciona hífen entre o quinto e sexto dígitos
+  return telefone;
+}
+
 let PROFILEIMAGE = null;
 
 function deleteUserImage() {
@@ -51,14 +58,31 @@ function deleteUserImage() {
   }
 }
 
+function setUser() {
+  console.log($("#emailProfile")[0]);
+  $("#emailProfile")[0].value = user.email;
+  console.log($("#phoneProfile")[0]);
+  $("#phoneProfile")[0].value = user.phone;
+  $("#phoneProfile").on("keyup", ev => $("#phoneProfile")[0].value = mascaraTelefone($("#phoneProfile")[0].value))
+}
+
+let user = null;
+
 $(document).ready(function() {
+
+  $("#profile").on('click', ev => {
+    setUser();
+  })
+
+
   load(true);
   $.ajax({
     type: "GET",
     url: '/netcar/utils/profiler.php',
     async: true,
     success: (response) => {
-        if (response) {
+      console.log(response);
+      if (response) {
           response = JSON.parse(response);
           let img = null;
           
@@ -71,6 +95,10 @@ $(document).ready(function() {
                       
           showUserPreview(`/netcar/wwwroot/images/users/${img}`);
           load(false);
+
+          if (response.user) {
+            user = response.user;
+          }
           
         }
     }
