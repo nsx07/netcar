@@ -114,13 +114,15 @@
                     $price = $formData["price"];
                     $kilometer = $formData["kilometers"];
                     $fuel = $formData["fuel"];
+                    $isNew = isset($formData["isNew"]) ? 1 : 0;
+                    $plate = $formData["plate"];
                     $color = $formData["color"];
                     $id_model = $formData["model"];
                     $itens = parseItens($formData["itens"]);
 
                     $sql = "INSERT INTO CAR
-                    (`id_model`, `price`, `fuel`, `year`, `kilometers`, `color`) VALUES
-                    ($id_model, cast($price as float), '$fuel', '$year', $kilometer, '$color')";
+                    (`id_model`, `price`, `fuel`, `year`, `kilometers`, `color`, `isNew`, `plate`) VALUES
+                    ($id_model, cast($price as float), '$fuel', '$year', $kilometer, '$color', $isNew, '$plate')";
 
                     $row = mysqli_query($connect ,$sql);
                     $id = mysqli_insert_id($connect); 
@@ -188,11 +190,11 @@
             } else {
                 if (isset($_GET["keyword"]) && !empty($_GET["keyword"])) {
                     $key = $_GET["keyword"];
-                    $sql = "SELECT C.id as id, C.id_model as model, M.code as code, C.price as price, C.fuel as fuel, C.year as year,  C.kilometers as kilometers, C.color as color, M.name as name, 
+                    $sql = "SELECT C.plate as plate, C.isnew as isNew, C.id as id, C.id_model as model, M.code as code, C.price as price, C.fuel as fuel, C.year as year,  C.kilometers as kilometers, C.color as color, M.name as name, 
                     (SELECT GROUP_CONCAT(i.id SEPARATOR ', ') FROM car_itens ci INNER JOIN item i ON ci.id_item = i.id WHERE ci.id_car = C.id) AS itens FROM CAR AS C INNER JOIN MODEL AS M ON C.id_model = M.id
                             WHERE M.NAME LIKE '%$key%' or C.YEAR LIKE '%$key%' ";
                 } else {
-                    $sql = "SELECT C.id as id, C.id_model as model, M.code as code, C.price as price, C.fuel as fuel, C.year as year,  C.kilometers as kilometers, C.color as color, M.name as name, 
+                    $sql = "SELECT C.plate as plate, C.isnew as isNew, C.id as id, C.id_model as model, M.code as code, C.price as price, C.fuel as fuel, C.year as year,  C.kilometers as kilometers, C.color as color, M.name as name, 
                     (SELECT GROUP_CONCAT(i.id SEPARATOR ', ') FROM car_itens ci INNER JOIN item i ON ci.id_item = i.id WHERE ci.id_car = C.id) AS itens FROM CAR AS C INNER JOIN MODEL AS M ON C.id_model = M.id";
                 }
                 

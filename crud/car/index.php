@@ -159,6 +159,20 @@
 
                         </div>
 
+                        <div class="col-md-6 col-sm-12">
+                            <label for="plate">Placa <span style="color: red"> *</span></label>
+                            <input type="text" class="form-control" name="plate" id="plate" maxlength="7" placeholder="ABC-XXXX"/>
+                            <small class="feedbackplate fs-6 text text-danger"></small>
+                        </div>
+
+                        <div class="col-md-6 col-sm-12 flex align-items-center">
+                            <div class="flex align-items-center gap-2">
+                                <input class="form-check-input" type="checkbox" name="isNew" id="isNew" value="false">
+                                <label class="form-check-label" for="isNew"> É novo? </label>
+                            </div>
+                            <small class="feedbackisnew fs-6 text text-danger"></small>
+                        </div>
+
                         <div class="col-12">
                             <label for="item">Itens <span style="color: red"> *</span></label>
                             <div class="dropdown" style="width: 100% !important">

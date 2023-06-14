@@ -128,19 +128,12 @@ $(document).ready(() => {
     }
     
     button.click(event => {
-        const data = $("#signup").serialize();
-        const Toast = Swal.mixin({
-            toast: true,
-            timer: 3000,
-            position: 'bottom-end',
-            showConfirmButton: false,
-            timerProgressBar: true,
-          })
 
         $("#default")[0].classList.add("d-none")
         $("#loading")[0].classList.remove("d-none");
         button.prop("disabled", true);
 
+        load(true);
         $.ajax({
             type: "POST",
             url: "signup.php",
@@ -175,7 +168,8 @@ $(document).ready(() => {
                 $("#default")[0].classList.remove("d-none")
                 $("#loading")[0].classList.add("d-none");
 
-            }
+            },
+            complete: () => load(false)
         })
     })
 })

@@ -49,34 +49,39 @@ function deleteUserImage() {
       processData: false,
       contentType: false,
       success: (r) => {
-        // console.log(r);
         PROFILEIMAGE = null;
         showUserPreview("/netcar/wwwroot/images/users/icone.png");
-        load(false);
-      }
+      },
+      complete: () => load(false)
     })
   }
 }
 
-function setUser() {
-  console.log($("#emailProfile")[0]);
+function setUserProfile() {
   $("#emailProfile")[0].value = user.email;
-  console.log($("#phoneProfile")[0]);
   $("#phoneProfile")[0].value = user.phone;
+  $("#nameProfile")[0].innerHTML = `${user.name} ${user.surName}`;
   $("#phoneProfile").on("keyup", ev => $("#phoneProfile")[0].value = mascaraTelefoneProfile($("#phoneProfile")[0].value))
+  checkFormProfile();
 }
 
-let user = null;
+const catchErrorProfile = (response) => {
+  if (typeof response !== "string") {
+    return "Erro ao atualizar.";
+  }
 
-$(document).ready(function() {
+  for (let prop in formProfile.fields) {
+      const len = response.split(" ");
+      if (`'${prop}'` === len[len.length - 1]) {
+          return formProfile.fields[prop].name + " já cadastrado.";
+      }
+  }
+  return undefined;
+}
 
-  $("#profile").on('click', ev => {
-    setUser();
-  })
-
-
+async function getUserData() {
   load(true);
-  $.ajax({
+  await $.ajax({
     type: "GET",
     url: '/netcar/utils/profiler.php',
     async: true,
@@ -101,44 +106,153 @@ $(document).ready(function() {
           }
           
         }
-    }
+    },
+    complete: () => load(false)
   });
+}
 
+async function saveImage(ev) {
+  const formData = new FormData();
+  formData.append('image', ev.target.files[0]);
+  load(true);
+  $.ajax({
+    type: "POST",
+    url: '/netcar/utils/profiler.php',
+    async: true,
+    processData: false,
+    contentType: false,
+    data: formData,
+    success: (response) => {
+      console.log(response);
+      response = JSON.parse(response);
+      console.log(response);
+      if (response.status === 1) {
+        PROFILEIMAGE = response.path;
+        PROFILEIMAGE = "/netcar" + new String(PROFILEIMAGE).slice(2);
+        showUserPreview(PROFILEIMAGE);
+      } else if (response.message) {
+
+        Swal.fire({
+          position: 'bottom-start',
+          icon: 'error',
+          title: response.message,
+          showConfirmButton: false,
+        })
+
+        PROFILEIMAGE = null;
+        
+      }
+      
+    },
+    complete: () => load(false)
+  })
+}
+
+async function saveUserData() {
+  const form = $("#formProfile").serialize();
+
+  load(true);
+  $.ajax({
+    type: "POST",
+    url: '/netcar/utils/profiler.php',
+    async: true,
+    data: form,
+    success: (response) => {
+      try {
+        response = JSON.parse(response);
+
+        Toast.fire({
+          icon: response.success ? 'success' : 'error',
+          title: response.success? "Atualizado com sucesso!" : catchErrorProfile(response) ,
+        });
+        
+        console.log(response);
+
+      } catch (error) {
+
+        console.log(response, catchErrorProfile(response));
+        Toast.fire({
+          icon: 'error',
+          title: "Erro ao atualizar!",
+        });
+
+      }
+      
+
+    },
+    complete: a => load(false)
+
+  })
+}
+
+const formProfile = {
+  valid: false,
+  fields: {
+    email : {value: '', name: "Email", type: 'regex', validator: /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/g, valid: false, message: "Email inválido"},
+    phone : {value: '', name: "Telefone", type: 'minLength', validator: 11, valid: false, message: "Informe o telefone"},        
+  }
+}
+
+const checkStateProfile = () => {
+  let state = true;
+  for (let item in formProfile.fields) {
+      if (!formProfile.fields[item].valid) {
+          state = false;
+      }
+  }
+
+  formProfile.valid = state;
+  return state;
+}
+
+const checkFormProfile = () => {
+  const button = $("#saveProfile");
+  const formGroup = $("#formProfile")[0]
+
+  for (let prop in formProfile.fields) {
+      field = formProfile.fields[prop]
+      field.value = (formGroup[prop].value);
+      const errorMessage = $(".feedback" + prop + 'profile')[0];
+
+      switch (field.type) {
+          case 'regex': 
+              const regex = new RegExp(field.validator);
+              field.valid = field.value.match(regex) && field.value.match(regex).length >= 1
+              break;
+          case 'minLength': 
+              field.valid = formGroup[prop].value.toString().replace(/[\s.]?[\(\)]?[-]?/g, "").length === field.validator 
+              break;
+      }
+  
+      if (!field.valid ) {
+          errorMessage.innerHTML = field.message;
+      } else if (errorMessage && !formProfile.valid){
+          errorMessage.innerHTML = "";
+      }
+  
+      button.prop("disabled", !checkStateProfile());
+  }
+}
+
+let user = null;
+
+$(document).ready(function() {
+
+  $("#profile").on('click', async ev => {
+    await getUserData();
+    setUserProfile();
+
+  })
+
+  $("#formProfile").on('keyup', ev => {checkFormProfile()});
+  $("#formProfile").on('click', ev => {checkFormProfile()});
+
+  $("#saveProfile").on("click", ev => {
+    saveUserData();
+  })
 
   $('#userInput').on("change", ev => {
-    const formData = new FormData();
-    formData.append('image', ev.target.files[0]);
-    load(true);
-    $.ajax({
-      type: "POST",
-      url: '/netcar/utils/profiler.php',
-      async: true,
-      processData: false,
-      contentType: false,
-      data: formData,
-      success: (response) => {
-        console.log(response);
-        response = JSON.parse(response);
-        console.log(response);
-        if (response.status === 1) {
-          PROFILEIMAGE = response.path;
-          PROFILEIMAGE = "/netcar" + new String(PROFILEIMAGE).slice(2);
-          showUserPreview(PROFILEIMAGE);
-        } else {
-
-          Swal.fire({
-            position: 'bottom-start',
-            icon: 'error',
-            title: response.message,
-            showConfirmButton: false,
-          })
-          PROFILEIMAGE = null;
-          
-        }
-        load(false);
-      }
-    })
-    
+    saveImage(ev);
   })
 
 });

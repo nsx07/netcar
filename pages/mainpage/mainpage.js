@@ -32,6 +32,7 @@ const mascaraANO = (ano) => {
 
 const getCars = (id) => {
     const promise = new Promise(async (res,rej) => {
+        load(true);
         await 
         $.ajax({
             method: "GET",
@@ -45,7 +46,8 @@ const getCars = (id) => {
             },
             error : (response) => {
                 rej(JSON.parse(response))
-            }
+            },
+            complete: () => load(false)
         })
     })
 
@@ -54,6 +56,7 @@ const getCars = (id) => {
 
 const getBrands = (id) => {
     const promise = new Promise(async (res,rej) => {
+        load(true);
         await 
         $.ajax({
             method: "GET",
@@ -67,7 +70,8 @@ const getBrands = (id) => {
             },
             error : (response) => {
                 rej(JSON.parse(response))
-            }
+            },
+            complete: () => load(false)
         })
     })
 
@@ -76,6 +80,7 @@ const getBrands = (id) => {
 
 const getModels = (id) => {
     const promise = new Promise(async (res,rej) => {
+        load(true);
         await $.ajax({
             method: "GET",
             url: "../../crud/model/model.php",
@@ -88,7 +93,8 @@ const getModels = (id) => {
             },
             error : (response) => {
                 rej(JSON.parse(response))
-            }
+            },
+            complete: () => load(false)
         })
     })
 
@@ -219,14 +225,6 @@ function adicionarItensAoSelectBrands(brands) {
     });
   }
 
-const Toast = Swal.mixin({
-    toast: true,
-    timer: 3000,
-    position: 'bottom-end',
-    showConfirmButton: false,
-    timerProgressBar: true,
-})
-
 $(window).on("load", async ev => {
     getCars(encodeURI("method=GET"))
         .then(resp => {
@@ -281,6 +279,7 @@ $(document).ready(function() {
       const promise = new Promise(async (res,rej) => { 
       event.preventDefault();
       var formData = $('#filter').serialize(); // Obtém os dados do formulário
+      load(true);
       await
       $.ajax({
         type: 'GET',
@@ -293,7 +292,8 @@ $(document).ready(function() {
         },
         error : (response) => {
             rej(JSON.parse(response))
-        }
+        },
+        complete: () => load(false)
       })
     })
   })

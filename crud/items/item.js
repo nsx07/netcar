@@ -1,5 +1,6 @@
 const getItens = (id) => {
     const promise = new Promise(async (res,rej) => {
+        load(true);
         await 
         $.ajax({
             method: "GET",
@@ -12,7 +13,8 @@ const getItens = (id) => {
             },
             error : (response) => {
                 rej(JSON.parse(response))
-            }
+            },
+            complete: () => load(false)
         })
     })
 
@@ -21,6 +23,7 @@ const getItens = (id) => {
 
 const setItem = (item) => {
     const promise = new Promise(async (res,rej) => {
+        load(true);
         await 
         $.ajax({
             method: "POST",
@@ -32,7 +35,8 @@ const setItem = (item) => {
             },
             error : (response) => {
                 rej(JSON.parse(response))
-            }
+            },
+            complete: () => load(false)
         })
     })
 
@@ -41,6 +45,7 @@ const setItem = (item) => {
 
 const deleteItem = (id) => {
     const promise = new Promise(async (res,rej) => {
+        load(true);
         await 
         $.ajax({
             method: "DELETE",
@@ -52,7 +57,8 @@ const deleteItem = (id) => {
             },
             error : (response) => {
                 rej(JSON.parse(response))
-            }
+            },
+            complete: () => load(false)
         })
     })
 
@@ -62,7 +68,7 @@ const deleteItem = (id) => {
 const newEntity = () => {
     resetForm();
     setState("Cadastrar Item", () => {
-
+        load(true);
         $.ajax({
             type: "POST",
             url: "item.php",
@@ -102,7 +108,8 @@ const newEntity = () => {
                 } catch (error) {
                     console.error("Error catched" + error);
                 }
-            }
+            },
+            complete: () => load(false)
         })
 
     })
@@ -113,6 +120,7 @@ const edit = (id) => {
     fillForm(item)
     setState("Editar Item", () => {
         console.log(item, $("#form").serialize() ,items);
+        load(true);
         $.ajax({
             type: "POST",
             url: "item.php",
@@ -151,7 +159,8 @@ const edit = (id) => {
                 } catch (error) {
                     console.error("Error catched" + error);
                 }
-            }
+            },
+            complete: () => load(false)
         })  
     })
 }
@@ -329,16 +338,6 @@ const form = {
 
 let items = []
 let callback;
-
-const Toast = Swal.mixin({
-    toast: true,
-    timer: 3000,
-    position: 'bottom-end',
-    showConfirmButton: false,
-    timerProgressBar: true,
-})
-
-
 
 $(window).on("load", ev => {
     getItens(encodeURI("method=GET"))

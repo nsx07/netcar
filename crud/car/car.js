@@ -2,6 +2,7 @@
 
 const getCars = (id) => {
     const promise = new Promise(async (res,rej) => {
+        load(true);
         await 
         $.ajax({
             method: "GET",
@@ -15,7 +16,8 @@ const getCars = (id) => {
             },
             error : (response) => {
                 rej(JSON.parse(response))
-            }
+            },
+            complete: () => load(false)
         })
     })
 
@@ -24,6 +26,7 @@ const getCars = (id) => {
 
 const getResources = () => {
     const promise = new Promise(async (res,rej) => {
+        load(true);
         await 
         $.ajax({
             method: "GET",
@@ -37,7 +40,8 @@ const getResources = () => {
             },
             error : (response) => {
                 rej(JSON.parse(response))
-            }
+            },
+            complete: () => load(false)
         })
     })
 
@@ -493,6 +497,17 @@ const fillForm = (car) => {
     for (let field in car) {
         if (field === "images") continue
 
+        if (field == "isNew") {
+            if (car.isNew == "1") {
+                $("#isNew")[0].removeAttribute("unchecked");
+                $("#isNew")[0].setAttribute("checked", true);
+            } else {
+                $("#isNew")[0].removeAttribute("checked");
+                $("#isNew")[0].setAttribute("unchecked", true);
+            }
+
+        }
+
         if (form_[field]) {
             form_[field].value = car[field];
             form.fields[field].value = car[field];
@@ -533,7 +548,8 @@ const form = {
     fields : {
         id: {value: '', name: "id", type: null, valid: true},
         itens: {value: '', name: 'itens', type: null, valid: true},
-
+        isNew: {value: '', name: 'itens', type: null, valid: true},
+        plate: {value: '', name: "Placa", type: "regex", validator: /^[A-Z]{3}[0-9][0-9A-Z][0-9]{2}/, valid: false, message: "Informe a placa"},
         model: {value: '', name: "Modelo", type: "regex", validator: /^[0-9]/, valid: false, message: "Selecione o modelo"},
         price: {value: '', name: "Preço", type: "regex", validator: /^[0-9]/, valid: false, message: "Informe o preço"},
         fuel: {value: '', name: "Combustível", type: "regex", validator: /^[a-zA-Z]/, valid: false, message: "Informe o tipo de combustível"},
@@ -673,14 +689,6 @@ let models = [];
 let callback = null;
 
 //#endregion
-
-const Toast = Swal.mixin({
-    toast: true,
-    timer: 3000,
-    position: 'bottom-end',
-    showConfirmButton: false,
-    timerProgressBar: true,
-})
 
 $(window).on("load", async ev => {
     load(true);

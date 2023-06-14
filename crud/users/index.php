@@ -173,7 +173,6 @@
                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     Salvando...
                     </span>
-                    
                 </button>
             </div>
             </div>

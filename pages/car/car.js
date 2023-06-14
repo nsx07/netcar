@@ -89,6 +89,7 @@ const getColor = (keyValue) => {
 
 function setInfo() {
   $("#content")[0].classList.remove("d-none")
+  
   fillCarousel(car)
   $("#carName")[0].innerHTML = `${car.name} ${car.year}`;
   $("#carPrice")[0].innerHTML += `R$ ${car.price}`;
@@ -132,10 +133,10 @@ $(window).on("load", async ev => {
           document.title = `${car.name} ${car.year} | netcar`;
           setInfo();
         } else {
-          alert("Carro não encontrado");
+          $("#notFound")[0].classList.remove("d-none")
         }
     } else {
-      alert("Carro não encontrado");
+      $("#notFound")[0].classList.remove("d-none")
     }
 })
 

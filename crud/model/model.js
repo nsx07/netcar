@@ -1,5 +1,6 @@
 const getModels = (id) => {
     const promise = new Promise(async (res,rej) => {
+        load(true);
         await $.ajax({
             method: "GET",
             url: "model.php",
@@ -11,15 +12,17 @@ const getModels = (id) => {
             },
             error : (response) => {
                 rej(JSON.parse(response))
-            }
+            },
+            complete: () => load(false)
         })
     })
 
     return promise
 }
 
-const setUser = (model) => {
+const setmodel = (model) => {
     const promise = new Promise(async (res,rej) => {
+        load(true);
         await 
         $.ajax({
             method: "POST",
@@ -31,15 +34,17 @@ const setUser = (model) => {
             },
             error : (response) => {
                 rej(JSON.parse(response))
-            }
+            },
+            complete: () => load(false)
         })
     })
 
     return promise
 }
 
-const deleteUser = (id) => {
+const deletemodel = (id) => {
     const promise = new Promise(async (res,rej) => {
+        load(true);
         await 
         $.ajax({
             method: "DELETE",
@@ -51,7 +56,8 @@ const deleteUser = (id) => {
             },
             error : (response) => {
                 rej(JSON.parse(response))
-            }
+            },
+            complete: () => load(false)
         })
     })
 
@@ -61,7 +67,7 @@ const deleteUser = (id) => {
 const newEntity = () => {
     resetForm();
     setState("Cadastrar Modelo", () => {
-
+        load(true);
         $.ajax({
             type: "POST",
             url: "model.php",
@@ -100,7 +106,8 @@ const newEntity = () => {
                 } catch (error) {
                     console.error("Error catched" + error);
                 }
-            }
+            },
+            complete: () => load(false)
         })
 
     })
@@ -110,6 +117,7 @@ const edit = (id) => {
     const model = models.find(model => model.id == id);
     fillForm(model)
     setState("Editar Modelo", () => {
+        load(true);
         $.ajax({
             type: "POST",
             url: "model.php",
@@ -147,7 +155,8 @@ const edit = (id) => {
                 } catch (error) {
                     console.error("Error catched" + error);
                 }
-            }
+            },
+            complete: () => load(false)
         })  
     })
 }
@@ -160,7 +169,7 @@ const delete_ = (id) => {
         denyButtonText: `Cancelar`,
       }).then((result) => {
         if (result.isConfirmed) {
-            deleteUser(encodeURI(`id=${id}`))
+            deletemodel(encodeURI(`id=${id}`))
             .then(response => {
                 
                 if (response.success) {
@@ -191,7 +200,7 @@ const delete_ = (id) => {
       })
 }
 
-const userBoilerPlate = (model) => {
+const modelBoilerPlate = (model) => {
     if (!model) {
         return null;
     }
@@ -223,7 +232,7 @@ const fillTable = (models) => {
     }
 
     for (let model of models) {
-        line.innerHTML += userBoilerPlate(model);
+        line.innerHTML += modelBoilerPlate(model);
     }
 
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
@@ -298,6 +307,7 @@ const fillForm = (model) => {
 
 const getResources = () => {
     const promise = new Promise(async (res,rej) => {
+        load(true);
         await 
         $.ajax({
             method: "GET",
@@ -310,7 +320,8 @@ const getResources = () => {
             },
             error : (response) => {
                 rej(JSON.parse(response))
-            }
+            },
+            complete: () => load(false)
         })
     })
 
@@ -363,16 +374,6 @@ const form = {
 
 let models = []
 let callback;
-
-const Toast = Swal.mixin({
-    toast: true,
-    timer: 3000,
-    position: 'bottom-end',
-    showConfirmButton: false,
-    timerProgressBar: true,
-})
-
-
 
 $(window).on("load", ev => {
     getResources().then(r => {})

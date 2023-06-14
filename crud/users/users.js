@@ -3,6 +3,7 @@
 const getEntities = (id) => {
     
     const promise = new Promise(async (res,rej) => {
+        load(true);
         await 
         $.ajax({
             method: "GET",
@@ -17,7 +18,8 @@ const getEntities = (id) => {
             },
             error : (response) => {
                 rej(JSON.parse(response))
-            }
+            },
+            complete: () => load(false)
         })
     })
 
@@ -27,6 +29,7 @@ const getEntities = (id) => {
 
 const deleteEntity = (id) => {
     const promise = new Promise(async (res,rej) => {
+        load(true);
         await 
         $.ajax({
             method: "DELETE",
@@ -38,7 +41,8 @@ const deleteEntity = (id) => {
             },
             error : (response) => {
                 rej(JSON.parse(response))
-            }
+            },
+            complete: () => load(false)
         })
     })
 
@@ -47,8 +51,11 @@ const deleteEntity = (id) => {
 
 const newEntity = () => {
     resetForm();
-    setState("Cadastrar usuário", () => {
 
+    console.log(form, $("#signup"));
+
+    setState("Cadastrar usuário", () => {
+        load(true);
         $.ajax({
             type: "POST",
             url: "users.php",
@@ -87,36 +94,26 @@ const newEntity = () => {
                 } catch (error) {
                     console.error("Error catched" + error);
                 }
-            }
+            },
+            complete: () => load(false)
         })
 
     })
 }
 
 const edit = (id) => {
+    resetForm();
     const user = users.find(user => user.id == id);
     fillForm(user)
-    form.fields.phone.validator = 11;
-    form.fields.cpf.validator = 11;
 
-    $("#phone").on("change", ev => {
-        console.log(ev);
-        form.fields.phone.validator = 15;
-    })
-    $("#cpf").on("change", ev => {
-        console.log(ev);
-        form.fields.cpf.validator = 14;
-    })
+    console.log(form, $("#signup"));
 
     setState("Editar usuário", () => {
         var serialize = $("#signup").serialize();
         serialize += changePassword ? "&changePass=true" : "&changePass=false";
 
         console.log(serialize);
-        $("#phone").off("change");
-
-        $("#cpf").off("change");
-
+        load(true);
         $.ajax({
             type: "POST",
             url: "users.php",
@@ -154,7 +151,8 @@ const edit = (id) => {
                 } catch (error) {
                     console.error("Error catched" + error);
                 }
-            }
+            },
+            complete: () => load(false)
         })  
     })
 }
@@ -337,7 +335,7 @@ const checkForm = (button, skipPass = false) => {
                 field.valid = field.validator - new Date(formGroup[prop].value).getFullYear() >= 17 && field.validator - new Date(formGroup[prop].value).getFullYear() < 100
                 break;
             case 'minLength': 
-                field.valid = formGroup[prop].value.toString().length >= field.validator 
+                field.valid = formGroup[prop].value.toString().replace(/[\s.]?[\(\)]?[-]?/g, '').length === field.validator 
                 break;
             case 'reference': 
                 field.valid = formGroup[prop].value === $(`#${field.validator}`)[0].value
@@ -350,7 +348,6 @@ const checkForm = (button, skipPass = false) => {
         }
 
         field.valid = field.valid === null ? false : field.valid;
-        console.log(prop, field.valid);
     
         if (!field.valid ) {
             errorMessage.innerHTML = field.message;
@@ -388,7 +385,7 @@ const resetForm = () => {
     for (let field in form.fields) {
         $("#signup")[0][field].value = null;
         if (field in form.fields) {
-            form.fields[field].value = form.fields[field].defaultValue ?? null;
+            form.fields[field].value = form.fields[field].defaultValue ?? '';
         }
     }
 
@@ -418,14 +415,6 @@ let users = []
 let callback;
 let operation; 
 let changePassword = false;
-
-const Toast = Swal.mixin({
-    toast: true,
-    timer: 3000,
-    position: 'bottom-end',
-    showConfirmButton: false,
-    timerProgressBar: true,
-})
 
 $(window).on("load", async ev => {
     await getEntities()
@@ -460,23 +449,23 @@ $(document).ready(() => {
     })
 
     changePass.on("change", ev => {
-        changePassword = !changePassword;
+            changePassword = !changePassword;
 
-        if (!changePassword) {
-            form.fields.password.valid = true
-            form.fields.confirmPass.valid = true
-            checkForm(button, true);
-            $("#password").prop("disabled", true);
-            $("#confirmPass").prop("disabled", true);
-            $(".feedbackpassword")[0].innerHTML = "";
-            $(".feedbackconfirmPass")[0].innerHTML = ""
-        } else {
-            form.fields.password.valid = false
-            form.fields.confirmPass.valid = false
-            $("#password").prop("disabled", false);
-            $("#confirmPass").prop("disabled", false);
-            checkForm(button);
-        }
+            if (!changePassword) {
+                form.fields.password.valid = true
+                form.fields.confirmPass.valid = true
+                checkForm(button, true);
+                $("#password").prop("disabled", true);
+                $("#confirmPass").prop("disabled", true);
+                $(".feedbackpassword")[0].innerHTML = "";
+                $(".feedbackconfirmPass")[0].innerHTML = ""
+            } else {
+                form.fields.password.valid = false
+                form.fields.confirmPass.valid = false
+                $("#password").prop("disabled", false);
+                $("#confirmPass").prop("disabled", false);
+                checkForm(button);
+            }
 
     })
     

@@ -10,16 +10,38 @@ $response = array();
 switch ($requestMethod) {
     case 'POST':
 
-        if (isset($_SESSION["id"]) && isset($_FILES["image"])) {
-            $imageAlready = getImagesByPath($_SESSION["id"], "users", "../wwwroot/images/users/"); 
-            
-            $response = saveImage($_SESSION["id"], "users", $_FILES["image"], "../");
+        if (isset($_SESSION["id"])) {
 
-            if (isset($imageAlready) && !empty($imageAlready) && $response["status"] == 1) {
-                foreach ($imageAlready as $image => $path) {
-                    $response["delete" . $image] = deleteImage("../wwwroot/images/users/" . $path);
+            if (isset($_FILES["image"])) {
+                $imageAlready = getImagesByPath($_SESSION["id"], "users", "../wwwroot/images/users/"); 
+            
+                $response = saveImage($_SESSION["id"], "users", $_FILES["image"], "../");
+    
+                if (isset($imageAlready) && !empty($imageAlready) && $response["status"] == 1) {
+                    foreach ($imageAlready as $image => $path) {
+                        $response["delete" . $image] = deleteImage("../wwwroot/images/users/" . $path);
+                    }
                 }
+            } else if (isset($_POST["email"]) && isset($_POST["phone"])) {
+                $email = $_POST["email"];
+                $phone = str_replace(["(", ")", "-", " "], "", $_POST["phone"]);
+
+                $sql = "UPDATE USER SET email = '$email', phone = '$phone' WHERE ID = " . $_SESSION["id"];
+
+                try {
+                    $result = mysqli_query($connect, $sql) or die(json_encode("Erro ao atualizar dados"));
+                } catch (\Throwable $th) {
+                    echo json_encode(mysqli_error($connect));
+                    exit();
+                }
+
+                $response["success"] = $result;
+                $response["message"] = $result ? "Atualizado com sucesso" : "Erro ao atualizar";
+                
+
             }
+
+
         }
 
         echo json_encode($response);

@@ -48,14 +48,6 @@
       }, 555)
 
       const logout = $('#logout');
-      const Toast = Swal.mixin({
-          toast: true,
-          timer: 2000,
-          position: 'bottom-end',
-          showConfirmButton: false,
-          timerProgressBar: true,
-      })
-
       const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
       const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
   
@@ -102,6 +94,15 @@
 ?>
 <script>
   $(document).ready(_ => $('#loader').fadeOut('slow'));
+
+  const Toast = Swal.mixin({
+    toast: true,
+    timer: 2000,
+    position: 'bottom-start',
+    showConfirmButton: false,
+    timerProgressBar: true,
+  })
+
   function load(state) {
       if (state) {
         $('#loader').fadeIn('slow');

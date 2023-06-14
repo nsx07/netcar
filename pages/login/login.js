@@ -41,14 +41,6 @@ const form = {
 
 $(document).ready(() => {
     const button = $("#login-button");
-    const Toast = Swal.mixin({
-        toast: true,
-        timer: 3000,
-        position: 'bottom-end',
-        showConfirmButton: false,
-        timerProgressBar: true,
-      });
-
 
     for (let prop in form.fields) {
         
@@ -82,6 +74,7 @@ $(document).ready(() => {
         $("#loading")[0].classList.remove("d-none");
         button.prop("disabled", true);
 
+        load(true);
         $.ajax({
             type: "POST",
             url: "login.php",
@@ -128,7 +121,8 @@ $(document).ready(() => {
                     button.prop("disabled", false);
                 }, new Date().getMilliseconds()) ;
 
-            }
+            },
+            complete: () => load(false)
         })
     })
 })

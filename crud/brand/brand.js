@@ -1,5 +1,6 @@
 const getBrands = (id) => {
     const promise = new Promise(async (res,rej) => {
+        load(true);
         await 
         $.ajax({
             method: "GET",
@@ -12,15 +13,17 @@ const getBrands = (id) => {
             },
             error : (response) => {
                 rej(JSON.parse(response))
-            }
+            },
+            complete: () => load(false)
         })
     })
 
     return promise
 }
 
-const setUser = (brand) => {
+const setBrand = (brand) => {
     const promise = new Promise(async (res,rej) => {
+        load(true);
         await 
         $.ajax({
             method: "POST",
@@ -32,15 +35,17 @@ const setUser = (brand) => {
             },
             error : (response) => {
                 rej(JSON.parse(response))
-            }
+            },
+            complete: () => load(false)
         })
     })
 
     return promise
 }
 
-const deleteUser = (id) => {
+const deleteBrand = (id) => {
     const promise = new Promise(async (res,rej) => {
+        load(true);
         await 
         $.ajax({
             method: "DELETE",
@@ -52,7 +57,8 @@ const deleteUser = (id) => {
             },
             error : (response) => {
                 rej(JSON.parse(response))
-            }
+            },
+            complete: () => load(false)
         })
     })
 
@@ -62,7 +68,7 @@ const deleteUser = (id) => {
 const newEntity = () => {
     resetForm();
     setState("Cadastrar marca", () => {
-
+        load(true);
         $.ajax({
             type: "POST",
             url: "brand.php",
@@ -102,7 +108,8 @@ const newEntity = () => {
                 } catch (error) {
                     console.error("Error catched" + error);
                 }
-            }
+            },
+            complete: () => load(false)
         })
 
     })
@@ -113,6 +120,7 @@ const edit = (id) => {
     fillForm(brand)
     setState("Editar marca", () => {
         console.log(brand, $("#form").serialize() ,brands);
+        load(true);
         $.ajax({
             type: "POST",
             url: "brand.php",
@@ -151,7 +159,8 @@ const edit = (id) => {
                 } catch (error) {
                     console.error("Error catched" + error);
                 }
-            }
+            },
+            complete: () => load(false)
         })  
     })
 }
@@ -164,7 +173,7 @@ const delete_ = (id) => {
         denyButtonText: `Cancelar`,
       }).then((result) => {
         if (result.isConfirmed) {
-            deleteUser(encodeURI(`id=${id}`))
+            deleteBrand(encodeURI(`id=${id}`))
             .then(response => {
                 
                 if (response.success) {
@@ -329,16 +338,6 @@ const form = {
 
 let brands = []
 let callback;
-
-const Toast = Swal.mixin({
-    toast: true,
-    timer: 3000,
-    position: 'bottom-end',
-    showConfirmButton: false,
-    timerProgressBar: true,
-})
-
-
 
 $(window).on("load", ev => {
     getBrands(encodeURI("method=GET"))

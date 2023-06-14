@@ -24,9 +24,9 @@
     <div id="conteudo" class="grid gap-2 w-100 overflow-y-scroll m-0">
 
         <div class="col-12 d-none" id="notFound">
-            <div class="flex align-items-center justify-content-center p-4">
-                <div class="alert alert-warning" role="alert">
-                    <h2 class="text-xl font-semibold">Carro não encontrado</h2>
+            <div class="flex justify-content-center p-4 w-full">
+                <div class="alert alert-warning w-75 text-center" role="alert">
+                    <h2 class="font-semibold">Carro não encontrado</h2>
                 </div>
             </div>
         </div> 
