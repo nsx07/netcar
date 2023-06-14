@@ -469,7 +469,11 @@ const checkForm = (button) => {
                 field.valid = field.value.match(field.validator) && field.value.match(field.validator).length >= 1
                 break;
             case 'date': 
-                field.valid = field.validator - new Date(formGroup[prop].value).getFullYear() >= 17 && field.validator - new Date(formGroup[prop].value).getFullYear() < 100
+                if (!formGroup[prop].value.match(/^[0-9]{4}/)) {
+                    field.valid = false;
+                    break;
+                }
+                field.valid = formGroup[prop].value <= new Date().getFullYear() + 1;
                 break;
             case 'minLength': 
                 field.valid = formGroup[prop].value.toString().length >= field.validator 
@@ -553,7 +557,7 @@ const form = {
         model: {value: '', name: "Modelo", type: "regex", validator: /^[0-9]/, valid: false, message: "Selecione o modelo"},
         price: {value: '', name: "Preço", type: "regex", validator: /^[0-9]/, valid: false, message: "Informe o preço"},
         fuel: {value: '', name: "Combustível", type: "regex", validator: /^[a-zA-Z]/, valid: false, message: "Informe o tipo de combustível"},
-        year: {value: '', name: "Ano", type: "regex", validator: /^[0-9]{4}/, valid: false, message: "Informe o ano do veículo"},
+        year: {value: '', name: "Ano", type: 'date', validator: new Date().getFullYear(), valid: false, message: "Informe um ano válido"},
         kilometers: {value: '', name: "Kilometros", type: "regex", validator: /^[0-9]/, valid: false, message: "Informe a quilometragem do veículo"},
         color: {value: '', name: "Cor", type: null, valid: false},
     }

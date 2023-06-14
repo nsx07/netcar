@@ -132,6 +132,8 @@ $(document).ready(() => {
         $("#default")[0].classList.add("d-none")
         $("#loading")[0].classList.remove("d-none");
         button.prop("disabled", true);
+        const data = $("#signup").serialize();
+        console.log(data);
 
         load(true);
         $.ajax({
@@ -140,6 +142,7 @@ $(document).ready(() => {
             async:true,
             data: data,
             success: function (response) {
+                console.log(response);
                 try {
                     response = JSON.parse(response);
 

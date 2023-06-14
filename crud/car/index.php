@@ -91,7 +91,6 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <h3>Dados</h3>
                     <form id="form" onsubmit="return false"  target="_self">
                     <input type="text" id="id" name="id" class="d-none">
                     <div class="row">
@@ -105,7 +104,7 @@
 
                         <div class="col-md-6 col-sm-12">
                             <label for="year">Ano <span style="color: red"> *</span></label>
-                            <input type="number" class="form-control" min="1950" max="2050" step="1" name="year" id="year" placeholder="2023"/>
+                            <input type="text" class="form-control" maxlength="4" name="year" id="year" placeholder="2023"/>
                              <small class="feedbackyear fs-6 text text-danger"></small>
                         </div>
 
