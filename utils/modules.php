@@ -29,14 +29,6 @@
 
   <script language='javascript'>
     const WWWROOTPATH = "/netcar/wwwroot/";
-
-    function load(state) {
-      if (state) {
-        $('#loader').fadeIn('slow');
-      } else {
-        $('#loader').fadeOut('slow');
-      }
-    }
     
     $(document).ready(_ => {
       $('#loader').fadeOut('slow');
@@ -110,4 +102,11 @@
 ?>
 <script>
   $(document).ready(_ => $('#loader').fadeOut('slow'));
+  function load(state) {
+      if (state) {
+        $('#loader').fadeIn('slow');
+      } else {
+        $('#loader').fadeOut('slow');
+      }
+    }
 </script>

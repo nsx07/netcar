@@ -108,7 +108,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" id="close" data-bs-dismiss="modal">Fechar</button>
-        <button class="btn bg-default text-white" id="save" type="button" disabled>
+        <button class="btn bg-default text-white" id="save" form="form" type="button" disabled>
             <span id="default">
             Salvar
             </span> 
