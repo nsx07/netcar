@@ -53,7 +53,7 @@
           </div>
           <div class='col-12 mt-2'>
               <label for='emailProfile'>Email</label>
-              <input autocomplete='name' type='text' class='form-control' id='emailProfile' name='email' placeholder='Ex: 000.000.000-00' required>
+              <input autocomplete='name' type='text' class='form-control' id='emailProfile' name='email' placeholder='Ex: customer@netcar.com.br' required>
               <small class='feedbackcpf fs-6 text text-danger'></small>
           </div>
           <div class='col-12 mt-2'>
