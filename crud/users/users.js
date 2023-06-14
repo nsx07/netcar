@@ -1,3 +1,5 @@
+//#region Members 'API Methods'
+
 const getEntities = (id) => {
     
     const promise = new Promise(async (res,rej) => {
@@ -97,15 +99,23 @@ const edit = (id) => {
     form.fields.phone.validator = 11;
     form.fields.cpf.validator = 11;
 
-    $("#phone").on("change", ev => form.fields.phone.validator = 15)
-    $("#cpf").on("change", ev => form.fields.cpf.validator = 14)
+    $("#phone").on("change", ev => {
+        console.log(ev);
+        form.fields.phone.validator = 15;
+    })
+    $("#cpf").on("change", ev => {
+        console.log(ev);
+        form.fields.cpf.validator = 14;
+    })
 
     setState("Editar usuário", () => {
         var serialize = $("#signup").serialize();
         serialize += changePassword ? "&changePass=true" : "&changePass=false";
 
         console.log(serialize);
+        $("#phone").off("change");
 
+        $("#cpf").off("change");
 
         $.ajax({
             type: "POST",
@@ -149,6 +159,10 @@ const edit = (id) => {
     })
 }
 
+//#endregion
+
+//#region Members 'Utils'
+
 const setState = (label, _callback) => {
     $("#formModalLabel")[0].innerHTML = label;
     callback = _callback;
@@ -191,6 +205,16 @@ const confirmDelete = (id) => {
             })
         }
       })
+}
+
+const catchError = (response) => {
+    for (let prop in form.fields) {
+        const len = response.split(" ");
+        if (`'${prop}'` === len[len.length - 1]) {
+            return form.fields[prop];
+        }
+    }
+    return undefined;
 }
 
 const userBoilerPlate = (user) => {
@@ -246,7 +270,9 @@ const fillTable = (users) => {
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 }
 
-//#region 'Form'
+//#endregion
+
+//#region Members 'Form'
 
 const handleZipCode = (event) => {
     let input = event.target
@@ -300,6 +326,7 @@ const checkForm = (button, skipPass = false) => {
         field = form.fields[prop]
         field.value = removeGarbbage(formGroup[prop].value);
         const errorMessage = $(".feedback" + prop)[0];
+
         
         switch (field.type) {
             case 'regex': 
@@ -315,9 +342,15 @@ const checkForm = (button, skipPass = false) => {
             case 'reference': 
                 field.valid = formGroup[prop].value === $(`#${field.validator}`)[0].value
                 break;
+            case 'notEqual':
+                field.valid = formGroup[prop].value !== field.validator;
+                break;
             default:
                 field.valid = true;
         }
+
+        field.valid = field.valid === null ? false : field.valid;
+        console.log(prop, field.valid);
     
         if (!field.valid ) {
             errorMessage.innerHTML = field.message;
@@ -351,27 +384,23 @@ const removeGarbbage = (content) => {
     return content
 }
 
-const catchError = (response) => {
-    for (let prop in form.fields) {
-        const len = response.split(" ");
-        if (`'${prop}'` === len[len.length - 1]) {
-            return form.fields[prop];
-        }
-    }
-    return undefined;
-}
-
 const resetForm = () => {
     for (let field in form.fields) {
         $("#signup")[0][field].value = null;
+        if (field in form.fields) {
+            form.fields[field].value = form.fields[field].defaultValue ?? null;
+        }
     }
+
+    $("#id_access")[0].selectedIndex = 0;
+    $("#changePass")[0]
 } 
 
 const form = {
     valid : false,
     fields : {
         id : {value: '', name: "id", type: null, valid: true},
-        id_access: {value: '',type: null, name: "Acesso", valid: true},
+        id_access: {value: '0', defaultValue: '0', type: 'notEqual', validator: '0', name: "Acesso", valid: false, message: "Selecione o tipo de usuário"},
         name : {value: '', name: "Nome", type: 'regex', validator: /^[a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{3,}/g, valid: false, message: "Nome inválido"},
         surname : {value: '', name: "Sobrenome", type: 'regex', validator: /^[a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{3,}/g, valid: false, message: "Sobrenome inválido"},
         birthDate: {value: '', name: "Data nascimento", type: 'date', validator: new Date().getFullYear(), valid: false, message: "Informe uma data válida"},

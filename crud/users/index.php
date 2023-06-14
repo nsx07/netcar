@@ -81,7 +81,7 @@
 
         <button class="d-none" id="modal" data-bs-toggle="modal" data-bs-target="#formModal"></button>
         
-        <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+        <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true" style="z-index:9999">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                 <div class="modal-header">
@@ -126,8 +126,9 @@
                         <div class="col-12 mt-2">
                             <label for="id_access">Tipo de usuário</label>
                             <select class="form-select" id="id_access" name="id_access">
-                                <option value="1" selected>Admin</option>
-                            <option value="2">Cliente</option>
+                                <option value="0" selected>Selecione</option>
+                                <option value="1">Admin</option>
+                                <option value="2">Cliente</option>
                             </select>
                             <small class="feedbackid_access fs-6 text text-danger"></small>
                         </div>
@@ -138,7 +139,7 @@
 
                                 <span id="changePassDiv">
                                     <div class="form-check form-switch flex align-items-center gap-2">
-                                        <input class="form-check-input" type="checkbox" role="switch" id="changePass">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="changePass" unchecked>
                                         <label class="form-check-label font-semibold text-xl" for="changePass">Deseja alterar a senha ? </label>
                                     </div>
                                 </span>

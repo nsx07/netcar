@@ -54,12 +54,12 @@
           <div class='col-12 mt-2'>
               <label for='emailProfile'>Email</label>
               <input autocomplete='name' type='text' class='form-control' id='emailProfile' name='email' placeholder='Ex: customer@netcar.com.br' required>
-              <small class='feedbackcpf fs-6 text text-danger'></small>
+              <small class='feedbackcpfprofile fs-6 text text-danger'></small>
           </div>
           <div class='col-12 mt-2'>
               <label for='phoneProfile'>Telefone</label>
               <input autocomplete='name' type='text' class='form-control' id='phoneProfile' name='phone' maxlength='15' placeholder='Ex: (DD) 9 9999-9999' required>
-              <small class='feedbackphone fs-6 text text-danger'></small>
+              <small class='feedbackphoneprofile fs-6 text text-danger'></small>
           </div>
 
         </div
