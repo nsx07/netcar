@@ -278,13 +278,15 @@ $(document).ready(function() {
     $('#search').click(function(event) {
       const promise = new Promise(async (res,rej) => { 
       event.preventDefault();
-      var formData = $('#filter').serialize(); // Obtém os dados do formulário
+      var keyWord = $('#name')[0].value; // Obtém os dados do formulário
+      console.log(keyWord);
+
       load(true);
       await
       $.ajax({
         type: 'GET',
         url: 'mainpage.php',
-        data: formData,
+        data: "name=" + keyWord,
         async: true,
         success: (response) => {
             cars = JSON.parse(response);

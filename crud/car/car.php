@@ -59,6 +59,8 @@
             $itens = array();
         }
 
+        // echo $itens;
+
         return $itens;
     }
 
@@ -101,12 +103,12 @@
 
                     $row = mysqli_query($connect ,$sql);
 
-                    if (count($itens) > 0) {
-                        foreach ($itens as $key => $id_item) {
-                            $sql = "INSERT INTO car_itens (`id_item`, `id_car`) VALUES ($id_item, $id)";
-                            mysqli_query($connect, $sql);
-                        }
-                    }
+                    // if (count($itens) > 0) {
+                    //     foreach ($itens as $key => $id_item) {
+                    //         $sql = "INSERT INTO car_itens (`id_item`, `id_car`) VALUES ($id_item, $id)";
+                    //         mysqli_query($connect, $sql);
+                    //     }
+                    // }
 
                 } else {
                     //insert

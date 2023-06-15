@@ -108,6 +108,7 @@
                     $imgs = getImages($data["id"],"cars");
 
                     $data["images"] = $imgs;
+                    $data['query'] = $sql;
     
                     $cars[] = $data;    
                 }
